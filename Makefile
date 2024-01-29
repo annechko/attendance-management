@@ -5,8 +5,7 @@ docker-build:
 docker-up:
 	docker-compose up -d --remove-orphans
 
-app-init: app-composer-install
-#app-migrations
+app-init: app-composer-install app-migrations
 
 app-composer-install:
 	docker exec -it att-php-fpm composer i
