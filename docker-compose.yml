@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+
+  att-php-fpm:
+    container_name: att-php-fpm
+    build:
+      context: app/.docker/dev/
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./app:/app
+    depends_on:
+      att-db:
+        condition: service_healthy
+
+  att-db:
+    image: postgres:15-alpine
+    container_name: att-db
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=secrect
+    healthcheck:
+      test: "pg_isready --timeout=0 --dbname=app"
+    volumes:
+      - ./app:/app
+      - att-db:/var/lib/postgresql/data:rw
+    ports:
+      - "5436:5432"
+
+  att-nginx:
+    container_name: att-nginx
+    build:
+      context: app/.docker/dev/
+      dockerfile: nginx.docker
+    volumes:
+      - ./app:/app
+    depends_on:
+      att-php-fpm:
+        condition: service_started
+    ports:
+      - "8888:80"
+
+  att-node:
+    container_name: att-node
+    image: node:21.6.0-alpine3.18
+    volumes:
+      - ./app:/app
+      - node-cache:/usr/local/share/.cache
+    working_dir: /app
+
+volumes:
+  att-db:
+  node-cache:
