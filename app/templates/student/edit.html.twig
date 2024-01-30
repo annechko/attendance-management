@@ -1,9 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
 {% block title %}Edit Student{% endblock %}
 
-{% block body %}
-    <h1>Edit Student</h1>
+{% block contents %}
 
     {{ include('student/_form.html.twig', {'button_label': 'Update'}) }}
 
