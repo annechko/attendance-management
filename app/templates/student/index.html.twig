@@ -2,6 +2,11 @@
 
 {% block title %}Student index{% endblock %}
 
+{% block actions %}
+
+<a class="btn btn-sm btn-outline-secondary" href="{{ path('app_student_new') }}">Create new</a>
+{% endblock %}
+
 {% block contents %}
 
     <div class="table-responsive">
@@ -42,5 +47,4 @@
 
 
 
-    <a href="{{ path('app_student_new') }}">Create new</a>
 {% endblock %}
