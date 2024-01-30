@@ -22,9 +22,11 @@
                     <td>{{ student.surname }}</td>
                     <td>
                         <a class="me-2 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
+                                href="{{ path('app_student_show', {'id': student.id}) }}">show
+                        </a>
                         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
+                                href="{{ path('app_student_edit', {'id': student.id}) }}">edit
+                        </a>
                     </td>
                 </tr>
             {% else %}
