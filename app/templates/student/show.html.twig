@@ -3,24 +3,24 @@
 {% block title %}Student{% endblock %}
 
 {% block contents %}
-
-    <table class="table">
-        <tbody>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <tbody>
             <tr>
-                <th>Id</th>
+                <th scope="col">Id</th>
                 <td>{{ student.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th scope="col">Name</th>
                 <td>{{ student.name }}</td>
             </tr>
             <tr>
-                <th>Surname</th>
+                <th scope="col">Surname</th>
                 <td>{{ student.surname }}</td>
             </tr>
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    </div>
     <a href="{{ path('app_student_index') }}">back to list</a>
 
     <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
