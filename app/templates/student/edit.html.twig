@@ -6,7 +6,15 @@
 
     {{ include('student/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_student_index') }}">back to list</a>
+    <div class="d-flex flex-row mt-3">
+        <div class="p-1 me-2">
+            <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    href="{{ path('app_student_index') }}">back to list
+            </a>
+        </div>
+        <div>
+            {{ include('student/_delete_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('student/_delete_form.html.twig') }}
 {% endblock %}
