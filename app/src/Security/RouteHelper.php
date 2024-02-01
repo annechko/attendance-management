@@ -10,8 +10,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class RouteHelper
 {
-    private ?string $currentUserClassName;
-
     private const ROUTE_DEFAULT = 'app_login';
     private const USER_CLASS_TO_HOME_ROUTE = [
         Admin::class => 'admin_home',
@@ -20,16 +18,16 @@ class RouteHelper
     ];
 
     public function __construct(
-        readonly Security $security,
+        private readonly Security $security,
     ) {
-        $this->currentUserClassName = $security->getUser()
-            ? get_class($security->getUser())
-            : null;
     }
 
     public function generateHomeForCurrentUser(): string
     {
-        return self::USER_CLASS_TO_HOME_ROUTE[$this->currentUserClassName] ?? self::ROUTE_DEFAULT;
+        $currentUserClassName = $this->security->getUser()
+            ? get_class($this->security->getUser())
+            : null;
+        return self::USER_CLASS_TO_HOME_ROUTE[$currentUserClassName] ?? self::ROUTE_DEFAULT;
     }
 
     public function generateHomeForUser(?UserInterface $user): string
