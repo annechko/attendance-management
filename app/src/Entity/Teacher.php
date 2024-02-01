@@ -29,9 +29,10 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
-    public function __construct()
+    public function __construct(string $email)
     {
         $this->roles = ['ROLE_USER', 'ROLE_TEACHER'];
+        $this->email = $email;
     }
 
     public function getId(): ?int

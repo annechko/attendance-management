@@ -33,9 +33,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
-    public function __construct()
+    public function __construct(string $email, string $name, string $surname)
     {
         $this->roles = ['ROLE_USER', 'ROLE_STUDENT'];
+        $this->email = $email;
+        $this->name = $name;
+        $this->surname = $surname;
     }
 
     public function getId(): ?int

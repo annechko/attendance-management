@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\Student;
-use App\Entity\Teacher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,6 +19,8 @@ class CreateStudentCommand extends Command
 {
     private const EMAIL = 'student@example.com';
     private const PASS = 'student';
+    private const NAME = 'John';
+    private const SURNAME = 'Test';
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
@@ -47,6 +48,8 @@ class CreateStudentCommand extends Command
 
         $user = new Student(
             self::EMAIL,
+            self::NAME,
+            self::SURNAME,
         );
 
         $user->setPassword(
