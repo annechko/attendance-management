@@ -2,24 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\StudentRepository;
+use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: StudentRepository::class)]
-class Student implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: AdminRepository::class)]
+class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $surname = null;
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private string $email;
@@ -33,9 +27,10 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
-    public function __construct()
+    public function __construct(string $email)
     {
-        $this->roles = ['ROLE_USER', 'ROLE_STUDENT'];
+        $this->roles = ['ROLE_USER', 'ROLE_ADMIN'];
+        $this->email = $email;
     }
 
     public function getId(): ?int
@@ -43,40 +38,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function setSurname(string $surname): static
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -94,14 +58,7 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return array_unique($this->roles);
     }
 
     /**

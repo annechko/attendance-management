@@ -5,17 +5,40 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        teacher_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Teacher
                 property: email
+        student_provider:
+            entity:
+                class: App\Entity\Student
+                property: email
+        admin_provider:
+            entity:
+                class: App\Entity\Admin
+                property: email
+        user_provider:
+            chain:
+                providers: [ 'student_provider', 'teacher_provider', 'admin_provider' ]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: app_user_provider
+            provider: user_provider
+            custom_authenticator: App\Security\UserAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -26,7 +49,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/student, roles: ROLE_USER }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/teacher, roles: ROLE_TEACHER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

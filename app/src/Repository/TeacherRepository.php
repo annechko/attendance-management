@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Student;
+use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -10,20 +10,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * @extends ServiceEntityRepository<Student>
+ * @extends ServiceEntityRepository<Teacher>
  *
- * @implements PasswordUpgraderInterface<Student>
+ * @implements PasswordUpgraderInterface<Teacher>
  *
- * @method Student|null find($id, $lockMode = null, $lockVersion = null)
- * @method Student|null findOneBy(array $criteria, array $orderBy = null)
- * @method Student[]    findAll()
- * @method Student[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Teacher|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Teacher|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Teacher[]    findAll()
+ * @method Teacher[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StudentRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class TeacherRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Student::class);
+        parent::__construct($registry, Teacher::class);
     }
 
     /**
@@ -33,7 +33,7 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
         PasswordAuthenticatedUserInterface $user,
         string $newHashedPassword
     ): void {
-        if (!$user instanceof Student) {
+        if (!$user instanceof Teacher) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', $user::class)
             );
