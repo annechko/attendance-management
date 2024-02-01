@@ -2,9 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\Admin;
-use App\Entity\Student;
-use App\Entity\Teacher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +22,10 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly RouteHelper $routeHelper,
+    ) {
     }
 
     public function authenticate(Request $request): Passport
@@ -50,13 +49,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         TokenInterface $token,
         string $firewallName
     ): ?Response {
-
-        $target = match (get_class($token->getUser())) {
-            Admin::class => 'admin_home',
-            Student::class => 'student_home',
-            Teacher::class => 'teacher_home',
-            default => 'app_login',
-        };
+        $target = $this->routeHelper->generateHomeForUser($token->getUser());
 
         return new RedirectResponse($this->urlGenerator->generate($target));
     }
