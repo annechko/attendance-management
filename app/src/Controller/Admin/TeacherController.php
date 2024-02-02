@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Teacher;
 use App\Form\TeacherType;
 use App\Repository\TeacherRepository;
+use App\Security\EmailSender;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ class TeacherController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher,
+        EmailSender $emailSender,
     ): Response {
         $teacher = new Teacher();
         $form = $this->createForm(TeacherType::class, $teacher);
@@ -42,6 +44,8 @@ class TeacherController extends AbstractController
             );
             $entityManager->persist($teacher);
             $entityManager->flush();
+
+            $emailSender->sendEmailOnRegistration($teacher);
 
             return $this->redirectToRoute('admin_teacher_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -49,6 +49,12 @@ services:
       - node-cache:/usr/local/share/.cache
     working_dir: /app
 
+  att-mailer:
+    container_name: att-mailer
+    image: mailhog/mailhog
+    ports:
+      - "8087:8025"
+
 volumes:
   att-db:
   node-cache:
