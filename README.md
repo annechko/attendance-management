@@ -6,3 +6,23 @@ To start this website on your local machine:
 4. run `make init`
 5. website - http://localhost:8888
 1. all sent mails - http://localhost:8087/
+
+### Test users for development
+
+You can log in with different roles:
+
+#### Admin account:
+
+Email: `admin@example.com`
+<br>Pass: `admin`
+
+#### Student account:
+
+Email: `student@example.com`
+<br>Pass: `student`
+
+#### Teacher account:
+
+Email: `teacher@example.com`
+<br>Pass: `teacher`
+
