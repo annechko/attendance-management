@@ -45,7 +45,7 @@ class TeacherController extends AbstractController
             $entityManager->persist($teacher);
             $entityManager->flush();
 
-            $emailSender->sendEmailOnRegistration($teacher);
+            $emailSender->sendEmailOnRegistration($teacher, $teacher->getFirstTimePassword());
 
             return $this->redirectToRoute('admin_teacher_index', [], Response::HTTP_SEE_OTHER);
         }

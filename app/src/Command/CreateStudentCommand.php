@@ -19,8 +19,8 @@ class CreateStudentCommand extends Command
 {
     private const EMAIL = 'student@example.com';
     private const PASS = 'student';
-    private const NAME = 'John';
-    private const SURNAME = 'Test';
+    private const NAME = 'Steve';
+    private const SURNAME = 'Student';
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
@@ -46,12 +46,10 @@ class CreateStudentCommand extends Command
             return Command::SUCCESS;
         }
 
-        $user = new Student(
-            self::EMAIL,
-            self::NAME,
-            self::SURNAME,
-        );
-
+        $user = new Student();
+        $user->setEmail(self::EMAIL);
+        $user->setName(self::NAME);
+        $user->setSurname(self::SURNAME);
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(
                 $user,

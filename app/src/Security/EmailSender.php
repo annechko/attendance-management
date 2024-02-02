@@ -5,6 +5,7 @@ namespace App\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class EmailSender
 {
@@ -14,16 +15,16 @@ class EmailSender
     ) {
     }
 
-    public function sendEmailOnRegistration(\App\Entity\Teacher $teacher): void
+    public function sendEmailOnRegistration(UserInterface $user, string $password): void
     {
         $email = (new TemplatedEmail())
             ->from(new Address($this->fromEmail, 'Admin'))
-            ->to($teacher->getEmail())
+            ->to($user->getUserIdentifier())
             ->subject('You have been registered')
             ->htmlTemplate('registration/confirmation_email.html.twig');
 
         $context = $email->getContext();
-        $context['password'] = $teacher->getFirstTimePassword();
+        $context['password'] = $password;
 
         $email->context($context);
 
