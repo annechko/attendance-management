@@ -43,4 +43,16 @@ class TeacherRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @return array<Teacher>
+     */
+    public function findAllWithSort(string $sortField): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy("t.$sortField")
+            ->getQuery()
+            ->getResult();
+    }
 }

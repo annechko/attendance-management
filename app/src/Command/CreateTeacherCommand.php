@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Admin;
 use App\Entity\Teacher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -20,6 +19,8 @@ class CreateTeacherCommand extends Command
 {
     private const EMAIL = 'teacher@example.com';
     private const PASS = 'teacher';
+    private const NAME = 'John';
+    private const SURNAME = 'Teacher';
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
@@ -45,9 +46,10 @@ class CreateTeacherCommand extends Command
             return Command::SUCCESS;
         }
 
-        $user = new Teacher(
-            self::EMAIL,
-        );
+        $user = new Teacher();
+        $user->setEmail(self::EMAIL);
+        $user->setName(self::NAME);
+        $user->setSurname(self::SURNAME);
 
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(

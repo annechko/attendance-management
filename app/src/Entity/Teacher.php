@@ -20,6 +20,12 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private string $email;
 
+    #[ORM\Column(length: 180, nullable: false)]
+    private string $name;
+
+    #[ORM\Column(length: 180, nullable: false)]
+    private string $surname;
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -29,10 +35,9 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
-    public function __construct(string $email)
+    public function __construct()
     {
         $this->roles = ['ROLE_USER', 'ROLE_TEACHER'];
-        $this->email = $email;
     }
 
     public function getId(): ?int
@@ -99,5 +104,30 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getSurname(): string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): void
+    {
+        $this->surname = $surname;
+    }
+
+    public function getFirstTimePassword(): string
+    {
+        return md5($this->getEmail());
     }
 }
