@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IntakeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,14 @@ class Intake
     #[ORM\ManyToOne(inversedBy: 'intakes', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course = null;
+
+    #[ORM\OneToMany(mappedBy: 'intake', targetEntity: Period::class, orphanRemoval: true)]
+    private Collection $periods;
+
+    public function __construct()
+    {
+        $this->periods = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +86,36 @@ class Intake
     public function setCourse(?Course $course): static
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Period>
+     */
+    public function getPeriods(): Collection
+    {
+        return $this->periods;
+    }
+
+    public function addPeriod(Period $period): static
+    {
+        if (!$this->periods->contains($period)) {
+            $this->periods->add($period);
+            $period->setIntake($this);
+        }
+
+        return $this;
+    }
+
+    public function removePeriod(Period $period): static
+    {
+        if ($this->periods->removeElement($period)) {
+            // set the owning side to null (unless already changed)
+            if ($period->getIntake() === $this) {
+                $period->setIntake(null);
+            }
+        }
 
         return $this;
     }
