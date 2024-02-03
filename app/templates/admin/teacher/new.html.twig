@@ -1,11 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
 {% block title %}New Teacher{% endblock %}
 
-{% block body %}
-    <h1>Create new Teacher</h1>
-
-    {{ include('admin/teacher/_form.html.twig') }}
-
+{% block contents %}
+    <div style="width: 25rem;">
+        {{ include('admin/teacher/_form.html.twig') }}
+    </div>
     <a href="{{ path('admin_teacher_index') }}">back to list</a>
 {% endblock %}

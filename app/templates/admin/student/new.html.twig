@@ -3,9 +3,9 @@
 {% block title %}Create new Student{% endblock %}
 
 {% block contents %}
-
-    {{ include('admin/student/_form.html.twig') }}
-
+    <div style="width: 25rem;">
+        {{ include('admin/student/_form.html.twig') }}
+    </div>
     <div class="mt-2 me-2">
         <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                 href="{{ path('admin_student_index') }}">back to list

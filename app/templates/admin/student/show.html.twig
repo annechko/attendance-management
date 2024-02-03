@@ -1,21 +1,25 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Student{% endblock %}
+{% block title %}Student Information{% endblock %}
 
 {% block contents %}
     <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-sm">
             <tbody>
             <tr>
-                <th scope="col">Id</th>
+                <th class="table-primary" scope="col" style="width: 100px">Id</th>
                 <td>{{ student.id }}</td>
             </tr>
             <tr>
-                <th scope="col">Name</th>
+                <th class="table-primary" scope="col">Email</th>
+                <td>{{ student.email }}</td>
+            </tr>
+            <tr>
+                <th class="table-primary" scope="col">Name</th>
                 <td>{{ student.name }}</td>
             </tr>
             <tr>
-                <th scope="col">Surname</th>
+                <th class="table-primary" scope="col">Surname</th>
                 <td>{{ student.surname }}</td>
             </tr>
             </tbody>
@@ -23,21 +27,18 @@
     </div>
     <div>
     </div>
-    <div class="d-flex flex-row mt-3">
-        <div class="p-1 me-2">
-            <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                    href="{{ path('admin_student_index') }}">back to list
-            </a>
-        </div>
-    </div>
+    <a class="btn btn-sm btn-outline-dark"
+    style="width: 5rem;"
+            href="{{ path('admin_student_index') }}">Back
+    </a>
 
 
 {% endblock %}
 
 {% block actions %}
-    <a class="btn btn-sm btn-outline-secondary"
-            href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
+    <a class="btn btn-sm btn-outline-dark"
+        style="width: 5rem;"
+        href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
     </a>
-
     {{ include('admin/student/_delete_form.html.twig') }}
 {% endblock %}

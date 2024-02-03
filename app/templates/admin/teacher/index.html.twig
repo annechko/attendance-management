@@ -1,30 +1,32 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
-{% block title %}Teacher index{% endblock %}
+{% block title %}Teachers{% endblock %}
 
-{% block body %}
-    <h1>Teacher index</h1>
+{% block actions %}
+    <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin_teacher_new') }}">Create new</a>
+{% endblock %}
 
-    <table class="table">
+{% block contents %}
+    <table class="table table-sm table-hover">
         <thead>
-            <tr>
+            <tr class="table-primary"> 
                 <th>Id</th>
                 <th>Email</th>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for teacher in teachers %}
-            <tr>
+            <tr onclick="editTeacher({{ teacher.id }})">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name }}</td>
                 <td>{{ teacher.surname }}</td>
                 <td>
-                    <a href="{{ path('admin_teacher_show', {'id': teacher.id}) }}">show</a>
-                    <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">edit</a>
+                    {#<a href="{{ path('admin_teacher_show', {'id': teacher.id}) }}">show</a>#}
+                    <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +37,14 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_teacher_new') }}">Create new</a>
+    <script>
+        function editTeacher(teacherId) {
+            // Construct the URL using the teacher ID
+            var url = "{{ path('admin_teacher_show', {'id': 'TEACHER_ID'}) }}".replace('TEACHER_ID', teacherId);
+            
+            // Redirect the user to the edit page
+            window.location.href = url;
+        }
+    </script>
+
 {% endblock %}

@@ -3,9 +3,9 @@
 {% block title %}Edit Student{% endblock %}
 
 {% block contents %}
-
-    {{ include('admin/student/_form.html.twig', {'button_label': 'Update'}) }}
-
+    <div style="width: 25rem;">
+        {{ include('admin/student/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
     <div class="d-flex flex-row mt-3">
         <div class="p-1 me-2">
             <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
