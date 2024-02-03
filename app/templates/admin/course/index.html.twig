@@ -1,0 +1,39 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Course index{% endblock %}
+
+{% block contents %}
+    <h1>Course index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Institution</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for course in courses %}
+            <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.duration ? course.durationFormatted : '' }}</td>
+                <td>{{ course.institution.name }}</td>
+                <td>
+                    <a href="{{ path('admin_course_show', {'id': course.id}) }}">show</a>
+                    <a href="{{ path('admin_course_edit', {'id': course.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_course_new') }}">Create new</a>
+{% endblock %}
