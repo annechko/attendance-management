@@ -1,0 +1,40 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Period index{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Intake</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for period in periods %}
+            <tr>
+                <td>{{ period.id }}</td>
+                <td>{{ period.name }}</td>
+                <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>
+                <td>{{ period.finish ? period.finish|date('Y-m-d') : '' }}</td>
+                <td>{{ period.intake.name }}</td>
+                <td>
+                    <a href="{{ path('admin_period_show', {'id': period.id}) }}">show</a>
+                    <a href="{{ path('admin_period_edit', {'id': period.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_period_new') }}">Create new</a>
+{% endblock %}

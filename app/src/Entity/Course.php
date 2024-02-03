@@ -28,9 +28,13 @@ class Course
     #[ORM\Column(nullable: true)]
     private ?\DateInterval $duration = null;
 
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Subject::class)]
+    private Collection $subjects;
+
     public function __construct()
     {
         $this->intakes = new ArrayCollection();
+        $this->subjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,5 +121,35 @@ class Course
             $result .= $this->duration->format(' %dd');
         }
         return $result;
+    }
+
+    /**
+     * @return Collection<int, Subject>
+     */
+    public function getSubjects(): Collection
+    {
+        return $this->subjects;
+    }
+
+    public function addSubject(Subject $subject): static
+    {
+        if (!$this->subjects->contains($subject)) {
+            $this->subjects->add($subject);
+            $subject->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubject(Subject $subject): static
+    {
+        if ($this->subjects->removeElement($subject)) {
+            // set the owning side to null (unless already changed)
+            if ($subject->getCourse() === $this) {
+                $subject->setCourse(null);
+            }
+        }
+
+        return $this;
     }
 }

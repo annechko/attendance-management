@@ -1,0 +1,12 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Edit Period{% endblock %}
+
+{% block contents %}
+
+    {{ include('admin/period/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_period_index') }}">back to list</a>
+
+    {{ include('admin/period/_delete_form.html.twig') }}
+{% endblock %}
