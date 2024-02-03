@@ -1,7 +1,6 @@
 <form method="post" action="{{ path('admin_teacher_delete', {'id': teacher.id}) }}" 
-        class="btn btn-sm btn-outline-danger p-0" 
         style="width: 5rem;"
         onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ teacher.id) }}">
-    <button class="btn btn-sm">Delete</button>
+    <button class="btn btn-sm btn-outline-danger custom-btn m-1">Delete</button>
 </form>

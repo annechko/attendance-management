@@ -3,8 +3,7 @@
 {% block title %}New Teacher{% endblock %}
 
 {% block contents %}
-    <div style="width: 25rem;">
+    <div class="w-50">
         {{ include('admin/teacher/_form.html.twig') }}
     </div>
-    <a href="{{ path('admin_teacher_index') }}">back to list</a>
 {% endblock %}

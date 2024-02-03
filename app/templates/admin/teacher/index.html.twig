@@ -2,6 +2,10 @@
 
 {% block title %}Teachers{% endblock %}
 
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_teacher_new') }}">Create new</a>
+{% endblock %}
+
 {% block contents %}
     <table class="table table-sm table-hover">
         <thead>
@@ -15,13 +19,12 @@
         </thead>
         <tbody>
         {% for teacher in teachers %}
-            <tr onclick="editTeacher({{ teacher.id }})">
+            <tr onclick="showTeacher({{ teacher.id }})">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name }}</td>
                 <td>{{ teacher.surname }}</td>
                 <td>
-                    {#<a href="{{ path('admin_teacher_show', {'id': teacher.id}) }}">show</a>#}
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">Edit</a>
                 </td>
             </tr>
@@ -34,7 +37,7 @@
     </table>
 
     <script>
-        function editTeacher(teacherId) {
+        function showTeacher(teacherId) {
             // Construct the URL using the teacher ID
             var url = "{{ path('admin_teacher_show', {'id': 'TEACHER_ID'}) }}".replace('TEACHER_ID', teacherId);
             

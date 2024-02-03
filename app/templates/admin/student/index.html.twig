@@ -3,7 +3,7 @@
 {% block title %}Students{% endblock %}
 
 {% block actions %}
-    <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin_student_new') }}">Create new</a>
+    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_student_new') }}">Create New</a>
 {% endblock %}
 
 {% block contents %}
@@ -20,17 +20,14 @@
             </thead>
             <tbody>
             {% for student in students %}
-                <tr onclick="editStudent({{ student.id }})">
+                <tr onclick="showStudent({{ student.id }})">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name }}</td>
                     <td>{{ student.surname }}</td>
                     <td >
-{#}                        <a class="me-2 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ path('admin_student_show', {'id': student.id}) }}">show
-                        </a>#}
-                        <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
-                        </a>
+                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
+                    </a>
                     </td>
                 </tr>
             {% else %}
@@ -44,7 +41,7 @@
     </div>
 
     <script>
-        function editStudent(studentId) {
+        function showStudent(studentId) {
             // Construct the URL using the student ID
             var url = "{{ path('admin_student_show', {'id': 'STUDENT_ID'}) }}".replace('STUDENT_ID', studentId);
             

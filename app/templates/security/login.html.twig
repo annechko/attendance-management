@@ -13,22 +13,22 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-    <div class="card position-absolute top-50 start-50 translate-middle" style="width: 35rem;">
-        <h5 class="card-header" style="padding: 20px;">Sign into your account</h5>
-        <div style="padding: 10px;">    
-            <div class="card-body" style="padding: 5px;">
+    <div class="card position-absolute top-50 start-50 translate-middle shadow" style="width: 30rem;">
+        <h5 class="card-header p-3 text-bg-dark">Sign into your account</h5>
+        <div class="p-2 text-bg-light card-body" >    
+            <div class="p-1">
                 <label for="inputEmail" class="h6">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
             </div>
-            <div class="card-body" style="padding: 5px;">
+            <div class="p-1">
                 <label for="inputPassword" class="h6">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             </div>
             <input type="hidden" name="_csrf_token"
                 value="{{ csrf_token('authenticate') }}"
             >
-            <div class="card-body" style="padding: 10px 5px 5px 5px; text-align: right">
-            <button class="btn btn-md btn-primary" style="width: 100%" type="submit">
+            <div class="pt-2 p-1" text-align: right">
+            <button class="btn btn-md btn-primary w-100" type="submit">
                 Sign in
             </button>
             </div>
