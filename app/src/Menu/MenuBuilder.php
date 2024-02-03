@@ -67,6 +67,10 @@ class MenuBuilder
             'route' => 'admin_intake_index',
             'extras' => ['icon' => 'calendar'],
         ]);
+        $menu->addChild('Periods', [
+            'route' => 'admin_period_index',
+            'extras' => ['icon' => 'columns'],
+        ]);
     }
 
     private function addStudentMenuItems(ItemInterface $menu): void
