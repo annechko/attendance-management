@@ -55,6 +55,10 @@ class MenuBuilder
             'route' => 'admin_teacher_index',
             'extras' => ['icon' => 'users'],
         ]);
+        $menu->addChild('Institutions', [
+            'route' => 'admin_institution_index',
+            'extras' => ['icon' => 'users'],
+        ]);
     }
 
     private function addStudentMenuItems(ItemInterface $menu): void

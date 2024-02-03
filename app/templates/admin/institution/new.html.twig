@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Institution{% endblock %}
+
+{% block body %}
+    <h1>Create new Institution</h1>
+
+    {{ include('admin/institution/_form.html.twig') }}
+
+    <a href="{{ path('admin_institution_index') }}">back to list</a>
+{% endblock %}
