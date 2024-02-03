@@ -53,19 +53,19 @@ class MenuBuilder
         ]);
         $menu->addChild('Teachers', [
             'route' => 'admin_teacher_index',
-            'extras' => ['icon' => 'users'],
+            'extras' => ['icon' => 'book'],
         ]);
         $menu->addChild('Institutions', [
             'route' => 'admin_institution_index',
-            'extras' => ['icon' => 'users'],
+            'extras' => ['icon' => 'package'],
         ]);
         $menu->addChild('Courses', [
             'route' => 'admin_course_index',
-            'extras' => ['icon' => 'users'],
+            'extras' => ['icon' => 'sidebar'],
         ]);
         $menu->addChild('Intakes', [
             'route' => 'admin_intake_index',
-            'extras' => ['icon' => 'users'],
+            'extras' => ['icon' => 'calendar'],
         ]);
     }
 
