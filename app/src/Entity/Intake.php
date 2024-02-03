@@ -23,7 +23,7 @@ class Intake
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $finish = null;
 
-    #[ORM\ManyToOne(inversedBy: 'intakes')]
+    #[ORM\ManyToOne(inversedBy: 'intakes', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course = null;
 

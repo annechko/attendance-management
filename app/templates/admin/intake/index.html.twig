@@ -1,0 +1,42 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Intake index{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Course</th>
+                <th>Institution</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for intake in intakes %}
+            <tr>
+                <td>{{ intake.id }}</td>
+                <td>{{ intake.name }}</td>
+                <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
+                <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
+                <td>{{ intake.course.name }}</td>
+                <td>{{ intake.course.institution.name }}</td>
+                <td>
+                    <a href="{{ path('admin_intake_show', {'id': intake.id}) }}">show</a>
+                    <a href="{{ path('admin_intake_edit', {'id': intake.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_intake_new') }}">Create new</a>
+{% endblock %}
