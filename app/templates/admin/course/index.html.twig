@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Duration</th>
                 <th>Institution</th>
                 <th>actions</th>
             </tr>
@@ -19,6 +20,7 @@
             <tr>
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
+                <td>{{ course.duration ? course.durationFormatted : '' }}</td>
                 <td>{{ course.institution.name }}</td>
                 <td>
                     <a href="{{ path('admin_course_show', {'id': course.id}) }}">show</a>

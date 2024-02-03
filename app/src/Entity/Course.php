@@ -25,6 +25,9 @@ class Course
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: Intake::class, orphanRemoval: true)]
     private Collection $intakes;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateInterval $duration = null;
+
     public function __construct()
     {
         $this->intakes = new ArrayCollection();
@@ -87,5 +90,32 @@ class Course
         }
 
         return $this;
+    }
+
+    public function getDuration(): ?\DateInterval
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?\DateInterval $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getDurationFormatted(): string
+    {
+        $result = "";
+        if ($this->duration->y > 0) {
+            $result .= $this->duration->format('%yy');
+        }
+        if ($this->duration->m > 0) {
+            $result .= $this->duration->format(' %mm');
+        }
+        if ($this->duration->d > 0) {
+            $result .= $this->duration->format(' %dd');
+        }
+        return $result;
     }
 }

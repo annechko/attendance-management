@@ -6,6 +6,7 @@ use App\Entity\Course;
 use App\Entity\Institution;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +16,7 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('duration', DateIntervalType::class, [])
             ->add('institution', EntityType::class, [
                 'class' => Institution::class,
                 'choice_label' => 'nameWithId',

@@ -20,6 +20,10 @@
                 <td> <a href="{{ path('admin_institution_show', {id: course.institution.id}) }}"
                     >{{ course.institution.name }}</a></td>
             </tr>
+            <tr>
+                <th>Duration</th>
+                <td> {{ course.duration ? course.duration.format('%y years %m months %d days') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 
