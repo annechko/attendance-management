@@ -1,0 +1,12 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Edit PeriodToSubject{% endblock %}
+
+{% block contents %}
+
+    {{ include('admin/period_to_subject/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_period_to_subject_index') }}">back to list</a>
+
+    {{ include('admin/period_to_subject/_delete_form.html.twig') }}
+{% endblock %}

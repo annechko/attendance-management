@@ -17,11 +17,11 @@ class PeriodToSubject
     #[ORM\Column(nullable: true)]
     private int $totalNumberOfLessons = 0;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Subject $subject = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(fetch: 'EAGER',inversedBy: 'periodToSubjects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Period $period = null;
 

@@ -20,4 +20,16 @@ class PeriodToSubjectRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PeriodToSubject::class);
     }
+
+    /**
+     * @return array<PeriodToSubject>
+     */
+    public function findAllByPeriodId(int $periodId): array
+    {
+        return $this->createQueryBuilder('ps')
+            ->where('ps.period = :id')
+            ->setParameter(':id', $periodId)
+            ->getQuery()
+            ->getResult();
+    }
 }

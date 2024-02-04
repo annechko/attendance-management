@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PeriodRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,9 +25,17 @@ class Period
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $finish = null;
 
-    #[ORM\ManyToOne(inversedBy: 'periods')]
+    #[ORM\ManyToOne(inversedBy: 'periods', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Intake $intake = null;
+
+    #[ORM\OneToMany(targetEntity: PeriodToSubject::class, mappedBy: 'period')]
+    private Collection $periodToSubjects;
+
+    public function __construct()
+    {
+        $this->periodToSubjects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,5 +88,10 @@ class Period
         $this->intake = $intake;
 
         return $this;
+    }
+
+    public function getSubjectsCount(): int
+    {
+        return $this->periodToSubjects->count();
     }
 }

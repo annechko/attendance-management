@@ -6,14 +6,15 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Start</th>
-                <th>Finish</th>
-                <th>Intake</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Start</th>
+            <th>Finish</th>
+            <th>Intake</th>
+            <th>Course</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for period in periods %}
@@ -23,9 +24,14 @@
                 <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>
                 <td>{{ period.finish ? period.finish|date('Y-m-d') : '' }}</td>
                 <td>{{ period.intake.name }}</td>
+                <td>{{ period.intake.course.name }}</td>
                 <td>
                     <a href="{{ path('admin_period_show', {'id': period.id}) }}">show</a>
                     <a href="{{ path('admin_period_edit', {'id': period.id}) }}">edit</a>
+                    <a href="{{ path('admin_period_to_subject_index', {'periodId': period.id}) }}">
+                        <i data-feather="layers"></i>
+                        subjects{{ period.subjectsCount > 0 ? ' ('~period.subjectsCount~')': '' }}
+                    </a>
                 </td>
             </tr>
         {% else %}

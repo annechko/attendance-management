@@ -20,4 +20,16 @@ class PeriodRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Period::class);
     }
+
+    public function findAllWithOrder(array $orderFields): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        foreach ($orderFields as $orderField) {
+            $qb->addOrderBy("p.$orderField", 'asc');
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 }

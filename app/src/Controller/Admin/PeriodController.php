@@ -18,7 +18,7 @@ class PeriodController extends AbstractController
     public function index(PeriodRepository $periodRepository): Response
     {
         return $this->render('admin/period/index.html.twig', [
-            'periods' => $periodRepository->findAll(),
+            'periods' => $periodRepository->findAllWithOrder(['intake', 'name']),
         ]);
     }
 
@@ -51,8 +51,11 @@ class PeriodController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_period_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Period $period, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Period $period,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);
 
@@ -69,9 +72,15 @@ class PeriodController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_period_delete', methods: ['POST'])]
-    public function delete(Request $request, Period $period, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$period->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Period $period,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid(
+            'delete' . $period->getId(),
+            $request->request->get('_token')
+        )) {
             $entityManager->remove($period);
             $entityManager->flush();
         }
