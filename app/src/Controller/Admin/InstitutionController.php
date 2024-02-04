@@ -51,8 +51,11 @@ class InstitutionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_institution_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Institution $institution, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Institution $institution,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(InstitutionType::class, $institution);
         $form->handleRequest($request);
 
@@ -69,9 +72,15 @@ class InstitutionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_institution_delete', methods: ['POST'])]
-    public function delete(Request $request, Institution $institution, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$institution->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Institution $institution,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid(
+            'delete' . $institution->getId(),
+            $request->request->get('_token')
+        )) {
             $entityManager->remove($institution);
             $entityManager->flush();
         }

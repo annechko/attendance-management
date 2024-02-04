@@ -13,8 +13,7 @@ class InstitutionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('location')
-        ;
+            ->add('location');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

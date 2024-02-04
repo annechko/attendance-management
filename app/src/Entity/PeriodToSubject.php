@@ -21,7 +21,7 @@ class PeriodToSubject
     #[ORM\JoinColumn(nullable: false)]
     private ?Subject $subject = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER',inversedBy: 'periodToSubjects')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'periodToSubjects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Period $period = null;
 

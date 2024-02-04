@@ -51,8 +51,11 @@ class SubjectController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_subject_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Subject $subject, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Subject $subject,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(SubjectType::class, $subject);
         $form->handleRequest($request);
 
@@ -69,9 +72,15 @@ class SubjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_subject_delete', methods: ['POST'])]
-    public function delete(Request $request, Subject $subject, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$subject->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Subject $subject,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid(
+            'delete' . $subject->getId(),
+            $request->request->get('_token')
+        )) {
             $entityManager->remove($subject);
             $entityManager->flush();
         }

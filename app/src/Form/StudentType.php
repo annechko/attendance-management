@@ -14,8 +14,7 @@ class StudentType extends AbstractType
         $builder
             ->add('email')
             ->add('name')
-            ->add('surname')
-        ;
+            ->add('surname');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

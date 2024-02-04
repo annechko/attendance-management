@@ -51,8 +51,11 @@ class IntakeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_intake_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Intake $intake, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Intake $intake,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(IntakeType::class, $intake);
         $form->handleRequest($request);
 
@@ -69,9 +72,15 @@ class IntakeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_intake_delete', methods: ['POST'])]
-    public function delete(Request $request, Intake $intake, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$intake->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Intake $intake,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid(
+            'delete' . $intake->getId(),
+            $request->request->get('_token')
+        )) {
             $entityManager->remove($intake);
             $entityManager->flush();
         }
