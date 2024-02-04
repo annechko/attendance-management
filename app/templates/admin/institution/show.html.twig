@@ -1,30 +1,38 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
-{% block title %}Institution{% endblock %}
+{% block title %}Institution Information{% endblock %}
 
-{% block body %}
-    <h1>Institution</h1>
+{% block contents %}
+    <div class="w-50 card shadow">
+        <h5 class="card-header">{{ institution.name }}</h5>
+        <div class="p-2">
+            <table class="table table-striped table-sm m-0">
+                <tbody>
+                    <tr>
+                        <th class="w-25">Id</th>
+                        <td>{{ institution.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ institution.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <td>{{ institution.location }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>  
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ institution.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ institution.name }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ institution.location }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% endblock %}
 
-    <a href="{{ path('admin_institution_index') }}">back to list</a>
-
-    <a href="{{ path('admin_institution_edit', {'id': institution.id}) }}">edit</a>
-
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark"
+        href="{{ path('admin_institution_index') }}">Back
+    </a>
+    <a class="btn custom-btn btn-sm btn-outline-dark"
+        href="{{ path('admin_institution_edit', {'id': institution.id}) }}">Edit
+    </a>
     {{ include('admin/institution/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,35 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
-{% block title %}Teacher{% endblock %}
+{% block title %}Teacher Information{% endblock %}
 
-{% block body %}
-    <h1>Teacher</h1>
+{% block contents %}
+    <div class="w-50 card shadow">
+        <h5 class="card-header">{{ teacher.name ~ ' ' ~ teacher.surname }}</h5>
+        <div class="p-2">
+            <table class="table table-striped table-sm m-0">
+                <tbody>
+                    <tr>
+                        <th class="w-25" scope="col">Id</th>
+                        <td>{{ teacher.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ teacher.email }}</td>
+                    </tr>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ teacher.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ teacher.email }}</td>
-            </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ teacher.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Surname</th>
+                        <td>{{ teacher.surname }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <tr>
-                <th>Name</th>
-                <td>{{ teacher.name }}</td>
-            </tr>
-            <tr>
-                <th>Surname</th>
-                <td>{{ teacher.surname }}</td>
-            </tr>
-        </tbody>
-    </table>
+            
+        </div>
+    </div>
+{% endblock %}
 
-    <a href="{{ path('admin_teacher_index') }}">back to list</a>
-
-    <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">edit</a>
-
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" 
+        href="{{ path('admin_teacher_index') }}">Back</a>
+    <a class="btn custom-btn btn-sm btn-outline-dark"
+        href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">Edit</a>
     {{ include('admin/teacher/_delete_form.html.twig') }}
 {% endblock %}

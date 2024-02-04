@@ -3,17 +3,9 @@
 {% block title %}Edit Student{% endblock %}
 
 {% block contents %}
-
-    {{ include('admin/student/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <div class="d-flex flex-row mt-3">
-        <div class="p-1 me-2">
-            <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                    href="{{ path('admin_student_index') }}">back to list
-            </a>
-        </div>
+    <div class="w-50">
+        {{ include('admin/student/_form.html.twig', {'button_label': 'Update'}) }}
     </div>
-
 {% endblock %}
 
 {% block actions %}

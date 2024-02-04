@@ -1,13 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu-layout.html.twig' %}
 
 {% block title %}Edit Institution{% endblock %}
 
-{% block body %}
-    <h1>Edit Institution</h1>
+{% block contents %}
+    <div class="w-50">
+        {{ include('admin/institution/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
 
-    {{ include('admin/institution/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
 
-    <a href="{{ path('admin_institution_index') }}">back to list</a>
-
+{% block actions %}
     {{ include('admin/institution/_delete_form.html.twig') }}
 {% endblock %}

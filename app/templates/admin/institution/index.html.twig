@@ -1,28 +1,30 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Institution index{% endblock %}
+{% block title %}Institutions{% endblock %}
+
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_institution_new') }}">Create New</a>
+{% endblock %}
 
 {% block contents %}
-    <h1>Institution index</h1>
 
-    <table class="table">
+    <table class="table table-responsive table-sm table-hover">
         <thead>
-            <tr>
+            <tr class="table-primary">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Location</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for institution in institutions %}
-            <tr>
+            <tr onclick="showData({{ institution.id }}, 'institution')">
                 <td>{{ institution.id }}</td>
                 <td>{{ institution.name }}</td>
                 <td>{{ institution.location }}</td>
                 <td>
-                    <a href="{{ path('admin_institution_show', {'id': institution.id}) }}">show</a>
-                    <a href="{{ path('admin_institution_edit', {'id': institution.id}) }}">edit</a>
+                    <a href="{{ path('admin_institution_edit', {'id': institution.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +35,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_institution_new') }}">Create new</a>
 {% endblock %}
