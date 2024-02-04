@@ -2,7 +2,7 @@ FROM php:8.2.15-fpm-alpine3.19
 
 RUN apk add --no-cache postgresql-dev fcgi git \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql \
+    && docker-php-ext-install pdo_pgsql intl \
     && apk del git
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
