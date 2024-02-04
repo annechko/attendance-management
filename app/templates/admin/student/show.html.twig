@@ -6,27 +6,26 @@
     <div class="w-50 card shadow">
         <h5 class="card-header">{{ student.name ~ ' ' ~ student.surname }}</h5>
         <div class="p-2">
-            <table class="table table-responsive table-sm">
+            <table class="table table-striped table-sm m-0">
                 <tbody>
-                <tr>
-                    <th class="table-primary w-25" scope="col">Id</th>
-                    <td>{{ student.id }}</td>
-                </tr>
-                <tr>
-                    <th class="table-primary" scope="col">Email</th>
-                    <td>{{ student.email }}</td>
-                </tr>
-                <tr>
-                    <th class="table-primary" scope="col">Name</th>
-                    <td>{{ student.name }}</td>
-                </tr>
-                <tr>
-                    <th class="table-primary" scope="col">Surname</th>
-                    <td>{{ student.surname }}</td>
-                </tr>
+                    <tr>
+                        <th class="w-25"  scope="col">Id</th>
+                        <td>{{ student.id }}</td>
+                    </tr>
+                    <tr>
+                        <th  scope="col">Email</th>
+                        <td>{{ student.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <td>{{ student.name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Surname</th>
+                        <td>{{ student.surname }}</td>
+                    </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 
