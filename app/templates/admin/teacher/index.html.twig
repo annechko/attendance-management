@@ -1,29 +1,31 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Teacher index{% endblock %}
+{% block title %}Teachers{% endblock %}
+
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_teacher_new') }}">Create new</a>
+{% endblock %}
 
 {% block contents %}
-
-    <table class="table">
+    <table class="table table-sm table-hover">
         <thead>
-            <tr>
+            <tr class="table-primary"> 
                 <th>Id</th>
                 <th>Email</th>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for teacher in teachers %}
-            <tr>
+            <tr onclick="showData({{ teacher.id }}, 'teacher' )">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name }}</td>
                 <td>{{ teacher.surname }}</td>
                 <td>
-                    <a href="{{ path('admin_teacher_show', {'id': teacher.id}) }}">show</a>
-                    <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">edit</a>
+                    <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -34,5 +36,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_teacher_new') }}">Create new</a>
+
 {% endblock %}
