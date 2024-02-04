@@ -3,38 +3,41 @@
 {% block title %}Student Information{% endblock %}
 
 {% block contents %}
-    <div class="table-responsive w-50 p-3 card shadow">
-        <table class="table table-sm">
-            <tbody>
-            <tr>
-                <th class="table-primary w-25" scope="col">Id</th>
-                <td>{{ student.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-primary" scope="col">Email</th>
-                <td>{{ student.email }}</td>
-            </tr>
-            <tr>
-                <th class="table-primary" scope="col">Name</th>
-                <td>{{ student.name }}</td>
-            </tr>
-            <tr>
-                <th class="table-primary" scope="col">Surname</th>
-                <td>{{ student.surname }}</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="w-50 card shadow">
+        <h5 class="card-header">{{ student.name ~ ' ' ~ student.surname }}</h5>
+        <div class="p-2">
+            <table class="table table-responsive table-sm">
+                <tbody>
+                <tr>
+                    <th class="table-primary w-25" scope="col">Id</th>
+                    <td>{{ student.id }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary" scope="col">Email</th>
+                    <td>{{ student.email }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary" scope="col">Name</th>
+                    <td>{{ student.name }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary" scope="col">Surname</th>
+                    <td>{{ student.surname }}</td>
+                </tr>
+                </tbody>
+            </table>
 
-    <a class="btn custom-btn btn-sm btn-outline-dark"
-            href="{{ path('admin_student_index') }}">Back
-    </a>
+        </div>
     </div>
 
 {% endblock %}
 
 {% block actions %}
-    <a class="btn custom-btn btn-sm btn-outline-dark m-1"
-        href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
-    </a>
+            <a class="btn custom-btn btn-sm btn-outline-dark"
+                    href="{{ path('admin_student_index') }}">Back
+            </a>
+            <a class="btn custom-btn btn-sm btn-outline-dark"
+                href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
+            </a>
     {{ include('admin/student/_delete_form.html.twig') }}
 {% endblock %}

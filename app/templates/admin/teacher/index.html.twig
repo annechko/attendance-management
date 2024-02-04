@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for teacher in teachers %}
-            <tr onclick="showTeacher({{ teacher.id }})">
+            <tr onclick="showData({{ teacher.id }}, 'teacher' )">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name }}</td>
@@ -36,14 +36,5 @@
         </tbody>
     </table>
 
-    <script>
-        function showTeacher(teacherId) {
-            // Construct the URL using the teacher ID
-            var url = "{{ path('admin_teacher_show', {'id': 'TEACHER_ID'}) }}".replace('TEACHER_ID', teacherId);
-            
-            // Redirect the user to the edit page
-            window.location.href = url;
-        }
-    </script>
 
 {% endblock %}

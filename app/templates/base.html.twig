@@ -14,9 +14,12 @@
         {% block stylesheets %}
         {% endblock %}
         <style>
-        .custom-btn {
-            width : 6rem;
-        }
+            .custom-btn {
+                width : 6rem;
+            }
+            .w-35 {
+                width : 30%;
+            }
         </style>
         <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.1/dist/feather.min.js"
                 integrity="sha384-En/3vVo7Wc+6Ogkkp7OUi5Oc7Zf4c+N/kRP3z7QVcJssy5Ud5MWcAvwWDAEFMga8"
@@ -26,5 +29,24 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+            <script>
+        function showData(ID, Type) {
+            // Construct the URL using the student ID
+            var url;
+            switch(Type){
+                case "student" :
+                    url = "{{ path('admin_student_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;
+                case "teacher" :
+                    url = "{{ path('admin_teacher_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;
+                case "institution" :
+                    url = "{{ path('admin_institution_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;    
+            }
+            // Redirect the user to the edit page
+            window.location.href = url;
+        }
+    </script>
     </body>
 </html>
