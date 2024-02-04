@@ -30,14 +30,18 @@
                 {% if not periodId %}
                     <td>
                         <a href="{{ path('admin_period_show', {'id': period_to_subject.period.id}) }}"
-                        >{{ period_to_subject.period.name }}</a></td>
+                        >{{ period_to_subject.period.name }}</a>
+                    </td>
                     <td>{{ period_to_subject.period.intake.name }}</td>
                     <td>{{ period_to_subject.period.intake.course.name }}</td>
                 {% endif %}
 
                 <td>
                     <a href="{{ path('admin_period_to_subject_show', {'id': period_to_subject.id}) }}">show</a>
-                    <a href="{{ path('admin_period_to_subject_edit', {'id': period_to_subject.id}) }}">edit</a>
+                    <a href="{{ periodId > 0
+                    ? path('admin_period_to_subject_edit', {'id': period_to_subject.id, 'periodId': periodId})
+                    : path('admin_period_to_subject_edit', {'id': period_to_subject.id}) }}">edit
+                    </a>
                 </td>
             </tr>
         {% else %}
