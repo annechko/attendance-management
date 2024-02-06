@@ -24,7 +24,9 @@
                 <td>{{ institution.name }}</td>
                 <td>{{ institution.location }}</td>
                 <td>
-                    <a href="{{ path('admin_institution_edit', {'id': institution.id}) }}">Edit</a>
+                    <a href="{{ path('admin_institution_edit', {'id': institution.id}) }}">
+                        <i data-feather="edit"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}

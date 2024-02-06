@@ -1,24 +1,28 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Intake index{% endblock %}
+{% block title %}Intakes{% endblock %}
+
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_intake_new') }}">Create New</a>
+{% endblock %}
 
 {% block contents %}
 
-    <table class="table">
+    <table class="table table-sm table-hover">
         <thead>
-            <tr>
+            <tr class="table-primary">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Start</th>
                 <th>Finish</th>
                 <th>Course</th>
                 <th>Institution</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for intake in intakes %}
-            <tr>
+            <tr onclick="showData({{ intake.id }}, 'intake')" >
                 <td>{{ intake.id }}</td>
                 <td>{{ intake.name }}</td>
                 <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
@@ -26,8 +30,9 @@
                 <td>{{ intake.course.name }}</td>
                 <td>{{ intake.course.institution.name }}</td>
                 <td>
-                    <a href="{{ path('admin_intake_show', {'id': intake.id}) }}">show</a>
-                    <a href="{{ path('admin_intake_edit', {'id': intake.id}) }}">edit</a>
+                    <a href="{{ path('admin_intake_edit', {'id': intake.id}) }}">
+                        <i data-feather="edit"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}
@@ -38,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_intake_new') }}">Create new</a>
+
 {% endblock %}

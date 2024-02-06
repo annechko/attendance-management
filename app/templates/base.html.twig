@@ -43,6 +43,12 @@
                 case "institution" :
                     url = "{{ path('admin_institution_show', {'id': 'ID'}) }}".replace('ID', ID);
                     break;    
+                case "course" :
+                    url = "{{ path('admin_course_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;    
+                case "intake" :
+                    url = "{{ path('admin_intake_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;       
             }
             // Redirect the user to the edit page
             window.location.href = url;
