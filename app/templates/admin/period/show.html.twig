@@ -25,9 +25,14 @@
         </tbody>
     </table>
 
-    <a href="{{ path('admin_period_index') }}">back to list</a>
+{% endblock %}
 
-    <a href="{{ path('admin_period_edit', {'id': period.id}) }}">edit</a>
-
+{% block actions %}
+            <a class="btn custom-btn btn-sm btn-outline-dark"
+                    href="{{ path('admin_period_index') }}">Back
+            </a>
+            <a class="btn custom-btn btn-sm btn-outline-dark"
+                href="{{ path('admin_period_edit', {'id': period.id}) }}">Edit
+            </a>
     {{ include('admin/period/_delete_form.html.twig') }}
 {% endblock %}

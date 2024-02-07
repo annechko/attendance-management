@@ -4,11 +4,19 @@
     {{ periodId > 0 ? 'Subjects for "' ~ periodName ~ '"' : 'Subjects for a period' }}
 {% endblock %}
 
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark"
+        href="{{ periodId > 0
+        ? path('admin_period_to_subject_new', {'periodId': periodId})
+        : path('admin_period_to_subject_new') }}">Create new
+    </a>
+{% endblock %}
+
 {% block contents %}
 
-    <table class="table">
+    <table class="table table-responsive table-sm table-hover">
         <thead>
-        <tr>
+        <tr class="table-primary">
             <th>Id</th>
             <th>TotalNumberOfLessons</th>
             <th>Subject</th>
@@ -18,12 +26,12 @@
                 <th>Course</th>
             {% endif %}
 
-            <th>actions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for period_to_subject in period_to_subjects %}
-            <tr>
+            <tr onclick="showData({{ period_to_subject.id }}, 'period_to_subject')">
                 <td>{{ period_to_subject.id }}</td>
                 <td>{{ period_to_subject.totalNumberOfLessons }}</td>
                 <td>{{ period_to_subject.subject.name }}</td>
@@ -37,10 +45,10 @@
                 {% endif %}
 
                 <td>
-                    <a href="{{ path('admin_period_to_subject_show', {'id': period_to_subject.id}) }}">show</a>
                     <a href="{{ periodId > 0
                     ? path('admin_period_to_subject_edit', {'id': period_to_subject.id, 'periodId': periodId})
-                    : path('admin_period_to_subject_edit', {'id': period_to_subject.id}) }}">edit
+                    : path('admin_period_to_subject_edit', {'id': period_to_subject.id}) }}">
+                    <i data-feather="edit"></i>
                     </a>
                 </td>
             </tr>
@@ -52,8 +60,4 @@
         </tbody>
     </table>
 
-    <a href="{{ periodId > 0
-    ? path('admin_period_to_subject_new', {'periodId': periodId})
-    : path('admin_period_to_subject_new') }}">Create new
-    </a>
 {% endblock %}

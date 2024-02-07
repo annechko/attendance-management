@@ -49,6 +49,15 @@
                 case "intake" :
                     url = "{{ path('admin_intake_show', {'id': 'ID'}) }}".replace('ID', ID);
                     break;       
+                case "period" :
+                    url = "{{ path('admin_period_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;        
+                case "subject" :
+                    url = "{{ path('admin_subject_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;      
+                case "period_to_subject" :
+                    url = "{{ path('admin_period_to_subject_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;     
             }
             // Redirect the user to the edit page
             window.location.href = url;

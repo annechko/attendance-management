@@ -3,10 +3,11 @@
 {% block title %}Edit Subject{% endblock %}
 
 {% block contents %}
+    <div class="w-50">
+        {{ include('admin/subject/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+{% endblock %}
 
-    {{ include('admin/subject/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_subject_index') }}">back to list</a>
-
+{% block actions %}
     {{ include('admin/subject/_delete_form.html.twig') }}
 {% endblock %}
