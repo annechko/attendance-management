@@ -58,14 +58,17 @@ class TeacherToSubjectToIntakeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($teacherId > 0 && $teacherRepository->find($teacherId) === null) {
+            $teacher = null;
+            if ($teacherId > 0 && ($teacher = $teacherRepository->find($teacherId)) === null) {
                 $form->addError(new FormError("Teacher with id = $teacherId not found."));
                 return $this->render('admin/teacher_to_subject_to_intake/new.html.twig', [
                     'teacher_to_subject_to_intake' => $teacherToSubjectToIntake,
                     'form' => $form,
                 ]);
             }
-
+            if ($teacher) {
+                $teacherToSubjectToIntake->setTeacher($teacher);
+            }
             if (!$teacherToSubjectToIntake->isValid()) {
                 $form->addError(
                     new FormError("Subject and intake should belong to the same course.")
@@ -117,10 +120,13 @@ class TeacherToSubjectToIntakeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $params = [];
+            if ($teacherId > 0) {
+                $params['teacherId'] = $teacherId;
+            }
             return $this->redirectToRoute(
                 'admin_teacher_to_subject_to_intake_index',
-                [],
+                $params,
                 Response::HTTP_SEE_OTHER
             );
         }
