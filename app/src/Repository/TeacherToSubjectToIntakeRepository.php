@@ -20,4 +20,17 @@ class TeacherToSubjectToIntakeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TeacherToSubjectToIntake::class);
     }
+
+    /**
+     * @param int $teacherId
+     * @return array<TeacherToSubjectToIntake>
+     */
+    public function findAllByTeacherId(int $teacherId): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.teacher = :id')
+            ->setParameter(':id', $teacherId)
+            ->getQuery()
+            ->getResult();
+    }
 }

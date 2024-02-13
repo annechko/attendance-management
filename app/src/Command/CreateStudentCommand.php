@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:create-student',
-    description: 'Add an student user.',
+    description: 'Add a student user.',
 )]
 class CreateStudentCommand extends Command
 {

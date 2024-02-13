@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:create-teacher',
-    description: 'Add an teacher user.',
+    description: 'Add a teacher user.',
 )]
 class CreateTeacherCommand extends Command
 {
@@ -40,13 +40,14 @@ class CreateTeacherCommand extends Command
 
         if ($repository->count(['email' => self::EMAIL]) > 0) {
             $io->success(
-                'User already exists in your database.'
+                'User already exists in your database. Updating.'
             );
-
-            return Command::SUCCESS;
+            $user = $repository->findOneBy(['email' => self::EMAIL]);
+        } else {
+            $user = new Teacher();
+            $this->entityManager->persist($user);
         }
 
-        $user = new Teacher();
         $user->setEmail(self::EMAIL);
         $user->setName(self::NAME);
         $user->setSurname(self::SURNAME);
@@ -58,7 +59,6 @@ class CreateTeacherCommand extends Command
             )
         );
 
-        $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         $io->success(

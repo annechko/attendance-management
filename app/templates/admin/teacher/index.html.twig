@@ -26,6 +26,7 @@
                 <td>{{ teacher.surname }}</td>
                 <td>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">Edit</a>
+                    <a href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">Subjects</a>
                 </td>
             </tr>
         {% else %}

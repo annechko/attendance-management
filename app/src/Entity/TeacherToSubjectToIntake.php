@@ -70,4 +70,32 @@ class TeacherToSubjectToIntake
         $this->intake = $intake;
     }
 
+    public function getStart(): ?\DateTimeImmutable
+    {
+        return $this->start;
+    }
+
+    public function setStart(?\DateTimeImmutable $start): void
+    {
+        $this->start = $start;
+    }
+
+    public function getFinish(): ?\DateTimeImmutable
+    {
+        return $this->finish;
+    }
+
+    public function setFinish(?\DateTimeImmutable $finish): void
+    {
+        $this->finish = $finish;
+    }
+
+    public function isValid(): bool
+    {
+        if ($this->subject->getCourse()->getId() !== $this->intake->getCourse()->getId()) {
+            return false;
+        }
+        return true;
+    }
+
 }

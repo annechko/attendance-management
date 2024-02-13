@@ -1,0 +1,51 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}
+    {% if teacherName %}
+        Subjects assigned to {{ teacherName }} for intakes
+    {% else %}
+        Teachers assigned subjects for intakes
+    {% endif %}
+{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Subject</th>
+            <th>Intake</th>
+            <th>Course</th>
+            <th>Start</th>
+            <th>Finish</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for teacher_to_subject_to_intake in teacher_to_subject_to_intakes %}
+            <tr>
+                <td>{{ teacher_to_subject_to_intake.id }}</td>
+                <td>{{ teacher_to_subject_to_intake.subject.name }}</td>
+                <td>{{ teacher_to_subject_to_intake.intake.name }}</td>
+                <td>{{ teacher_to_subject_to_intake.intake.course.name }}</td>
+                <td>{{ teacher_to_subject_to_intake.start ? teacher_to_subject_to_intake.start|date('Y-m-d') : '' }}</td>
+                <td>{{ teacher_to_subject_to_intake.finish ? teacher_to_subject_to_intake.finish|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_teacher_to_subject_to_intake_show', {'id': teacher_to_subject_to_intake.id}) }}">show</a>
+                    <a href="{{ path('admin_teacher_to_subject_to_intake_edit', {'id': teacher_to_subject_to_intake.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if teacherId > 0 %}
+        <a href="{{ path('admin_teacher_to_subject_to_intake_new', {'teacherId': teacherId}) }}">Create new</a>
+    {% else %}
+        <a href="{{ path('admin_teacher_to_subject_to_intake_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}

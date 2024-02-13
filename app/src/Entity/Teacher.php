@@ -136,4 +136,9 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return md5($this->getEmail());
     }
+
+    public function getFullNameWithEmail(): string
+    {
+        return $this->name . ' ' . $this->surname . ' (' . $this->email . ')';
+    }
 }

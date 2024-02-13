@@ -1,0 +1,50 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}TeacherToSubjectToIntake{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ teacher_to_subject_to_intake.id }}</td>
+        </tr>
+        <tr>
+            <th>Course</th>
+            <td>
+                <a href="{{ path('admin_course_show', {'id': teacher_to_subject_to_intake.subject.course.id}) }}"
+                >{{ teacher_to_subject_to_intake.subject.course.name }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td>
+                <a href="{{ path('admin_subject_show', {'id': teacher_to_subject_to_intake.subject.id}) }}"
+                >{{ teacher_to_subject_to_intake.subject.name }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Intake</th>
+            <td>
+                <a href="{{ path('admin_intake_show', {'id': teacher_to_subject_to_intake.intake.id}) }}"
+                >{{ teacher_to_subject_to_intake.intake.name }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Start</th>
+            <td>{{ teacher_to_subject_to_intake.start ? teacher_to_subject_to_intake.start|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Finish</th>
+            <td>{{ teacher_to_subject_to_intake.finish ? teacher_to_subject_to_intake.finish|date('Y-m-d') : '' }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_teacher_to_subject_to_intake_index') }}">back to list</a>
+
+    <a href="{{ path('admin_teacher_to_subject_to_intake_edit', {'id': teacher_to_subject_to_intake.id}) }}">edit</a>
+
+    {{ include('admin/teacher_to_subject_to_intake/_delete_form.html.twig') }}
+{% endblock %}
