@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TeacherRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,9 +37,13 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
+    #[ORM\OneToMany(targetEntity: TeacherToSubjectToIntake::class, mappedBy: 'teacher')]
+    private Collection $teacherToSubjectToIntake;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER', 'ROLE_TEACHER'];
+        $this->teacherToSubjectToIntake = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,5 +135,10 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFirstTimePassword(): string
     {
         return md5($this->getEmail());
+    }
+
+    public function getFullNameWithEmail(): string
+    {
+        return $this->name . ' ' . $this->surname . ' (' . $this->email . ')';
     }
 }
