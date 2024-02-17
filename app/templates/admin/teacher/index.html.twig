@@ -7,13 +7,12 @@
 {% endblock %}
 
 {% block contents %}
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-hover w-75">
         <thead>
             <tr class="table-primary"> 
                 <th>Id</th>
                 <th>Email</th>
                 <th>Name</th>
-                <th>Surname</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,8 +21,7 @@
             <tr onclick="showData({{ teacher.id }}, 'teacher' )">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
-                <td>{{ teacher.name }}</td>
-                <td>{{ teacher.surname }}</td>
+                <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>
                 <td>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">
                         <i data-feather="edit"></i>
