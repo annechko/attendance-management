@@ -4,8 +4,43 @@
 
 {% block contents %}
 
-    <div class="container">
+    <div class="container vstack gap-3">
         {#    TODO: #}
-        Admin Dashboard
+        <div class="hstack gap-2">
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="user-check"></i>Administrators</div>
+                <div class="fs-1 d-flex justify-content-center p-4">{{ administrators }}</div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="book"></i>Teachers</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_teacher_index') }}>{{ teachers }}</a></div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="users"></i>Students</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_student_index') }}>{{ students }}</a></div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="package"></i>Institutions</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_institution_index') }}>{{ institutions }}</a></div>
+            </div>
+        </div>
+            <div class="hstack gap-2">
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="sidebar"></i>Courses</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_course_index') }}>{{ courses }}</a></div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="file-text"></i>Subjects</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_subject_index') }}>{{ subjects }}</a></div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="calendar"></i>Intakes</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_intake_index') }}>{{ intakes }}</a></div>
+            </div>
+            <div class="card col shadow-sm">
+                <div class="card-header text-white bg-success icon-link"><i data-feather="columns"></i>Periods</div>
+                <div class="fs-1 d-flex justify-content-center p-4"><a class="text-decoration-none" href={{ path('admin_period_index') }}>{{ periods }}</a></div>
+            </div>
+        </div>
     </div>
 {% endblock %}
