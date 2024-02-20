@@ -9,11 +9,12 @@
 {% block contents %}
 
     <div class="table-responsive">
-        <table class="table table-sm table-hover w-75">
+        <table class="table table-sm table-hover">
             <thead>
             <tr class="table-primary">
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
+                <th>Email</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -22,6 +23,7 @@
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name ~ ' ' ~ student.surname }}</td>
+                    <td>{{ student.email }}</td>
                     <td >
                         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                                 href="{{ path('admin_student_edit', {'id': student.id}) }}">                    

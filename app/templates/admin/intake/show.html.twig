@@ -7,30 +7,30 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th class='bg-light col-2'>Id</th>
             <td>{{ intake.id }}</td>
         </tr>
         <tr>
-            <th>Name</th>
+            <th class='bg-light'>Name</th>
             <td>{{ intake.name }}</td>
         </tr>
         <tr>
-            <th>Start</th>
+            <th class='bg-light'>Start</th>
             <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
         </tr>
         <tr>
-            <th>Finish</th>
+            <th class='bg-light'>Finish</th>
             <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
         </tr>
         <tr>
-            <th>Course</th>
+            <th class='bg-light'>Course</th>
             <td>
                 <a href="{{ path('admin_course_show', {id: intake.course.id}) }}"
                 >{{ intake.course.name }}</a>
             </td>
         </tr>
         <tr>
-            <th>Institution</th>
+            <th class='bg-light'>Institution</th>
             <td>
                 <a href="{{ path('admin_institution_show', {id: intake.course.institution.id}) }}"
                 >{{ intake.course.institution.name }}</a>
