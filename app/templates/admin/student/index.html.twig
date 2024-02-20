@@ -3,7 +3,10 @@
 {% block title %}Students{% endblock %}
 
 {% block actions %}
-    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_student_new') }}">Create New</a>
+    <div class='hstack gap-2 col-auto'>
+        <input type='text' class='input-group-sm' placeholder='Search' />
+        <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_student_new') }}">Create New</a>
+    </div>
 {% endblock %}
 
 {% block contents %}

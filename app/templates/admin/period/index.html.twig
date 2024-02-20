@@ -3,7 +3,10 @@
 {% block title %}Periods{% endblock %}
 
 {% block actions %}
-    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>
+    <div class='hstack gap-2'>
+        <input type='text' class='input-group-sm' placeholder='Search' />
+        <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>
+    </div>
 {% endblock %}
 
 {% block contents %}
