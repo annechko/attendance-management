@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block contents %}
-    <table class="table table-sm table-hover w-75">
+    <table class="table table-sm table-hover">
         <thead>
             <tr class="table-primary"> 
                 <th>Id</th>
@@ -23,6 +23,7 @@
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>
                 <td>
+                <a href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">Subjects</a>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">
                         <i data-feather="edit"></i>
                     </a>
