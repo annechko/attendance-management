@@ -16,11 +16,15 @@
             </tr>
             <tr>
                 <th scope="col" class='bg-light'>Name</th>
-                <td>{{ student.name }}</td>
+                <td>{{ student.name ~ ' ' ~ student.surname}}</td>
             </tr>
-            <tr>
-                <th scope="col" class='bg-light'>Surname</th>
-                <td>{{ student.surname }}</td>
+            <tr> 
+                <th scope="col" class='bg-light'>Date of Birth</th>
+                <td>{{ student.dateOfBirth ? student.dateOfBirth|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr> 
+                <th scope="col" class='bg-light'>Gender</th>
+                <td>{{ student.gender }}</td>
             </tr>
         </tbody>
     </table>

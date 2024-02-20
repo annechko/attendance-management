@@ -12,10 +12,12 @@
         <table class="table table-sm table-hover">
             <thead>
             <tr class="table-primary">
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
+                <th >Id</th>
+                <th >Name</th>
+                <th >Date of Birth</th> 
+                <th >Gender</th>             
                 <th>Email</th>
-                <th scope="col">Actions</th>
+                <th >Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -23,6 +25,8 @@
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name ~ ' ' ~ student.surname }}</td>
+                    <td>{{ student.dateOfBirth ? student.dateOfBirth|date('Y-m-d') : '' }}</td> 
+                    <td>{{ student.gender }}</td> 
                     <td>{{ student.email }}</td>
                     <td >
                         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
