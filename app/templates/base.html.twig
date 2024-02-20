@@ -26,6 +26,7 @@
 			.form-label {
 				margin-bottom: 0.2rem;
 			}
+            
         </style>
         <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.1/dist/feather.min.js"
                 integrity="sha384-En/3vVo7Wc+6Ogkkp7OUi5Oc7Zf4c+N/kRP3z7QVcJssy5Ud5MWcAvwWDAEFMga8"
@@ -49,6 +50,21 @@
                 case "institution" :
                     url = "{{ path('admin_institution_show', {'id': 'ID'}) }}".replace('ID', ID);
                     break;    
+                case "course" :
+                    url = "{{ path('admin_course_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;    
+                case "intake" :
+                    url = "{{ path('admin_intake_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;       
+                case "period" :
+                    url = "{{ path('admin_period_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;        
+                case "subject" :
+                    url = "{{ path('admin_subject_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;      
+                case "period_to_subject" :
+                    url = "{{ path('admin_period_to_subject_show', {'id': 'ID'}) }}".replace('ID', ID);
+                    break;     
             }
             // Redirect the user to the edit page
             window.location.href = url;

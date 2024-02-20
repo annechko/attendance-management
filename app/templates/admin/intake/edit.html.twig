@@ -3,10 +3,11 @@
 {% block title %}Edit Intake{% endblock %}
 
 {% block contents %}
+    <div class="w-50">
+        {{ include('admin/intake/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+{% endblock %}
 
-    {{ include('admin/intake/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_intake_index') }}">back to list</a>
-
+{% block actions %}
     {{ include('admin/intake/_delete_form.html.twig') }}
 {% endblock %}

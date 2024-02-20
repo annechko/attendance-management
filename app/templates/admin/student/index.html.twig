@@ -9,12 +9,11 @@
 {% block contents %}
 
     <div class="table-responsive">
-        <table class="table table-sm table-hover">
+        <table class="table table-sm table-hover w-75">
             <thead>
             <tr class="table-primary">
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
-                <th scope="col">Surname</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -22,12 +21,12 @@
             {% for student in students %}
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
-                    <td>{{ student.name }}</td>
-                    <td>{{ student.surname }}</td>
+                    <td>{{ student.name ~ ' ' ~ student.surname }}</td>
                     <td >
-                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                            href="{{ path('admin_student_edit', {'id': student.id}) }}">Edit
-                    </a>
+                        <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                href="{{ path('admin_student_edit', {'id': student.id}) }}">                    
+                                <i data-feather="edit"></i>
+                        </a>
                     </td>
                 </tr>
             {% else %}

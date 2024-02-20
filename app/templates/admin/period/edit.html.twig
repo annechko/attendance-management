@@ -3,10 +3,11 @@
 {% block title %}Edit Period{% endblock %}
 
 {% block contents %}
+    <div class="w-50">
+        {{ include('admin/period/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+{% endblock %}
 
-    {{ include('admin/period/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_period_index') }}">back to list</a>
-
+{% block actions %}
     {{ include('admin/period/_delete_form.html.twig') }}
 {% endblock %}

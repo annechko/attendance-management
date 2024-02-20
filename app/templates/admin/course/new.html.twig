@@ -1,11 +1,9 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}New Course{% endblock %}
+{% block title %}Create New Course{% endblock %}
 
 {% block contents %}
-    <h1>Create new Course</h1>
 
     {{ include('admin/course/_form.html.twig') }}
 
-    <a href="{{ path('admin_course_index') }}">back to list</a>
 {% endblock %}
