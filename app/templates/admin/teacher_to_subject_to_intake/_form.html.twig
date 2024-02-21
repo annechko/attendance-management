@@ -1,4 +1,7 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
+    <a class="btn btn-sm custom-btn btn-outline-dark"
+        href="{{ path('admin_teacher_to_subject_to_intake_index') }}">Cancel
+    </a>
 {{ form_end(form) }}
