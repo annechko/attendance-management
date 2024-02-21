@@ -4,13 +4,15 @@
 
 {% block contents %}
 
-    <div class="container vstack gap-3">
+    <div class="container-fluid vstack gap-3">
         {#    TODO: #}
         <div class="hstack gap-2">
-            <div class="card col shadow-sm">
-                <div class="card-header text-white bg-success icon-link"><i data-feather="user-check"></i>Administrators</div>
-                <div class="fs-1 d-flex justify-content-center p-3">{{ administrators }}</div>
-            </div>
+            <a class="text-decoration-none text-dark col" href='#' >
+                <div class="card col shadow-sm">
+                    <div class="card-header text-white bg-success icon-link"><i data-feather="user-check"></i>Administrators</div>
+                    <div class="fs-1 d-flex justify-content-center p-3">{{ administrators }}</div>
+                </div>
+            </a>
             <a class="text-decoration-none text-dark col" href={{ path('admin_teacher_index') }}>
                 <div class="card shadow-sm">
                     <div class="card-header text-white bg-success icon-link"><i data-feather="book"></i>Teachers</div>

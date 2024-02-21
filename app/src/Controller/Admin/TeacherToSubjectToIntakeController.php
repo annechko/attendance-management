@@ -28,7 +28,7 @@ class TeacherToSubjectToIntakeController extends AbstractController
         if ($teacherId > 0) {
             $list = $teacherToSubjectToIntakeRepository->findAllByTeacherId($teacherId);
             $teacher = $teacherRepository->find($teacherId);
-            $teacherName = $teacher?->getName();
+            $teacherName = $teacher?->getName() . ' ' . $teacher?->getSurname() ;
         } else {
             $list = $teacherToSubjectToIntakeRepository->findAll();
         }
