@@ -40,6 +40,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
+    #[ORM\ManyToOne]
+    private ?Intake $intake = null;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER', 'ROLE_STUDENT'];
@@ -160,6 +163,18 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    public function getIntake(): ?Intake
+    {
+        return $this->intake;
+    }
+
+    public function setIntake(?Intake $intake): static
+    {
+        $this->intake = $intake;
 
         return $this;
     }

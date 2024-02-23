@@ -17,9 +17,10 @@
             <tr class="table-primary">
                 <th >Id</th>
                 <th >Name</th>
-                <th >Date of Birth</th> 
-                <th >Gender</th>             
+                <th >Date of Birth</th>
+                <th >Gender</th>
                 <th>Email</th>
+                <th>Intake</th>
                 <th >Actions</th>
             </tr>
             </thead>
@@ -28,12 +29,18 @@
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name ~ ' ' ~ student.surname }}</td>
-                    <td>{{ student.dateOfBirth ? student.dateOfBirth|date('Y-m-d') : '' }}</td> 
-                    <td>{{ student.gender }}</td> 
+                    <td>{{ student.dateOfBirth ? student.dateOfBirth|date('Y-m-d') : '' }}</td>
+                    <td>{{ student.gender }}</td>
                     <td>{{ student.email }}</td>
-                    <td >
+                    <td>
+                        {% if student.intake %}
+                            <a href="{{ path('admin_intake_show', {id: student.intake.id}) }}"
+                            >{{ student.intake.name }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
                         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ path('admin_student_edit', {'id': student.id}) }}">                    
+                                href="{{ path('admin_student_edit', {'id': student.id}) }}">
                                 <i data-feather="edit"></i>
                         </a>
                     </td>
