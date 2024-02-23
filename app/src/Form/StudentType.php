@@ -18,6 +18,10 @@ class StudentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Student $student */
+        $student = $builder->getData();
+        $course = $student?->getIntake()?->getCourse();
+        $institution = $course?->getInstitution();
         $builder
             ->add('email')
             ->add('name')
@@ -35,6 +39,7 @@ class StudentType extends AbstractType
             ->add('institution', EntityType::class, [
                 'mapped' => false,
                 'placeholder' => '',
+                'data' => $institution,
                 'placeholder_attr' => [
                     'data-role' => 'empty-value',
                 ],
@@ -55,6 +60,7 @@ class StudentType extends AbstractType
             ])
             ->add('course', EntityType::class, [
                 'mapped' => false,
+                'data' => $course,
                 'placeholder' => '',
                 'placeholder_attr' => [
                     'data-role' => 'empty-value',
