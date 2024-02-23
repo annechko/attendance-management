@@ -3,7 +3,10 @@
 {% block title %}Periods{% endblock %}
 
 {% block actions %}
-    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>
+    <div class='hstack gap-2'>
+        <input type='text' class='input-group-sm' placeholder='Search' />
+        <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>
+    </div>
 {% endblock %}
 
 {% block contents %}
@@ -34,7 +37,7 @@
                 <td>
                     <a  class="icon-link" href="{{ path('admin_period_to_subject_index', {'periodId': period.id}) }}">
                         <i data-feather="file-plus"></i>
-                        <span class="badge rounded-pill text-bg-danger ">{{ period.subjectsCount > 0 ? period.subjectsCount : '' }}</span>
+                        <span class="badge badge-pill text-bg-primary ">{{ period.subjectsCount > 0 ? period.subjectsCount : '' }}</span>
                     </a>
                 </td>
                 <td>

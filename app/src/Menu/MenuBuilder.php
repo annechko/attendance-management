@@ -47,14 +47,6 @@ class MenuBuilder
 
     private function addAdminMenuItems(ItemInterface $menu): void
     {
-        $menu->addChild('Students', [
-            'route' => 'admin_student_index',
-            'extras' => ['icon' => 'users'],
-        ]);
-        $menu->addChild('Teachers', [
-            'route' => 'admin_teacher_index',
-            'extras' => ['icon' => 'book'],
-        ]);
         $menu->addChild('Institutions', [
             'route' => 'admin_institution_index',
             'extras' => ['icon' => 'package'],
@@ -63,10 +55,6 @@ class MenuBuilder
             'route' => 'admin_course_index',
             'extras' => ['icon' => 'sidebar'],
         ]);
-        $menu->addChild('Subjects', [
-            'route' => 'admin_subject_index',
-            'extras' => ['icon' => 'file-text'],
-        ]);
         $menu->addChild('Intakes', [
             'route' => 'admin_intake_index',
             'extras' => ['icon' => 'calendar'],
@@ -74,6 +62,18 @@ class MenuBuilder
         $menu->addChild('Periods', [
             'route' => 'admin_period_index',
             'extras' => ['icon' => 'columns'],
+        ]);
+        $menu->addChild('Subjects', [
+            'route' => 'admin_subject_index',
+            'extras' => ['icon' => 'file-text'],
+        ]);
+        $menu->addChild('Students', [
+            'route' => 'admin_student_index',
+            'extras' => ['icon' => 'users'],
+        ]);
+        $menu->addChild('Teachers', [
+            'route' => 'admin_teacher_index',
+            'extras' => ['icon' => 'book'],
         ]);
     }
 

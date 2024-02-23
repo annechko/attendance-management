@@ -1,10 +1,9 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}New TeacherToSubjectToIntake{% endblock %}
+{% block title %}Add Subject to Teacher{% endblock %}
 
 {% block contents %}
-
-    {{ include('admin/teacher_to_subject_to_intake/_form.html.twig') }}
-
-    <a href="{{ path('admin_teacher_to_subject_to_intake_index') }}">back to list</a>
+    <div class="w-50">
+        {{ include('admin/teacher_to_subject_to_intake/_form.html.twig') }}
+    </div>
 {% endblock %}

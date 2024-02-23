@@ -7,20 +7,41 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class='col-2 bg-light'>Id</th>
                 <td>{{ period.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th class='bg-light'>Name</th>
                 <td>{{ period.name }}</td>
             </tr>
             <tr>
-                <th>Start</th>
+                <th class='bg-light'>Start</th>
                 <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Finish</th>
+                <th class='bg-light'>Finish</th>
                 <td>{{ period.finish ? period.finish|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Intake</th>
+                <td>{{ period.intake.name }}</td>
+            </tr>
+            <tr>   
+                <th class='bg-light'>Course</th>        
+                <td>{{ period.intake.course.name }}</td>
+            </tr>
+            <tr>   
+                <th class='bg-light' >
+                    Subject(s)
+                    <span class="ms-1 badge badge-pill text-bg-primary">{{ period.getSubjectsCount() }}</span>
+                </th> 
+                <td>  
+                    <ul class='ps-3 m-0'>     
+                    {% for subject in period.getSubjects() %}
+                        <li>{{subject.code ~ ' : ' ~subject.name}}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
             </tr>
         </tbody>
     </table>

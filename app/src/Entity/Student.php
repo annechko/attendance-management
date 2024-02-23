@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,6 +33,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private string $password;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $gender = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateOfBirth = null;
 
     public function __construct()
     {
@@ -131,5 +138,29 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFirstTimePassword(): string
     {
         return md5($this->email);
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): static
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
     }
 }

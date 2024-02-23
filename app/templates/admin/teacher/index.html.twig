@@ -3,7 +3,10 @@
 {% block title %}Teachers{% endblock %}
 
 {% block actions %}
-    <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_teacher_new') }}">Create New</a>
+    <div class='hstack gap-2'>
+        <input type='text' class='input-group-sm' placeholder='Search' />
+        <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_teacher_new') }}">Create New</a>
+    </div>
 {% endblock %}
 
 {% block contents %}
@@ -23,7 +26,7 @@
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>
                 <td>
-                <a href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">Subjects</a>
+                    <a href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">Subjects</a>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">
                         <i data-feather="edit"></i>
                     </a>
