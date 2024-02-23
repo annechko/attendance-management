@@ -1,0 +1,12 @@
+<a{% for attr, value  in options %} {{ attr }}="{{ value }}"{% endfor %} style="color: #000;">
+    {{ title }}
+
+    {% if sorted %}
+        {% if direction == 'desc' %}
+            <i data-feather="arrow-down"></i>
+        {% else %}
+            <i data-feather="arrow-up"></i>
+        {% endif %}
+    {% else %}
+    {% endif %}
+</a>

@@ -14,9 +14,9 @@
     <table class="table table-responsive table-sm table-hover">
         <thead>
             <tr class="table-primary">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Location</th>
+                <th>{{ knp_pagination_sortable(institutions, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(institutions, 'Name', 'name') }}</th>
+                <th>{{ knp_pagination_sortable(institutions, 'Location', 'location') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,5 +39,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <div class="navigation">
+        {{ knp_pagination_render(institutions) }}
+    </div>
 {% endblock %}

@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Institution;
+use App\Filter\InstitutionFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Institution>
@@ -19,5 +22,22 @@ class InstitutionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Institution::class);
+    }
+
+    public function buildSortedFilteredPaginatedList(
+        InstitutionFilter $filter,
+        PaginatorInterface $paginator,
+        int $size,
+    ): PaginationInterface {
+        $qb = $this->createQueryBuilder('i')
+            ->addSelect(
+                'i.id as id',
+                'i.name as name',
+                'i.location as location',
+            );
+
+        $qb->orderBy("i.$filter->sort", $filter->direction === 'desc' ? 'desc' : 'asc');
+
+        return $paginator->paginate($qb, $filter->page, $size);
     }
 }

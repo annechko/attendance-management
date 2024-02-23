@@ -3,22 +3,51 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Institution;
+use App\Filter\InstitutionFilter;
+use App\Form\InstitutionFilterForm;
 use App\Form\InstitutionType;
 use App\Repository\InstitutionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/institution')]
 class InstitutionController extends AbstractController
 {
+    private const MAX_PER_PAGE = 20;
+
     #[Route('/', name: 'admin_institution_index', methods: ['GET'])]
-    public function index(InstitutionRepository $institutionRepository): Response
-    {
+    public function index(
+        InstitutionRepository $institutionRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+    ): Response {
+        $filter = new InstitutionFilter();
+        $form = $this->createForm(InstitutionFilterForm::class, $filter, [
+            'method' => 'get',
+        ]);
+        $form->handleRequest($request);
+        $filter->sort = $request->query->get('sort', 'id');
+        $filter->direction = $request->query->get('direction', 'asc');
+        $filter->page = (int) $request->query->get('page', 1);
+
+        $errors = $validator->validate($filter);
+
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_institution_index');
+        }
+
         return $this->render('admin/institution/index.html.twig', [
-            'institutions' => $institutionRepository->findAll(),
+            'institutions' => $institutionRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $paginator,
+                self::MAX_PER_PAGE,
+            ),
         ]);
     }
 
