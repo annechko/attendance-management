@@ -1,7 +1,48 @@
+{% block javascripts %}
+    <script>
+      function ready() {
+        const institutionSelect = document.querySelector("[data-role=institution-select]")
+        const courseSelect = document.querySelector("[data-role=course-select]")
+        const intakeSelect = document.querySelector("[data-role=intake-select]")
+
+        const filterOptions = (element, property, compareWith) => {
+          const options = element.querySelectorAll("option")
+          for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+            if (option.dataset.role === 'empty-value') {
+              continue;
+            }
+            if (option.dataset[property] !== compareWith) {
+              option.classList.add('hide')
+            } else {
+              option.classList.remove('hide')
+            }
+          }
+        }
+        const onChange = (event) => {
+          if (event.target.dataset.role === 'institution-select') {
+            courseSelect.value = ''
+            intakeSelect.value = ''
+            filterOptions(courseSelect, 'institutionId', institutionSelect.value)
+          } else if (event.target.dataset.role === 'course-select') {
+            intakeSelect.value = ''
+            filterOptions(intakeSelect, 'courseId', courseSelect.value)
+          }
+        }
+        institutionSelect.onchange = onChange;
+        courseSelect.onchange = onChange;
+        filterOptions(courseSelect, 'institutionId', institutionSelect.value)
+        filterOptions(intakeSelect, 'courseId', courseSelect.value)
+      }
+
+      document.addEventListener("DOMContentLoaded", ready);
+    </script>
+{% endblock %}
+
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
-    <a class="btn btn-sm custom-btn btn-outline-dark"
-            href="{{ path('admin_student_index') }}">Cancel
-    </a>
+<button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
+<a class="btn btn-sm custom-btn btn-outline-dark"
+        href="{{ path('admin_student_index') }}">Cancel
+</a>
 {{ form_end(form) }}

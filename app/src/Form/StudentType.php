@@ -6,6 +6,8 @@ use App\Entity\Course;
 use App\Entity\Institution;
 use App\Entity\Intake;
 use App\Entity\Student;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,24 +34,65 @@ class StudentType extends AbstractType
             ])
             ->add('institution', EntityType::class, [
                 'mapped' => false,
+                'placeholder' => '',
+                'placeholder_attr' => [
+                    'data-role' => 'empty-value',
+                ],
+                'attr' => [
+                    'data-role' => 'institution-select',
+                ],
                 'class' => Institution::class,
                 'choice_label' => 'name',
+                'choice_attr' => function (Institution $institution) {
+                    return [
+                        'data-institution-id' => $institution->getId(),
+                    ];
+                },
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('e')
+                        ->orderBy('e.id', 'ASC');
+                },
             ])
             ->add('course', EntityType::class, [
                 'mapped' => false,
+                'placeholder' => '',
+                'placeholder_attr' => [
+                    'data-role' => 'empty-value',
+                ],
+                'attr' => [
+                    'data-role' => 'course-select',
+                ],
                 'class' => Course::class,
                 'choice_label' => 'name',
-                'group_by' => function (Course $choice, $key, $value) {
-                    $institution = $choice->getInstitution();
-                    return $institution->getName() . ' (ID=' . $institution->getId() . ')';
+                'choice_attr' => function (Course $course) {
+                    return [
+                        'data-institution-id' => $course->getInstitution()->getId(),
+                        'data-course-id' => $course->getId(),
+                    ];
+                },
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('e')
+                        ->orderBy('e.id', 'ASC');
                 },
             ])
             ->add('intake', EntityType::class, [
                 'class' => Intake::class,
+                'placeholder' => '',
+                'placeholder_attr' => [
+                    'data-role' => 'empty-value',
+                ],
+                'attr' => [
+                    'data-role' => 'intake-select',
+                ],
                 'choice_label' => 'name',
-                'group_by' => function (Intake $choice, $key, $value) {
-                    $course = $choice->getCourse();
-                    return $course->getName() . ' (ID=' . $course->getId() . ')';
+                'choice_attr' => function (Intake $intake) {
+                    return [
+                        'data-course-id' => $intake->getCourse()->getId(),
+                    ];
+                },
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('e')
+                        ->orderBy('e.id', 'ASC');
                 },
             ]);
 
