@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Period;
+use App\Entity\PeriodToSubject;
+use App\Filter\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PeriodRepository extends ServiceEntityRepository
 {
+    private const MAX_PER_PAGE = 20;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Period::class);
@@ -31,5 +35,36 @@ class PeriodRepository extends ServiceEntityRepository
         return $qb
             ->getQuery()
             ->getResult();
+    }
+
+    public function buildSortedFilteredPaginatedList(
+        \App\Filter\SearchFilter $filter,
+        AbstractSort $sort,
+        \Knp\Component\Pager\PaginatorInterface $paginator
+    ) {
+        $qb = $this->createQueryBuilder('e')
+            ->innerJoin('e.intake', 'i')
+            ->innerJoin('i.course', 'c')
+            ->select(
+                'e.id as id',
+                'e.name as name',
+                'e.start as start',
+                'e.finish as finish',
+                'c.name as course',
+                '(SELECT COUNT(s.id) FROM ' . PeriodToSubject::class . ' s WHERE s.period = e.id) AS subjectsCount',
+                'i.name as intake',
+            );
+        //if ($filter->search) {
+        //    $qb->orWhere($qb->expr()->like('LOWER(e.name)', ':search'));
+        //    $qb->orWhere($qb->expr()->like('LOWER(c.name)', ':search'));
+        //    $qb->orWhere($qb->expr()->like('LOWER(i.name)', ':search'));
+        //    $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+        //    if (is_numeric($filter->search)) {
+        //        $qb->orWhere($qb->expr()->eq('e.id', ':search_num'));
+        //        $qb->setParameter(':search_num', (int) $filter->search);
+        //    }
+        //}
+
+        return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }
 }

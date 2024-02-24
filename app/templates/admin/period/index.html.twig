@@ -4,7 +4,6 @@
 
 {% block actions %}
     <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>
     </div>
 {% endblock %}
@@ -14,13 +13,13 @@
     <table class="table table-sm table-hover">
         <thead>
         <tr class="table-primary">
-            <th>Id</th>
-            <th>Name</th>
-            <th>Start</th>
-            <th>Finish</th>
-            <th>Intake</th>
-            <th>Course</th>
-            <th>Subjects</th>
+            <th>{{ knp_pagination_sortable(periods, 'Id', 'id') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Name', 'name') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Start', 'start') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Finish', 'finish') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Intake', 'intake') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Course', 'course') }}</th>
+            <th>{{ knp_pagination_sortable(periods, 'Subjects', 'subjectsCount') }}</th>
             <th>Actions</th>
 
         </tr>
@@ -32,8 +31,8 @@
                 <td>{{ period.name }}</td>
                 <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>
                 <td>{{ period.finish ? period.finish|date('Y-m-d') : '' }}</td>
-                <td>{{ period.intake.name }}</td>
-                <td>{{ period.intake.course.name }}</td>
+                <td>{{ period.intake }}</td>
+                <td>{{ period.course }}</td>
                 <td>
                     <a  class="icon-link" href="{{ path('admin_period_to_subject_index', {'periodId': period.id}) }}">
                         <i data-feather="file-plus"></i>
