@@ -1,4 +1,5 @@
-<a{% for attr, value  in options %} {{ attr }}="{{ value }}"{% endfor %} style="color: #000;">
+<a{% for attr, value  in options %} {{ attr }}="{{ value }}"{% endfor %}
+style="color: #000;text-decoration: none;">
     {{ title }}
 
     {% if sorted %}
@@ -8,5 +9,8 @@
             <i data-feather="arrow-up"></i>
         {% endif %}
     {% else %}
+        <span style="color: #090a0b30;">
+            <i data-feather="arrow-down"></i>
+        </span>
     {% endif %}
 </a>

@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Institution;
 use App\Filter\InstitutionFilter;
+use App\Filter\InstitutionSort;
+use App\Filter\SortLoader;
 use App\Form\InstitutionFilterForm;
 use App\Form\InstitutionType;
 use App\Repository\InstitutionRepository;
@@ -26,17 +28,18 @@ class InstitutionController extends AbstractController
         PaginatorInterface $paginator,
         Request $request,
         ValidatorInterface $validator,
+        SortLoader $sortLoader,
     ): Response {
         $filter = new InstitutionFilter();
         $form = $this->createForm(InstitutionFilterForm::class, $filter, [
             'method' => 'get',
         ]);
         $form->handleRequest($request);
-        $filter->sort = $request->query->get('sort', 'id');
-        $filter->direction = $request->query->get('direction', 'asc');
-        $filter->page = (int) $request->query->get('page', 1);
 
-        $errors = $validator->validate($filter);
+        $sort = new InstitutionSort();
+        $sortLoader->load($sort, $request);
+
+        $errors = $validator->validate($sort);
 
         if (count($errors) > 0) {
             return $this->redirectToRoute('admin_institution_index');
@@ -45,6 +48,7 @@ class InstitutionController extends AbstractController
         return $this->render('admin/institution/index.html.twig', [
             'institutions' => $institutionRepository->buildSortedFilteredPaginatedList(
                 $filter,
+                $sort,
                 $paginator,
                 self::MAX_PER_PAGE,
             ),
