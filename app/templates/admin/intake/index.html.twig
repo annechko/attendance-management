@@ -1,10 +1,11 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Intakes{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block actions %}
     <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_intake_new') }}">Create New</a>
     </div>
 {% endblock %}
@@ -14,12 +15,12 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr class="table-primary">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Start</th>
-                <th>Finish</th>
-                <th>Course</th>
-                <th>Institution</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Name', 'name') }}</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Start', 'start') }}</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Finish', 'finish') }}</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Course', 'course') }}</th>
+                <th>{{ knp_pagination_sortable(intakes, 'Institution', 'institution') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -30,8 +31,8 @@
                 <td>{{ intake.name }}</td>
                 <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
                 <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
-                <td>{{ intake.course.name }}</td>
-                <td>{{ intake.course.institution.name }}</td>
+                <td>{{ intake.course }}</td>
+                <td>{{ intake.institution }}</td>
                 <td>
                     <a href="{{ path('admin_intake_edit', {'id': intake.id}) }}">
                         <i data-feather="edit"></i>
@@ -40,7 +41,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

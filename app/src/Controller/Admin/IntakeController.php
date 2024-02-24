@@ -3,22 +3,48 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Intake;
+use App\Filter\IntakeSort;
+use App\Filter\SearchFilter;
+use App\Filter\SortLoader;
 use App\Form\IntakeType;
+use App\Form\SearchFilterForm;
 use App\Repository\IntakeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/intake')]
 class IntakeController extends AbstractController
 {
     #[Route('/', name: 'admin_intake_index', methods: ['GET'])]
-    public function index(IntakeRepository $intakeRepository): Response
-    {
+    public function index(
+        IntakeRepository $intakeRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new IntakeSort();
+        $sortLoader->load($sort, $request);
+        $errors = $validator->validate($sort);
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_intake_index');
+        }
         return $this->render('admin/intake/index.html.twig', [
-            'intakes' => $intakeRepository->findAll(),
+            'search_form' => $form,
+            'intakes' => $intakeRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $sort,
+                $paginator,
+            ),
         ]);
     }
 
