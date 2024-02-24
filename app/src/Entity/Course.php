@@ -108,21 +108,6 @@ class Course
         return $this;
     }
 
-    public function getDurationFormatted(): string
-    {
-        $result = "";
-        if ($this->duration->y > 0) {
-            $result .= $this->duration->format('%yy');
-        }
-        if ($this->duration->m > 0) {
-            $result .= $this->duration->format(' %mm');
-        }
-        if ($this->duration->d > 0) {
-            $result .= $this->duration->format(' %dd');
-        }
-        return $result;
-    }
-
     /**
      * @return Collection<int, Subject>
      */

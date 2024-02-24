@@ -3,22 +3,50 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Course;
+use App\Filter\CourseFilter;
+use App\Filter\CourseSort;
+use App\Filter\SortLoader;
+use App\Form\CourseFilterForm;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/course')]
 class CourseController extends AbstractController
 {
     #[Route('/', name: 'admin_course_index', methods: ['GET'])]
-    public function index(CourseRepository $courseRepository): Response
-    {
+    public function index(
+        CourseRepository $courseRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new CourseFilter();
+        $form = $this->createForm(CourseFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new CourseSort();
+        $sortLoader->load($sort, $request);
+
+        $errors = $validator->validate($sort);
+
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_course_index');
+        }
+
         return $this->render('admin/course/index.html.twig', [
-            'courses' => $courseRepository->findAll(),
+            'courses' => $courseRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $sort,
+                $paginator,
+            ),
         ]);
     }
 

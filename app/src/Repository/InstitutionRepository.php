@@ -38,8 +38,6 @@ class InstitutionRepository extends ServiceEntityRepository
                 'i.location as location',
             );
 
-        $qb->orderBy("i.$sort->sort", $sort->direction === 'desc' ? 'desc' : 'asc');
-
         return $paginator->paginate($qb, $sort->page, $size);
     }
 }

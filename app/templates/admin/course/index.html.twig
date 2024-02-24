@@ -16,10 +16,10 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr class="table-primary">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Duration</th>
-                <th>Institution</th>
+                <th>{{ knp_pagination_sortable(courses, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(courses, 'Name', 'name') }}</th>
+                <th>{{ knp_pagination_sortable(courses, 'Duration', 'duration') }}</th>
+                <th>{{ knp_pagination_sortable(courses, 'Institution', 'institution') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,8 +28,8 @@
             <tr onclick="showData({{ course.id }}, 'course')">
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
-                <td>{{ course.duration ? course.durationFormatted : '' }}</td>
-                <td>{{ course.institution.name }}</td>
+                <td>{{ course.duration|duration }}</td>
+                <td>{{ course.institution }}</td>
                 <td>
                     <a href="{{ path('admin_course_edit', {'id': course.id}) }}">
                         <i data-feather="edit"></i>
@@ -38,7 +38,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

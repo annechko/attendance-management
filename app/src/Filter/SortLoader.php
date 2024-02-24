@@ -10,8 +10,8 @@ class SortLoader
         AbstractSort $sort,
         Request $request
     ): void {
-        $sort->sort = $request->query->get('sort', 'id');
-        $sort->direction = $request->query->get('direction', 'asc');
+        $sort->sort = $request->query->get('sort');
+        $sort->direction = $request->query->get('direction');
         $sort->page = (int) $request->query->get('page', 1);
     }
 }
