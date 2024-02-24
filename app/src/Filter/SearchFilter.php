@@ -6,10 +6,7 @@ namespace App\Filter;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CourseFilter
+class SearchFilter
 {
-    // can filter by fields:
-    public $id;
-    public $name;
-    public $duration;
+    public $search;
 }

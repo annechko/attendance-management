@@ -3,10 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Course;
-use App\Filter\CourseFilter;
+use App\Filter\SearchFilter;
 use App\Filter\CourseSort;
 use App\Filter\SortLoader;
-use App\Form\CourseFilterForm;
+use App\Form\SearchFilterForm;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,8 +28,8 @@ class CourseController extends AbstractController
         ValidatorInterface $validator,
         SortLoader $sortLoader,
     ): Response {
-        $filter = new CourseFilter();
-        $form = $this->createForm(CourseFilterForm::class, $filter);
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
         $form->handleRequest($request);
 
         $sort = new CourseSort();
@@ -42,6 +42,7 @@ class CourseController extends AbstractController
         }
 
         return $this->render('admin/course/index.html.twig', [
+            'search_form' => $form,
             'courses' => $courseRepository->buildSortedFilteredPaginatedList(
                 $filter,
                 $sort,

@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Course;
-use App\Filter\CourseFilter;
+use App\Filter\SearchFilter;
 use App\Filter\CourseSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,7 +28,7 @@ class CourseRepository extends ServiceEntityRepository
     }
 
     public function buildSortedFilteredPaginatedList(
-        CourseFilter $filter,
+        SearchFilter $filter,
         CourseSort $sort,
         PaginatorInterface $paginator,
     ): PaginationInterface {
@@ -40,6 +40,15 @@ class CourseRepository extends ServiceEntityRepository
                 'e.duration as duration',
                 'i.name as institution',
             );
+        if ($filter->search) {
+            $qb->orWhere($qb->expr()->like('LOWER(e.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(i.name)', ':search'));
+            $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+            if (is_numeric($filter->search)) {
+                $qb->orWhere($qb->expr()->eq('(e.id)', ':search_num'));
+                $qb->setParameter(':search_num', (int) $filter->search);
+            }
+        }
 
         return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }

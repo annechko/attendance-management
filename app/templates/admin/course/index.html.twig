@@ -2,9 +2,12 @@
 
 {% block title %}Courses{% endblock %}
 
+{% block search %}
+{% include 'search.html.twig' %}
+{% endblock %}
+
 {% block actions %}
     <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_course_new') }}">
             Create New
         </a>
