@@ -34,7 +34,7 @@
                     <td>{{ student.email }}</td>
                     <td>
                         {% if student.intake %}
-                            <a href="{{ path('admin_intake_show', {id: student.intake.id}) }}"
+                            <a class="text-decoration-none" href="{{ path('admin_intake_show', {id: student.intake.id}) }}"
                             >{{ student.intake.name }}</a>
                         {% endif %}
                     </td>
