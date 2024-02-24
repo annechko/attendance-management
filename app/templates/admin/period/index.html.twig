@@ -1,7 +1,9 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Periods{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block actions %}
     <div class='hstack gap-2'>
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_period_new') }}">Create New</a>

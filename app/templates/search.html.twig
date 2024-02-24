@@ -1,3 +1,5 @@
-{{ form_start(search_form, {attr: {class: 'me-1 w-50'}}) }}
+{{ form_start(search_form, {
+    attr: {class: 'me-1 w-50', type:"search", autocomplete:"off", spellcheck:"false"}}
+) }}
     {{ form_widget(search_form.search) }}
 {{ form_end(search_form) }}

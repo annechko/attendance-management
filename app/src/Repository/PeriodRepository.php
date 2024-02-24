@@ -54,16 +54,16 @@ class PeriodRepository extends ServiceEntityRepository
                 '(SELECT COUNT(s.id) FROM ' . PeriodToSubject::class . ' s WHERE s.period = e.id) AS subjectsCount',
                 'i.name as intake',
             );
-        //if ($filter->search) {
-        //    $qb->orWhere($qb->expr()->like('LOWER(e.name)', ':search'));
-        //    $qb->orWhere($qb->expr()->like('LOWER(c.name)', ':search'));
-        //    $qb->orWhere($qb->expr()->like('LOWER(i.name)', ':search'));
-        //    $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
-        //    if (is_numeric($filter->search)) {
-        //        $qb->orWhere($qb->expr()->eq('e.id', ':search_num'));
-        //        $qb->setParameter(':search_num', (int) $filter->search);
-        //    }
-        //}
+        if ($filter->search) {
+            $qb->orWhere($qb->expr()->like('LOWER(e.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(c.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(i.name)', ':search'));
+            $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+            if (is_numeric($filter->search)) {
+                $qb->orWhere($qb->expr()->eq('e.id', ':search_num'));
+                $qb->setParameter(':search_num', (int) $filter->search);
+            }
+        }
 
         return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }
