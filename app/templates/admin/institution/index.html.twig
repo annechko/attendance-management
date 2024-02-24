@@ -2,6 +2,10 @@
 
 {% block title %}Institutions{% endblock %}
 
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
+
 {% block actions %}
     <div class='hstack gap-2'>
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_institution_new') }}">Create New</a>

@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Institution;
-use App\Filter\InstitutionFilter;
 use App\Filter\InstitutionSort;
+use App\Filter\SearchFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -26,17 +26,26 @@ class InstitutionRepository extends ServiceEntityRepository
     }
 
     public function buildSortedFilteredPaginatedList(
-        InstitutionFilter $filter,
+        SearchFilter $filter,
         InstitutionSort $sort,
         PaginatorInterface $paginator,
         int $size,
     ): PaginationInterface {
-        $qb = $this->createQueryBuilder('i')
+        $qb = $this->createQueryBuilder('e')
             ->addSelect(
-                'i.id as id',
-                'i.name as name',
-                'i.location as location',
+                'e.id as id',
+                'e.name as name',
+                'e.location as location',
             );
+        if ($filter->search) {
+            $qb->orWhere($qb->expr()->like('LOWER(e.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(e.location)', ':search'));
+            $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+            if (is_numeric($filter->search)) {
+                $qb->orWhere($qb->expr()->eq('(e.id)', ':search_num'));
+                $qb->setParameter(':search_num', (int) $filter->search);
+            }
+        }
 
         return $paginator->paginate($qb, $sort->page, $size);
     }

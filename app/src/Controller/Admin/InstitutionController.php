@@ -3,11 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Institution;
-use App\Filter\InstitutionFilter;
 use App\Filter\InstitutionSort;
+use App\Filter\SearchFilter;
 use App\Filter\SortLoader;
-use App\Form\InstitutionFilterForm;
 use App\Form\InstitutionType;
+use App\Form\SearchFilterForm;
 use App\Repository\InstitutionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,10 +30,8 @@ class InstitutionController extends AbstractController
         ValidatorInterface $validator,
         SortLoader $sortLoader,
     ): Response {
-        $filter = new InstitutionFilter();
-        $form = $this->createForm(InstitutionFilterForm::class, $filter, [
-            'method' => 'get',
-        ]);
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
         $form->handleRequest($request);
 
         $sort = new InstitutionSort();
@@ -46,6 +44,7 @@ class InstitutionController extends AbstractController
         }
 
         return $this->render('admin/institution/index.html.twig', [
+            'search_form' => $form,
             'institutions' => $institutionRepository->buildSortedFilteredPaginatedList(
                 $filter,
                 $sort,
