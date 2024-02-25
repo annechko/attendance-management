@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AttendanceRepository::class)]
 class Attendance
 {
+    public const STATUS_PRESENT = 1;
+    public const STATUS_ABSENT = 2;
+    public const STATUS_EXCUSED = 3;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -81,6 +85,26 @@ class Attendance
         return $this->subject;
     }
 
+    public function getSubjectId(): int
+    {
+        return $this->subject->getId();
+    }
+
+    public function getStudentId(): int
+    {
+        return $this->student->getId();
+    }
+
+    public function getStudentName(): string
+    {
+        return $this->student->getName() . ' ' . $this->student->getSurname();
+    }
+
+    public function getTeacherId(): int
+    {
+        return $this->teacher->getId();
+    }
+
     public function setSubject(?Subject $subject): static
     {
         $this->subject = $subject;
@@ -110,5 +134,10 @@ class Attendance
         $this->comment = $comment;
 
         return $this;
+    }
+
+    public function dateValue(): string
+    {
+        return $this->getDate()->format('Y-m-d');
     }
 }

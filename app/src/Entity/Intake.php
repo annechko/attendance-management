@@ -32,9 +32,13 @@ class Intake
     #[ORM\OneToMany(mappedBy: 'intake', targetEntity: Period::class, orphanRemoval: true)]
     private Collection $periods;
 
+    #[ORM\OneToMany(mappedBy: 'intake', targetEntity: Student::class)]
+    private Collection $students;
+
     public function __construct()
     {
         $this->periods = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,6 +118,36 @@ class Intake
             // set the owning side to null (unless already changed)
             if ($period->getIntake() === $this) {
                 $period->setIntake(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): static
+    {
+        if (!$this->students->contains($student)) {
+            $this->students->add($student);
+            $student->setIntake($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): static
+    {
+        if ($this->students->removeElement($student)) {
+            // set the owning side to null (unless already changed)
+            if ($student->getIntake() === $this) {
+                $student->setIntake(null);
             }
         }
 

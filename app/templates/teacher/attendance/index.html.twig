@@ -3,35 +3,39 @@
 {% block title %}Attendance index{% endblock %}
 
 {% block contents %}
+    <style>
+		td {
+			padding: 2px 7px !important;
+		}
+		select#attendance_status[data-chosen='1'] {
+			background-color: rgba(0, 128, 0, 0.56);
+		}
+		select#attendance_status[data-chosen='2'] {
+			background-color: rgba(255, 0, 0, 0.51);
+		}
+		select#attendance_status[data-chosen='3'] {
+			background-color: rgba(128, 128, 128, 0.76);
+		}
+    </style>
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Comment</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Student</th>
+            <th>Status</th>
+        </tr>
         </thead>
         <tbody>
         {% for attendance in attendances %}
             <tr>
-                <td>{{ attendance.id }}</td>
-                <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
-                <td>{{ attendance.status }}</td>
-                <td>{{ attendance.comment }}</td>
+                <td>{{ attendance.vars.data.studentName }}</td>
                 <td>
-                    <a href="{{ path('teacher_attendance_show', {'id': attendance.id}) }}">show</a>
-                    <a href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">edit</a>
+                    {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
+                    {{ form_start(attendance,{attr:{class:'d-flex col-sm-6'}}) }}
+                    {{ form_widget(attendance.status,{attr:{class:'w-50 form-select form-select-sm form-control form-control-sm '}}) }}
+                    {{ form_end(attendance) }}
                 </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('teacher_attendance_new') }}">Create new</a>
 {% endblock %}

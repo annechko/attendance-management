@@ -3,11 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Attendance;
-use App\Entity\Student;
-use App\Entity\Subject;
-use App\Entity\Teacher;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,28 +14,38 @@ class AttendanceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date')
-            ->add('status')
-            ->add('comment')
-            ->add('student', EntityType::class, [
-                'class' => Student::class,
-'choice_label' => 'id',
+            ->add('status', ChoiceType::class, [
+                'label' => false,
+                'attr' => [
+                    'onchange' => " this.dataset.chosen = this.value; ",
+                ],
+                'choices' => [
+                    '' => null,
+                    'Present' => Attendance::STATUS_PRESENT,
+                    'Absent' => Attendance::STATUS_ABSENT,
+                    'Excused' => Attendance::STATUS_EXCUSED,
+                ],
             ])
-            ->add('teacher', EntityType::class, [
-                'class' => Teacher::class,
-'choice_label' => 'id',
+            ->add('studentName', HiddenType::class, [
+                'disabled' => true,
+                'mapped' => false,
+                'attr' => [
+                    'readonly' => true,
+                ],
             ])
-            ->add('subject', EntityType::class, [
-                'class' => Subject::class,
-'choice_label' => 'id',
-            ])
-        ;
+            ->add('dateValue', HiddenType::class)
+            ->add('studentId', HiddenType::class)
+            ->add('teacherId', HiddenType::class)
+            ->add('subjectId', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Attendance::class,
+            'attr' => [
+                'class' => 'd-flex',
+            ],
         ]);
     }
 }
