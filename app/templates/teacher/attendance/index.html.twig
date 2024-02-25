@@ -1,0 +1,137 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Attendance{% endblock %}
+
+{% block actions %}
+    <style>
+		.app-page-header {
+			flex-direction: column !important;
+		}
+
+		.app-actions {
+			justify-content: center !important;
+		}
+    </style>
+    {% if attendanceData %}
+        {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
+        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:'d-flex'}}) }}
+
+        {{ form_widget(attendanceData) }}
+
+        {{ form_end(attendanceData) }}
+    {% endif %}
+{% endblock %}
+
+{% block contents %}
+    <style>
+		td {
+			padding: 2px 7px !important;
+		}
+
+		select#attendance_status[data-chosen='1'] {
+			background-color: rgba(0, 128, 0, 0.56);
+		}
+
+		select#attendance_status[data-chosen='2'] {
+			background-color: rgba(255, 0, 0, 0.51);
+		}
+
+		select#attendance_status[data-chosen='3'] {
+			background-color: rgba(128, 128, 128, 0.76);
+		}
+
+		select#attendance_status:focus {
+			outline: none !important;
+			box-shadow: none;
+			border-color: var(--bs-body-bg);
+		}
+    </style>
+    <script>
+      function ready() {
+        const statusList = document.querySelectorAll(".js-attendance-status")
+
+
+        const showError = (form) => {
+          const icon = form.querySelector('.js-error')
+          if (icon) {
+            icon.classList.remove('hide')
+          }
+        }
+        const onChange = (event) => {
+          event.target.dataset.chosen = event.target.value;
+          const form = event.target.parentElement
+          if (form.classList.contains('js-attendance-form')) {
+            fetch(form.action, {
+              method: form.method,
+              body: new FormData(form)
+            })
+                .then((value) => {
+                  if (value.ok === true) {
+                    const successIcon = form.querySelector('.js-success')
+                    if (successIcon) {
+                      successIcon.classList.remove('hide')
+
+                      function hideSuccess() {
+                        successIcon.classList.add('hide')
+                      }
+
+                      setTimeout(hideSuccess, 800);
+                    }
+
+                  } else {
+                    showError(form)
+                    console.error(value);
+                  }
+                })
+                .catch((error) => {
+                  showError(form)
+                  console.error(error);
+                });
+          }
+        }
+        statusList.forEach((status) => {
+          status.onchange = onChange;
+          status.dataset.chosen = status.value;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", ready);
+    </script>
+
+
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="w-35">Student</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for attendance in attendances %}
+            <tr>
+                <td>{{ attendance.vars.data.studentName }}</td>
+                <td>
+                    {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
+                    {{ form_start(attendance,{action: path('teacher_attendance_new'), attr:{class:'d-flex col-sm-6 js-attendance-form'}}) }}
+
+                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-50 form-select form-select-sm form-control form-control-sm '}}) }}
+                    <span class="p-1 text-success hide js-success">
+                        <i data-feather="check"></i>
+                    </span>
+                    <span class="p-1 text-danger hide js-error">
+                        <i data-feather="alert-circle"></i>
+                    </span>
+                    {{ form_end(attendance) }}
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
