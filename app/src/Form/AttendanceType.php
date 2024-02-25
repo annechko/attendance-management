@@ -16,9 +16,6 @@ class AttendanceType extends AbstractType
         $builder
             ->add('status', ChoiceType::class, [
                 'label' => false,
-                'attr' => [
-                    'onchange' => " this.dataset.chosen = this.value; ",
-                ],
                 'choices' => [
                     '' => null,
                     'Present' => Attendance::STATUS_PRESENT,
@@ -34,9 +31,18 @@ class AttendanceType extends AbstractType
                 ],
             ])
             ->add('dateValue', HiddenType::class)
-            ->add('studentId', HiddenType::class)
-            ->add('teacherId', HiddenType::class)
-            ->add('subjectId', HiddenType::class);
+            ->add('studentId', HiddenType::class, [
+                'setter' => function () {
+                },
+            ])
+            ->add('teacherId', HiddenType::class, [
+                'setter' => function () {
+                },
+            ])
+            ->add('subjectId', HiddenType::class, [
+                'setter' => function () {
+                },
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -85,14 +85,14 @@ class Attendance
         return $this->subject;
     }
 
-    public function getSubjectId(): int
+    public function getSubjectId(): ?int
     {
-        return $this->subject->getId();
+        return $this->subject?->getId();
     }
 
-    public function getStudentId(): int
+    public function getStudentId(): ?int
     {
-        return $this->student->getId();
+        return $this->student?->getId();
     }
 
     public function getStudentName(): string
@@ -100,9 +100,9 @@ class Attendance
         return $this->student->getName() . ' ' . $this->student->getSurname();
     }
 
-    public function getTeacherId(): int
+    public function getTeacherId(): ?int
     {
-        return $this->teacher->getId();
+        return $this->teacher?->getId();
     }
 
     public function setSubject(?Subject $subject): static
@@ -136,8 +136,16 @@ class Attendance
         return $this;
     }
 
-    public function dateValue(): string
+    public function setDateValue(string $value): void
     {
-        return $this->getDate()->format('Y-m-d');
+        $this->date = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
+    }
+
+    public function getDateValue(): string
+    {
+        if ($this->getDate()) {
+            return $this->getDate()->format('Y-m-d');
+        }
+        return '';
     }
 }
