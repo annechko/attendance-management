@@ -7,12 +7,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th class='bg-light col-2'>Id</th>
-                <td>{{ course.id }}</td>
-            </tr>
-            <tr>
-                <th class='bg-light'>Name</th>
-                <td>{{ course.name }}</td>
+                <th class='bg-light col-2'>Name</th>
+                <td class='h4' >{{ course.name }}</td>
             </tr>
             <tr>
                 <th class='bg-light'>Institution</th>
@@ -23,8 +19,54 @@
                 <th class='bg-light'>Duration</th>
                 <td> {{ course.duration ? course.duration.format('%y years %m months %d days') : '' }}</td>
             </tr>
+            <tr>
+                <th class='bg-light'>Subjects</th>
+                <td> 
+                    {% if course.getSubjects() is not empty %}
+                        {% for subject in course.getSubjects() %}
+                            <li>{{ subject.code ~ ' ' ~ subject.name }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <p class='m-0'>No subjects available for this course.</p>
+                    {% endif %}
+                </td>
+
+            </tr>
         </tbody>
     </table>
+
+    <div class='hstack mb-2 bg-light p-2 border rounded shadow-sm'>
+        <div class="col h5 m-0" >Intakes</div>
+        <div class="d-flex justify-content-right">
+            <a class="btn btn-sm btn-success" 
+                href="{{ path('admin_intake_new', {courseId: course.id} ) }}"
+                >Create New Intake
+            </a>
+        </div>
+    </div>
+
+    {% if course.getIntakes() is not empty %}
+        <table class="table table-sm">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">Finish</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intake in course.getIntakes() %}
+                <tr>
+                    <td><a class="text-decoration-none" href="{{ path('admin_intake_show', {id: intake.id}) }}">{{ intake.name }}</a></td>
+                    <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
+                    <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    <p>No intakes available for this course.</p>
+    {% endif %}
 
 {% endblock %}
 

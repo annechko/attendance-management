@@ -6,38 +6,77 @@
 
     <table class="table">
         <tbody>
-        <tr>
-            <th class='bg-light col-2'>Id</th>
-            <td>{{ intake.id }}</td>
-        </tr>
-        <tr>
-            <th class='bg-light'>Name</th>
-            <td>{{ intake.name }}</td>
-        </tr>
-        <tr>
-            <th class='bg-light'>Start</th>
-            <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
-        </tr>
-        <tr>
-            <th class='bg-light'>Finish</th>
-            <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
-        </tr>
-        <tr>
-            <th class='bg-light'>Course</th>
-            <td>
-                <a href="{{ path('admin_course_show', {id: intake.course.id}) }}"
-                >{{ intake.course.name }}</a>
-            </td>
-        </tr>
-        <tr>
-            <th class='bg-light'>Institution</th>
-            <td>
-                <a href="{{ path('admin_institution_show', {id: intake.course.institution.id}) }}"
-                >{{ intake.course.institution.name }}</a>
-            </td>
-        </tr>
+            <tr>
+                <th class='bg-light col-2'>Name</th>
+                <td class='h4'>{{ intake.name }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Start</th>
+                <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Finish</th>
+                <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Course</th>
+                <td>
+                    <a class='text-decoration-none' href="{{ path('admin_course_show', {id: intake.course.id}) }}"
+                    >{{ intake.course.name }}</a>
+                </td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Institution</th>
+                <td>
+                    <a class='text-decoration-none' href="{{ path('admin_institution_show', {id: intake.course.institution.id}) }}"
+                    >{{ intake.course.institution.name }}</a>
+                </td>
+            </tr>
         </tbody>
     </table>
+    <div class='hstack mb-2 bg-light p-2 border rounded shadow-sm'>
+        <div class="col h5 m-0" >Periods for {{ intake.name }}</div>
+        <div class="d-flex justify-content-right">
+            <a class="btn btn-sm btn-success" 
+                href="{{ path('admin_period_new', {intakeId: intake.id}) }}">Create New Period
+            </a>
+        </div>
+    </div>
+
+    {% if intake.getPeriods() is not empty %}
+        <table class="table table-sm">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">Finish</th>
+                    <th scope="col">Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for period in intake.getPeriods() %}
+                <tr>
+                    <td><a class="text-decoration-none" href="{{ path('admin_period_show', {id: period.id}) }}">{{ period.name }}</a></td>
+                    <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>
+                    <td>{{ period.finish ? period.finish|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <div class='vstack'>
+                        {% if period.getPeriodToSubjects() is not empty %}
+                        {% for periodToSubject in period.getPeriodToSubjects() %}
+                            <li>{{ periodToSubject.subject.code ~ '  ' ~ periodToSubject.subject.name }}</li>
+                        {% endfor %}
+                        {% else %}
+                            <span>No subjects available for this period.</span>
+                        {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No periods available for this intake.</p>
+    {% endif %}
 
 {% endblock %}
 
