@@ -1,6 +1,26 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Attendance index{% endblock %}
+{% block title %}Attendance{% endblock %}
+
+{% block actions %}
+    <style>
+		.app-page-header {
+			flex-direction: column !important;
+		}
+
+		.app-actions {
+			justify-content: center !important;
+		}
+    </style>
+    {% if attendanceData %}
+        {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
+        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:'d-flex'}}) }}
+
+        {{ form_widget(attendanceData) }}
+
+        {{ form_end(attendanceData) }}
+    {% endif %}
+{% endblock %}
 
 {% block contents %}
     <style>
@@ -50,6 +70,7 @@
                     const successIcon = form.querySelector('.js-success')
                     if (successIcon) {
                       successIcon.classList.remove('hide')
+
                       function hideSuccess() {
                         successIcon.classList.add('hide')
                       }
@@ -76,6 +97,10 @@
 
       document.addEventListener("DOMContentLoaded", ready);
     </script>
+
+
+
+
     <table class="table">
         <thead>
         <tr>
@@ -101,6 +126,10 @@
                     {{ form_end(attendance) }}
 
                 </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

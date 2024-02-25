@@ -5,14 +5,16 @@ namespace App\Controller\Teacher;
 use App\Entity\Attendance;
 use App\Entity\Student;
 use App\Entity\Teacher;
+use App\Form\AttendanceData;
+use App\Form\AttendanceDataForm;
 use App\Form\AttendanceType;
 use App\Repository\AttendanceRepository;
-use App\Repository\IntakeRepository;
 use App\Repository\StudentRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,20 +29,27 @@ class AttendanceController extends AbstractController
     #[Route('/', name: 'teacher_attendance_index', methods: ['GET'])]
     public function index(
         AttendanceRepository $attendanceRepository,
-        IntakeRepository $intakeRepository,
-        SubjectRepository $subjectRepository,
+        Request $request,
     ): Response {
-        $intake = $intakeRepository->createQueryBuilder('c')
-            ->orderBy('c.id')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $attendanceData = new AttendanceData();
+        $attendanceDataForm = $this->createForm(AttendanceDataForm::class, $attendanceData);
+        $attendanceDataForm->handleRequest($request);
+
         $teacher = $this->getCurrentTeacher();
+
+        $intake = $attendanceData->intake;
         $forms = [];
-        $date = new \DateTimeImmutable();
-        $subject = $intake->getCourse()->getSubjects()->first();
-        $students = $intake->getStudents();
-        $attendances = $attendanceRepository->getAllForList($subject, $date, $teacher);
+        $date = $attendanceData->date;
+        $subject = $attendanceData->subject;
+        $students = $intake?->getStudents() ?? [];
+        if ($intake?->getCourse()?->getId() !== $subject?->getCourse()?->getId()) {
+            $attendanceDataForm->addError(
+                new FormError('Subject and intake should relate to the same course.')
+            );
+        }
+        if ($subject && $date) {
+            $attendances = $attendanceRepository->getAllForList($subject, $date, $teacher);
+        }
         foreach ($students as $student) {
             /** @var Student $student */
             $attendance = $attendances[$student->getId()] ?? null;
@@ -58,6 +67,7 @@ class AttendanceController extends AbstractController
 
         return $this->render('teacher/attendance/index.html.twig', [
             'attendances' => $forms,
+            'attendanceData' => $attendanceDataForm,
         ]);
     }
 
