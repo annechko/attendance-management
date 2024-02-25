@@ -7,6 +7,10 @@
     <table class="table">
         <tbody>
             <tr>
+                <th class='bg-light'>Id</th>
+                <td>{{ intake.id }}</td>
+            </tr>
+            <tr>
                 <th class='bg-light col-2'>Name</th>
                 <td class='h4'>{{ intake.name }}</td>
             </tr>
@@ -32,13 +36,19 @@
                     >{{ intake.course.institution.name }}</a>
                 </td>
             </tr>
+            <tr>
+                <th class='bg-light'>Students</th>
+                <td>
+                    {{ intake.getStudents().count([]) }}
+                </td>
+            </tr>
         </tbody>
     </table>
     <div class='hstack mb-2 bg-light p-2 border rounded shadow-sm'>
         <div class="col h5 m-0" >Periods for {{ intake.name }}</div>
         <div class="d-flex justify-content-right">
-            <a class="btn btn-sm btn-success" 
-                href="{{ path('admin_period_new', {intakeId: intake.id}) }}">Create New Period
+            <a class="btn btn-sm btn-info" 
+                href="{{ path('admin_period_new', {intakeId: intake.id}) }}">New Period
             </a>
         </div>
     </div>

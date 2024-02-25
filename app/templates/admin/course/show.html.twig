@@ -7,12 +7,16 @@
     <table class="table">
         <tbody>
             <tr>
+                <th class='bg-light col-2'>Id</th>
+                <td>{{ course.id }}</td>
+            </tr>
+            <tr>
                 <th class='bg-light col-2'>Name</th>
                 <td class='h4' >{{ course.name }}</td>
             </tr>
             <tr>
                 <th class='bg-light'>Institution</th>
-                <td> <a href="{{ path('admin_institution_show', {id: course.institution.id}) }}"
+                <td> <a class='text-decoration-none' href="{{ path('admin_institution_show', {id: course.institution.id}) }}"
                     >{{ course.institution.name }}</a></td>
             </tr>
             <tr>
@@ -38,9 +42,9 @@
     <div class='hstack mb-2 bg-light p-2 border rounded shadow-sm'>
         <div class="col h5 m-0" >Intakes</div>
         <div class="d-flex justify-content-right">
-            <a class="btn btn-sm btn-success" 
+            <a class="btn btn-sm btn-info" 
                 href="{{ path('admin_intake_new', {courseId: course.id} ) }}"
-                >Create New Intake
+                >New Intake
             </a>
         </div>
     </div>
@@ -52,6 +56,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Start</th>
                     <th scope="col">Finish</th>
+                    <th scope="col">Students</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +65,7 @@
                     <td><a class="text-decoration-none" href="{{ path('admin_intake_show', {id: intake.id}) }}">{{ intake.name }}</a></td>
                     <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>
                     <td>{{ intake.finish ? intake.finish|date('Y-m-d') : '' }}</td>
+                    <td>{{ intake.getStudents().count([]) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

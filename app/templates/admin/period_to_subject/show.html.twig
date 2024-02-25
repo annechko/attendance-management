@@ -16,10 +16,18 @@
             </tr>
             <tr>
             <th class='bg-light'>Subject</th>
-                <td>{{ period_to_subject.subject.name }}</td>
+                <td class='h4'>{{ period_to_subject.subject.name }}</td>
+            </tr>
+            <th class='bg-light'>Code</th>
+                <td>{{ period_to_subject.subject.code }}</td>
             </tr>
             <th class='bg-light'>Period</th>
-                <td>{{ period_to_subject.period.name }}</td>
+                <td>
+                    <a  class="text-decoration-none"
+                        href="{{ path('admin_period_show', {'id':period_to_subject.period.id}) }}">
+                        {{ period_to_subject.period.name }}
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>

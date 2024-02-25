@@ -8,6 +8,10 @@
         <tbody>
             <tr>
                 <th class='bg-light col-2'>Name</th>
+                <td>{{ period.id }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light col-2'>Name</th>
                 <td class='h4'>{{ period.name }}</td>
             </tr>
             <tr>
@@ -39,7 +43,7 @@
     <div class='hstack mb-2 p-2 rounded shadow-sm border bg-light '>
         <div class="col h6 m-0" >Subjects for {{ period.name }}</div>
         <div class="d-flex justify-content-right">
-            <a class="btn btn-sm btn-success" 
+            <a class="btn btn-sm btn-info" 
                 href="{{ path('admin_period_to_subject_new', {'periodId': period.id}) }}">Add Subject
             </a>
         </div>
