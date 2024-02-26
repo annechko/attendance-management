@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,8 +24,8 @@ class AttendanceDataForm extends AbstractType
                 'class' => Intake::class,
                 'choice_label' => 'name',
                 'attr' => [
-                    'class' => 'form-select',
-                    'onchange' => 'this.form.submit()',
+                    'class' => 'form-select mx-1',
+                    'style' => 'min-width: 250px;',
                 ],
                 'query_builder' => function (IntakeRepository $er) use ($options): QueryBuilder {
                     $intakeIds = $options['intakeIds'];
@@ -41,8 +42,8 @@ class AttendanceDataForm extends AbstractType
                 'class' => Subject::class,
                 'choice_label' => 'name',
                 'attr' => [
-                    'class' => 'form-select',
-                    'onchange' => 'this.form.submit()',
+                    'class' => 'form-select mx-1',
+                    'style' => 'min-width: 250px;',
                 ],
                 'query_builder' => function (SubjectRepository $er) use ($options): QueryBuilder {
                     $subjectIds = $options['subjectIds'];
@@ -58,9 +59,21 @@ class AttendanceDataForm extends AbstractType
             ->add('date', DateType::class, [
                 'data' => new \DateTimeImmutable(),
                 'attr' => [
-                    'onchange' => 'this.form.submit()',
+                    'class' => 'mx-1',
+                    'style' => 'min-width: 250px;',
+                ],
+            ])
+            ->add('Filter', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-outline-secondary btn-sm mt-4 mx-2',
+                    'name' => null,
                 ],
             ]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return '';
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -13,8 +13,7 @@
 		}
     </style>
     {% if attendanceData %}
-        {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
-        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:'d-flex'}}) }}
+        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
 
         {{ form_widget(attendanceData) }}
 
@@ -31,23 +30,24 @@
 		select#attendance_status {
 			margin: 0;
 			padding: 2px 4px;
+			color: white;
 		}
 		select#attendance_status[data-chosen='1'] {
-			background-color: rgba(0, 128, 0, 0.56);
+			background-color: rgba(var(--bs-success-rgb))!important;
 		}
 
 		select#attendance_status[data-chosen='2'] {
-			background-color: rgba(255, 0, 0, 0.51);
+			background-color: rgba(var(--bs-danger-rgb))!important;
 		}
 
 		select#attendance_status[data-chosen='3'] {
-			background-color: rgba(128, 128, 128, 0.76);
+			background-color: rgba(var(--bs-secondary-rgb))!important;
 		}
 
-		select#attendance_status:focus {
+		select:focus {
 			outline: none !important;
-			box-shadow: none;
-			border-color: var(--bs-border-color);
+			box-shadow: none!important;
+			border-color: var(--bs-border-color)!important;
 		}
     </style>
     <script>
