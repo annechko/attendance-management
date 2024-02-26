@@ -79,7 +79,10 @@ class MenuBuilder
 
     private function addStudentMenuItems(ItemInterface $menu): void
     {
-
+        $menu->addChild('Attendance', [
+            'route' => 'student_attendance_index',
+            'extras' => ['icon' => 'book'],
+        ]);
     }
 
     private function addTeacherMenuItems(ItemInterface $menu): void

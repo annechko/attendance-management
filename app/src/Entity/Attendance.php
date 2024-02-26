@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AttendanceRepository::class)]
+#[ORM\UniqueConstraint(fields: ['student', 'teacher', 'subject', 'date'])]
 class Attendance
 {
     public const STATUS_PRESENT = 1;

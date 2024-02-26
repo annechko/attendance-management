@@ -1,0 +1,48 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Attendance index{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attendance in attendances %}
+            <tr>
+                <td>{{ attendance.id }}</td>
+                <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
+                <td>{{ attendance.teacher.name }}</td>
+                <td>{{ attendance.subject.name }}</td>
+                <td>
+                    {% if attendance.status == 1 %}
+                        <span class="badge text-bg-success">Present</span>
+                    {% elseif  attendance.status == 2 %}
+                        <span class="badge text-bg-danger">Absent</span>
+
+                    {% elseif  attendance.status == 3 %}
+                        <span class="badge text-bg-secondary">Excused</span>
+                    {% else %}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('student_attendance_show', {'id': attendance.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

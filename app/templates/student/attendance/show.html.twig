@@ -1,0 +1,30 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Attendance{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ attendance.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ attendance.status }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ attendance.comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('student_attendance_index') }}">back to list</a>
+
+{% endblock %}

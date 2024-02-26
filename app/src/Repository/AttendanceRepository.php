@@ -39,4 +39,33 @@ class AttendanceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param \App\Entity\Student $student
+     * @return array<Attendance>
+     */
+    public function findByStudent(\App\Entity\Student $student): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.student = :student')
+            ->setParameter('student', $student)
+            ->orderBy('a.date')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByAttendance(Attendance $attendance): ?Attendance
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.teacher = :teacher')
+            ->andWhere('a.subject = :subject')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.date = :date')
+            ->setParameter('student', $attendance->getStudent())
+            ->setParameter('subject', $attendance->getSubject())
+            ->setParameter('teacher', $attendance->getTeacher())
+            ->setParameter('date', $attendance->getDate())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

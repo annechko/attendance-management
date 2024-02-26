@@ -65,14 +65,14 @@ class AttendanceController extends AbstractTeacherController
         ]);
     }
 
-    #[Route('/new', name: 'teacher_attendance_new', methods: ['POST'])]
-    public function new(
+    #[Route('/add', name: 'teacher_attendance_add', methods: ['POST'])]
+    public function add(
         Request $request,
         EntityManagerInterface $entityManager,
         SubjectRepository $subjectRepository,
         StudentRepository $studentRepository,
         TeacherRepository $teacherRepository,
-
+        AttendanceRepository $attendanceRepository,
     ): Response {
         $attendance = new Attendance();
         $form = $this->createForm(AttendanceType::class, $attendance);
@@ -85,8 +85,15 @@ class AttendanceController extends AbstractTeacherController
             $attendance->setStudent($student);
             $attendance->setTeacher($teacher);
             $attendance->setSubject($subject);
-            $entityManager->persist($attendance);
+            $existedAttendance = $attendanceRepository->findByAttendance($attendance);
+            if ($existedAttendance !== null) {
+                $existedAttendance->setComment($attendance->getComment());
+                $existedAttendance->setStatus($attendance->getStatus());
+            } else {
+                $entityManager->persist($attendance);
+            }
             $entityManager->flush();
+
 
             return $this->json([]);
         }

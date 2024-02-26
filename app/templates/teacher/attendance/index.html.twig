@@ -28,6 +28,10 @@
 			padding: 2px 7px !important;
 		}
 
+		select#attendance_status {
+			margin: 0;
+			padding: 2px 4px;
+		}
 		select#attendance_status[data-chosen='1'] {
 			background-color: rgba(0, 128, 0, 0.56);
 		}
@@ -114,9 +118,9 @@
                 <td>{{ attendance.vars.data.studentName }}</td>
                 <td>
                     {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
-                    {{ form_start(attendance,{action: path('teacher_attendance_new'), attr:{class:'d-flex col-sm-6 js-attendance-form'}}) }}
+                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'d-flex col-sm-6 js-attendance-form'}}) }}
 
-                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-50 form-select form-select-sm form-control form-control-sm '}}) }}
+                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-50 form-select form-select-sm'}}) }}
                     <span class="p-1 text-success hide js-success">
                         <i data-feather="check"></i>
                     </span>
