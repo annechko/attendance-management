@@ -2,6 +2,6 @@
     {{ form_widget(form) }}
     <button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
     <a class="btn btn-sm custom-btn btn-outline-dark"
-        href="{{ path('admin_period_index') }}">Cancel
+        href="javascript:window.history.back()">Cancel
     </a>
 {{ form_end(form) }}

@@ -16,6 +16,7 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Name</th>
+                <th>Subjects</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,9 +25,13 @@
             <tr onclick="showData({{ teacher.id }}, 'teacher' )">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
-                <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>
+                <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>         
                 <td>
-                    <a href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">Subjects</a>
+                    <a  class="icon-link" href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">
+                        <i data-feather="file-plus"></i>
+                        <span class="badge badge-pill text-bg-primary ">{{ teacher.getTeacherToSubjectToIntake().count([]) > 0 ? teacher.getTeacherToSubjectToIntake().count([]) : '' }}</span>
+                    </a>                
+                <td>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">
                         <i data-feather="edit"></i>
                     </a>

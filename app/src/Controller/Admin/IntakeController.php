@@ -9,6 +9,7 @@ use App\Filter\SortLoader;
 use App\Form\IntakeType;
 use App\Form\SearchFilterForm;
 use App\Repository\IntakeRepository;
+use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,10 +49,24 @@ class IntakeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'admin_intake_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{courseId?}', name: 'admin_intake_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        CourseRepository $courseRepository,
+        ?int $courseId = null
+        ): Response
     {
         $intake = new Intake();
+
+        // Preselect the course if courseId is provided
+        if ($courseId) {
+            $course = $courseRepository->find($courseId);
+            if ($course) {
+                $intake->setCourse($course);
+            }
+        }
+
         $form = $this->createForm(IntakeType::class, $intake);
         $form->handleRequest($request);
 

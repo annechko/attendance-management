@@ -40,9 +40,25 @@
 {% endblock %}
 
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+  <div class='vstack w-75'>
+    <div class='hstack gap-3'>
+      <div class='col'>{{ form_row(form.email) }}</div>
+    <div class='col'></div>
+    </div>
+    <div class='hstack gap-3'>
+      <div class='col'>{{ form_row(form.name) }}</div>
+      <div class='col'>{{ form_row(form.surname) }}</div>
+    </div>
+    <div class='hstack gap-3'>
+      <div class='col'>{{ form_row(form.dateOfBirth) }}</div>
+      <div class='col'>{{ form_row(form.gender) }}</div>
+    </div>
+      <div>{{ form_row(form.institution) }}</div>
+      <div>{{ form_row(form.course) }}</div>
+      <div>{{ form_row(form.intake) }}</div>
+  </div>
 <button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
 <a class="btn btn-sm custom-btn btn-outline-dark"
-        href="{{ path('admin_student_index') }}">Cancel
+        href="javascript:window.history.back()">Cancel
 </a>
 {{ form_end(form) }}

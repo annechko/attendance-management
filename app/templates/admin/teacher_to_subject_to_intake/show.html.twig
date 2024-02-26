@@ -11,33 +11,39 @@
             <td>{{ teacher_to_subject_to_intake.id }}</td>
         </tr>
         <tr>
-            <th class='bg-light'>Course</th>
+        <th class='bg-light'>Code</th>
             <td>
-                <a href="{{ path('admin_course_show', {'id': teacher_to_subject_to_intake.subject.course.id}) }}"
-                >{{ teacher_to_subject_to_intake.subject.course.name }}</a>
+                <a class='text-decoration-none' href="{{ path('admin_subject_show', {'id': teacher_to_subject_to_intake.subject.id}) }}"
+                >{{ teacher_to_subject_to_intake.subject.code }}</a>
             </td>
         </tr>
-        <tr>
-            <th class='bg-light'>Subject</th>
+        <th class='bg-light'>Subject</th>
             <td>
-                <a href="{{ path('admin_subject_show', {'id': teacher_to_subject_to_intake.subject.id}) }}"
+                <a class='text-decoration-none' href="{{ path('admin_subject_show', {'id': teacher_to_subject_to_intake.subject.id}) }}"
                 >{{ teacher_to_subject_to_intake.subject.name }}</a>
             </td>
         </tr>
-        <tr>
-            <th class='bg-light'>Intake</th>
+        <th class='bg-light'>Teacher</th>
             <td>
-                <a href="{{ path('admin_intake_show', {'id': teacher_to_subject_to_intake.intake.id}) }}"
+                <a class='text-decoration-none' href="{{ path('admin_teacher_show', {'id': teacher_to_subject_to_intake.teacher.id}) }}"
+                >{{ teacher_to_subject_to_intake.teacher.name ~ ' ' ~ teacher_to_subject_to_intake.teacher.surname }}</a>
+            </td>
+        </tr>
+        <tr>
+        <th class='bg-light'>Intake</th>
+            <td>
+                <a class='text-decoration-none' href="{{ path('admin_intake_show', {'id': teacher_to_subject_to_intake.intake.id}) }}"
                 >{{ teacher_to_subject_to_intake.intake.name }}</a>
             </td>
         </tr>
         <tr>
-        <th class='bg-light'>Teacher</th>
+            <th class='bg-light'>Course</th>
             <td>
-                <a href="{{ path('admin_teacher_show', {'id': teacher_to_subject_to_intake.teacher.id}) }}"
-                >{{ teacher_to_subject_to_intake.teacher.name ~ ' ' ~ teacher_to_subject_to_intake.teacher.surname }}</a>
+                <a class='text-decoration-none' href="{{ path('admin_course_show', {'id': teacher_to_subject_to_intake.subject.course.id}) }}"
+                >{{ teacher_to_subject_to_intake.subject.course.name }}</a>
             </td>
         </tr>
+        <tr>
         <tr>
             <th class='bg-light'>Start</th>
             <td>{{ teacher_to_subject_to_intake.start ? teacher_to_subject_to_intake.start|date('Y-m-d') : '' }}</td>

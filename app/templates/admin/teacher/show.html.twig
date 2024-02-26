@@ -11,17 +11,12 @@
                 <td>{{ teacher.id }}</td>
             </tr>
             <tr>
+                <th class='bg-light'>Name</th>
+                <td class='h4'>{{ teacher.name ~ ' ' ~ teacher.surname }}</td>
+            </tr>
+            <tr>
                 <th class='bg-light'>Email</th>
                 <td>{{ teacher.email }}</td>
-            </tr>
-
-            <tr>
-                <th class='bg-light'>Name</th>
-                <td>{{ teacher.name }}</td>
-            </tr>
-            <tr>
-                <th class='bg-light'>Surname</th>
-                <td>{{ teacher.surname }}</td>
             </tr>
         </tbody>
     </table>

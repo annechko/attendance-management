@@ -95,12 +95,8 @@ class Period
         return $this->periodToSubjects->count();
     }
 
-    public function getSubjects(): array
+    public function getPeriodToSubjects(): Collection
     {
-        $subjects = [];
-        foreach ($this->periodToSubjects as $periodToSubject) {
-            $subjects[] = $periodToSubject->getSubject();
-        }
-        return $subjects;
+        return $this->periodToSubjects;
     }
 }

@@ -7,12 +7,12 @@
     <table class="table">
         <tbody>
             <tr>
-                <th class='col-2 bg-light'>Id</th>
+                <th class='bg-light col-2'>Name</th>
                 <td>{{ period.id }}</td>
             </tr>
             <tr>
-                <th class='bg-light'>Name</th>
-                <td>{{ period.name }}</td>
+                <th class='bg-light col-2'>Name</th>
+                <td class='h4'>{{ period.name }}</td>
             </tr>
             <tr>
                 <th class='bg-light'>Start</th>
@@ -24,28 +24,57 @@
             </tr>
             <tr>
                 <th class='bg-light'>Intake</th>
-                <td>{{ period.intake.name }}</td>
+                <td>
+                    <a class='text-decoration-none' href='{{ path('admin_intake_show', {'id': period.intake.id }) }}'>
+                        {{ period.intake.name }}
+                    </a>
+                </td>
             </tr>
             <tr>   
                 <th class='bg-light'>Course</th>        
-                <td>{{ period.intake.course.name }}</td>
-            </tr>
-            <tr>   
-                <th class='bg-light' >
-                    Subject(s)
-                    <span class="ms-1 badge badge-pill text-bg-primary">{{ period.getSubjectsCount() }}</span>
-                </th> 
-                <td>  
-                    <ul class='ps-3 m-0'>     
-                    {% for subject in period.getSubjects() %}
-                        <li>{{subject.code ~ ' : ' ~subject.name}}</li>
-                    {% endfor %}
-                    </ul>
+                <td>
+                    <a class='text-decoration-none' href='{{ path('admin_course_show', {'id': period.intake.course.id }) }}'>
+                        {{ period.intake.course.name }}
+                    </a>
                 </td>
             </tr>
         </tbody>
     </table>
-
+    <div class='hstack mb-2 p-2 rounded shadow-sm border bg-light '>
+        <div class="col h6 m-0" >Subjects for {{ period.name }}</div>
+        <div class="d-flex justify-content-right">
+            <a class="btn btn-sm btn-info" 
+                href="{{ path('admin_period_to_subject_new', {'periodId': period.id}) }}">Add Subject
+            </a>
+        </div>
+    </div>
+    {% if period.getSubjectsCount() > 0 %}
+        <table class="table table-sm">
+            <thead>
+                <tr class='table-primary'>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Credits</th>                  
+                </tr>
+            </thead>
+            <tbody>
+                {% for periodToSubject in period.getPeriodToSubjects() %}
+                    <tr>
+                        <td>
+                            <a class='text-decoration-none'
+                                href="{{ path('admin_period_to_subject_show', {'id': periodToSubject.id}) }}">
+                                {{ periodToSubject.subject.code }}</a>
+                        </td>
+                        <td>{{ periodToSubject.subject.name }}</td>
+                        <td>{{ periodToSubject.totalNumberOfLessons }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No subjects available for this period.</p>
+    {% endif %}
+    
 {% endblock %}
 
 {% block actions %}

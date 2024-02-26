@@ -141,4 +141,9 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->name . ' ' . $this->surname . ' (' . $this->email . ')';
     }
+
+    public function getTeacherToSubjectToIntake(): Collection
+    {
+        return $this->teacherToSubjectToIntake;
+    }
 }

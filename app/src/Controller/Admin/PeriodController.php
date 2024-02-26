@@ -9,6 +9,7 @@ use App\Filter\SortLoader;
 use App\Form\PeriodType;
 use App\Form\SearchFilterForm;
 use App\Repository\PeriodRepository;
+use App\Repository\IntakeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,18 +49,34 @@ class PeriodController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'admin_period_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{intakeId?}', name: 'admin_period_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request, 
+        ?int $intakeId,
+        IntakeRepository $intakeRepository,
+        EntityManagerInterface $entityManager,
+        ): Response
     {
         $period = new Period();
+        // Preselect intake if intakeId is provided
+        if ($intakeId) {
+            $intake = $intakeRepository->find($intakeId);
+            if ($intake) {
+                $period->setIntake($intake);
+            }
+        }
+
         $form = $this->createForm(PeriodType::class, $period);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($period);
             $entityManager->flush();
-
-            return $this->redirectToRoute('admin_period_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'admin_intake_show',
+                ['id' => $intakeId],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->render('admin/period/new.html.twig', [

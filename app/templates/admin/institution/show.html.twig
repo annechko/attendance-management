@@ -11,7 +11,7 @@
             </tr>
             <tr>
                 <th class='bg-light'>Name</th>
-                <td>{{ institution.name }}</td>
+                <td class='h4'>{{ institution.name }}</td>
             </tr>
             <tr>
                 <th class='bg-light'>Location</th>
@@ -19,6 +19,41 @@
             </tr>
         </tbody>
     </table>
+
+    <div class='hstack mb-2 bg-light p-2 border rounded shadow-sm'>
+        <div class="col h5 m-0" >Courses Available</div>
+        {# <div class="d-flex justify-content-right">
+            <a class="btn btn-sm btn-success" 
+                href="{{ path('admin_period_new', {intakeId: intake.id}) }}"
+                >Create New Course
+            </a>
+        </div> #}
+    </div>
+
+    {% if institution.getCourses() is not empty %}
+    <table class="table table-sm">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">Name</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Subjects</th>
+                <th scope="col">Intakes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in institution.getCourses() %}
+            <tr>
+                <td><a class="text-decoration-none" href="{{ path('admin_course_show', {id: course.id}) }}">{{ course.name }}</a></td>
+                <td>{{ course.duration ? course.duration.format('%y year(s) %m month(s)') : '' }}</td>
+                <td>{{ course.getSubjects().count([]) }}</td>
+                <td>{{ course.getIntakes().count([]) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No periods available for this intake.</p>
+{% endif %}
 
 {% endblock %}
 
