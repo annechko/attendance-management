@@ -11,6 +11,7 @@ use App\Repository\AttendanceRepository;
 use App\Repository\StudentRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
+use App\Repository\TeacherToSubjectToIntakeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +24,26 @@ class AttendanceController extends AbstractTeacherController
     #[Route('/', name: 'teacher_attendance_index', methods: ['GET'])]
     public function index(
         AttendanceRepository $attendanceRepository,
+        TeacherToSubjectToIntakeRepository $teacherToSubjectToIntakeRepository,
         Request $request,
     ): Response {
+        $teacher = $this->getCurrentTeacher();
+        $teacherToSubjectToIntakeList = $teacherToSubjectToIntakeRepository->findAllByTeacherId(
+            $teacher->getId()
+        );
+        $intakeIds = [];
+        $subjectIds = [];
+        foreach ($teacherToSubjectToIntakeList as $teacherToSubjectToIntake) {
+            $intakeIds[] = $teacherToSubjectToIntake->getIntake()->getId();
+            $subjectIds[] = $teacherToSubjectToIntake->getSubject()->getId();
+        }
         $attendanceData = new AttendanceData();
-        $attendanceDataForm = $this->createForm(AttendanceDataForm::class, $attendanceData);
+        $attendanceDataForm = $this->createForm(AttendanceDataForm::class, $attendanceData, [
+            'intakeIds' => $intakeIds,
+            'subjectIds' => $subjectIds,
+        ]);
         $attendanceDataForm->handleRequest($request);
 
-        $teacher = $this->getCurrentTeacher();
 
         $intake = $attendanceData->intake;
         $forms = [];
@@ -63,6 +77,61 @@ class AttendanceController extends AbstractTeacherController
             'attendances' => $forms,
             'attendanceData' => $attendanceDataForm,
         ]);
+    }
+
+
+    #[Route('/percentage', name: 'teacher_attendance_percentage', methods: ['GET'])]
+    public function percentage(
+        AttendanceRepository $attendanceRepository,
+        StudentRepository $studentRepository,
+        Request $request,
+    ): Response {
+        $intakeId = (int) $request->get('intakeId');
+        if ($intakeId > 0) {
+            $students = $studentRepository->findByIntakeId($intakeId);
+            $attendanceByStudent = $attendanceRepository->getCountForStatusByStudent(
+                array_keys($students)
+            );
+        } else {
+            $attendanceByStudent = $attendanceRepository->getCountForStatusByStudentForTeacher(
+                $this->getCurrentTeacher()
+            );
+            $students = $studentRepository->findByIdList(array_keys($attendanceByStudent));
+        }
+
+        $percentageByStudent = [];
+        foreach ($attendanceByStudent as $studentId => $attendanceCountByStatus) {
+
+            $totalCount = array_sum(array_values($attendanceCountByStatus));
+
+            $absentPercent = $this->calculatePercentage(
+                $attendanceCountByStatus[Attendance::STATUS_ABSENT] ?? 0,
+                $totalCount
+            );
+            $excusedPercent = $this->calculatePercentage(
+                $attendanceCountByStatus[Attendance::STATUS_EXCUSED] ?? 0,
+                $totalCount
+            );
+            $presentPercent = $totalCount > 0 ? 100 - $excusedPercent - $absentPercent : 0;
+            $percentageByStudent[$studentId] = [
+                'excusedPercent' => $excusedPercent,
+                'absentPercent' => $absentPercent,
+                'presentPercent' => $presentPercent,
+                'student' => $students[$studentId],
+            ];
+        }
+
+        return $this->render('teacher/attendance/percentage/index.html.twig', [
+            'percentageByStudent' => $percentageByStudent,
+        ]);
+    }
+
+    private function calculatePercentage(int $statusCount, int $totalCount): int
+    {
+        if ($totalCount === 0) {
+            return 0;
+        }
+        return (int) (100 * $statusCount / $totalCount);
     }
 
     #[Route('/add', name: 'teacher_attendance_add', methods: ['POST'])]

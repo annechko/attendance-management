@@ -16,7 +16,7 @@ class HomeController extends AbstractStudentController
     public function index(AttendanceRepository $attendanceRepository): Response
     {
         $currentStudent = $this->getCurrentStudent();
-        $attendanceCountByStatus = $attendanceRepository->getCountGroupByStatus($currentStudent);
+        $attendanceCountByStatus = $attendanceRepository->getStudentCountGroupByStatus($currentStudent);
 
         $totalCount = array_sum(array_values($attendanceCountByStatus));
 

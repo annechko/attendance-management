@@ -45,6 +45,9 @@
                         {{ form_end(attendanceData) }}
                     {% endif %}
 
+                    <a href="{{ path('teacher_attendance_percentage', {'intakeId': teacher_to_subject_to_intake.intake.id}) }}">
+                        <i data-feather="percent"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}

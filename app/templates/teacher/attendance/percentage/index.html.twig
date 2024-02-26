@@ -1,0 +1,87 @@
+{% extends 'menu-layout.html.twig' %}
+
+{% block title %}Attendance Rate{% endblock %}
+
+{% block contents %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Student Email</th>
+            <th>Attendance Rate</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for percentage in percentageByStudent %}
+            {% set presentPercent = percentage['presentPercent'] %}
+            {% set absentPercent = percentage['absentPercent'] %}
+            {% set excusedPercent = percentage['excusedPercent'] %}
+            {% set student = percentage['student'] %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name ~ ' ' ~ student.surname }}</td>
+                <td>{{ student.email }}</td>
+                <td>
+                    <div class="container">
+                        <div>
+                            <div class="progress-stacked">
+                                {% if presentPercent %}
+                                    <div class="progress" role="progressbar" aria-label="Present percentage"
+                                            aria-valuenow="{{ presentPercent }}" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ presentPercent }}%">
+                                        <div class="progress-bar bg-success"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Have been present in {{ presentPercent }}% of classes."
+                                        ></div>
+                                    </div>
+                                {% endif %}
+                                {% if excusedPercent %}
+                                    <div class="progress" role="progressbar" aria-label="Excused percentage"
+                                            aria-valuenow="{{ excusedPercent }}" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ excusedPercent }}%">
+                                        <div class="progress-bar bg-secondary"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Absence have been excused in {{ excusedPercent }}% of classes."
+                                        ></div>
+                                    </div>
+                                {% endif %}
+                                {% if absentPercent %}
+                                    <div class="progress" role="progressbar" aria-label="Absent percentage"
+                                            aria-valuenow="{{ absentPercent }}" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ absentPercent }}%">
+                                        <div class="progress-bar bg-danger"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Have been absent in {{ absentPercent }}% of classes."
+                                        ></div>
+                                    </div>
+                                {% endif %}
+
+                                {% if not excusedPercent and not absentPercent and not presentPercent %}
+                                    <div class="progress" role="progressbar" aria-label=" percentage"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 100%">
+                                        <div class="progress-bar bg-dark-subtle">Not enough data to display %</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -87,13 +87,17 @@ class MenuBuilder
 
     private function addTeacherMenuItems(ItemInterface $menu): void
     {
-        $menu->addChild('Subjects', [
+        $menu->addChild('My Subjects', [
             'route' => 'teacher_to_subject_to_intake_index',
             'extras' => ['icon' => 'book'],
         ]);
         $menu->addChild('Attendance', [
             'route' => 'teacher_attendance_index',
             'extras' => ['icon' => 'book'],
+        ]);
+        $menu->addChild('Percentage', [
+            'route' => 'teacher_attendance_percentage',
+            'extras' => ['icon' => 'percent'],
         ]);
     }
 }

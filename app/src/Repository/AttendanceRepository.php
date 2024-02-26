@@ -73,7 +73,7 @@ class AttendanceRepository extends ServiceEntityRepository
      * @param \App\Entity\Student $student
      * @return array<int, int>
      */
-    public function getCountGroupByStatus(\App\Entity\Student $student): array
+    public function getStudentCountGroupByStatus(\App\Entity\Student $student): array
     {
         $result = $this->createQueryBuilder('a')
             ->select('max(a.status) AS status')
@@ -86,6 +86,48 @@ class AttendanceRepository extends ServiceEntityRepository
         $statusToCount = [];
         foreach ($result as $item) {
             $statusToCount[$item['status']] = $item['count'];
+        }
+        return $statusToCount;
+    }
+
+    /**
+     * @param \App\Entity\Student $student
+     * @return array<int, int>
+     */
+    public function getCountForStatusByStudent(array $studentIds): array
+    {
+        $studentIds = count($studentIds) === 0 ? [0] : $studentIds;
+        $b = $this->createQueryBuilder('a');
+        $result = $b
+            ->select('max(a.status) AS status')
+            ->addSelect('max(a.student) AS student')
+            ->addSelect('count(a.status) AS count')
+            ->andWhere($b->expr()->in('a.student', $studentIds))
+            ->groupBy('a.student', 'a.status')
+            ->getQuery()
+            ->getResult();
+        $statusToCount = [];
+        foreach ($result as $item) {
+            $statusToCount[$item['student']][$item['status']] = $item['count'];
+        }
+        return $statusToCount;
+    }
+
+    public function getCountForStatusByStudentForTeacher(Teacher $teacher)
+    {
+        $b = $this->createQueryBuilder('a');
+        $result = $b
+            ->select('max(a.status) AS status')
+            ->addSelect('max(a.student) AS student')
+            ->addSelect('count(a.status) AS count')
+            ->andWhere('a.teacher = :teacher')
+            ->setParameter('teacher', $teacher)
+            ->groupBy('a.student', 'a.status')
+            ->getQuery()
+            ->getResult();
+        $statusToCount = [];
+        foreach ($result as $item) {
+            $statusToCount[$item['student']][$item['status']] = $item['count'];
         }
         return $statusToCount;
     }

@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Course;
 use App\Entity\Intake;
 use App\Entity\Subject;
+use App\Repository\IntakeRepository;
+use App\Repository\SubjectRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -16,15 +18,6 @@ class AttendanceDataForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('course', EntityType::class, [
-                'placeholder' => '',
-                'class' => Course::class,
-                'choice_label' => 'name',
-                'attr' => [
-                    'class' => 'form-select',
-                    'onchange' => 'this.form.submit()',
-                ],
-            ])
             ->add('intake', EntityType::class, [
                 'placeholder' => '',
                 'class' => Intake::class,
@@ -33,6 +26,15 @@ class AttendanceDataForm extends AbstractType
                     'class' => 'form-select',
                     'onchange' => 'this.form.submit()',
                 ],
+                'query_builder' => function (IntakeRepository $er) use ($options): QueryBuilder {
+                    $intakeIds = $options['intakeIds'];
+                    if (count($intakeIds) === 0) {
+                        return $er->createQueryBuilder('i');
+                    }
+                    $b = $er->createQueryBuilder('i');
+                    return $b
+                        ->andWhere($b->expr()->in('i.id', $intakeIds));
+                },
             ])
             ->add('subject', EntityType::class, [
                 'placeholder' => '',
@@ -42,6 +44,16 @@ class AttendanceDataForm extends AbstractType
                     'class' => 'form-select',
                     'onchange' => 'this.form.submit()',
                 ],
+                'query_builder' => function (SubjectRepository $er) use ($options): QueryBuilder {
+                    $subjectIds = $options['subjectIds'];
+                    if (count($subjectIds) === 0) {
+                        return $er->createQueryBuilder('i');
+
+                    }
+                    $b = $er->createQueryBuilder('s');
+                    return $b
+                        ->andWhere($b->expr()->in('s.id', $subjectIds));
+                },
             ])
             ->add('date', DateType::class, [
                 'data' => new \DateTimeImmutable(),
@@ -54,6 +66,8 @@ class AttendanceDataForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'intakeIds' => [],
+            'subjectIds' => [],
             'data_class' => AttendanceData::class,
             'method' => 'GET',
             'csrf_protection' => false,

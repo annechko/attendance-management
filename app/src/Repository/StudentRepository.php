@@ -43,4 +43,34 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @param array $ids
+     * @return array<Student>
+     * @throws \Doctrine\ORM\Query\QueryException
+     */
+    public function findByIdList(array $ids): array
+    {
+        $b = $this->createQueryBuilder('a');
+        return $b
+            ->andWhere($b->expr()->in('a.id', $ids))
+            ->indexBy('a', 'a.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int $intakeId
+     * @return array<Student>
+     * @throws \Doctrine\ORM\Query\QueryException
+     */
+    public function findByIntakeId(int $intakeId): array
+    {
+        $b = $this->createQueryBuilder('a');
+        return $b
+            ->andWhere($b->expr()->in('a.intake', $intakeId))
+            ->indexBy('a', 'a.id')
+            ->getQuery()
+            ->getResult();
+    }
 }
