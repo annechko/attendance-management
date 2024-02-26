@@ -68,4 +68,25 @@ class AttendanceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @param \App\Entity\Student $student
+     * @return array<int, int>
+     */
+    public function getCountGroupByStatus(\App\Entity\Student $student): array
+    {
+        $result = $this->createQueryBuilder('a')
+            ->select('max(a.status) AS status')
+            ->addSelect('count(a.status) AS count')
+            ->andWhere('a.student = :student')
+            ->setParameter('student', $student)
+            ->groupBy('a.status')
+            ->getQuery()
+            ->getResult();
+        $statusToCount = [];
+        foreach ($result as $item) {
+            $statusToCount[$item['status']] = $item['count'];
+        }
+        return $statusToCount;
+    }
 }
