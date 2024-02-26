@@ -39,7 +39,7 @@ services:
       att-php-fpm:
         condition: service_started
     ports:
-      - "8888:80"
+      - "8889:80"
 
   att-node:
     container_name: att-node
