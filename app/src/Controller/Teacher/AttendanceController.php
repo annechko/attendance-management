@@ -4,7 +4,6 @@ namespace App\Controller\Teacher;
 
 use App\Entity\Attendance;
 use App\Entity\Student;
-use App\Entity\Teacher;
 use App\Form\AttendanceData;
 use App\Form\AttendanceDataForm;
 use App\Form\AttendanceType;
@@ -13,19 +12,14 @@ use App\Repository\StudentRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/teacher/attendance')]
-class AttendanceController extends AbstractController
+class AttendanceController extends AbstractTeacherController
 {
-    public function __construct(private readonly TeacherRepository $teacherRepository)
-    {
-    }
-
     #[Route('/', name: 'teacher_attendance_index', methods: ['GET'])]
     public function index(
         AttendanceRepository $attendanceRepository,
@@ -144,12 +138,5 @@ class AttendanceController extends AbstractController
         }
 
         return $this->redirectToRoute('teacher_attendance_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function getCurrentTeacher(): Teacher
-    {
-        return $this->teacherRepository->findOneBy(
-            ['email' => $this->getUser()->getUserIdentifier()]
-        );
     }
 }
