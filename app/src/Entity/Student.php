@@ -5,11 +5,12 @@ namespace App\Entity;
 use App\Repository\StudentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
-class Student implements UserInterface, PasswordAuthenticatedUserInterface
+class Student implements UserInterface, PasswordAuthenticatedUserInterface, PasswordChangebleInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -177,5 +178,12 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
         $this->intake = $intake;
 
         return $this;
+    }
+
+    public function updatePassword(
+        string $new,
+        UserPasswordHasherInterface $userPasswordHasher
+    ): void {
+        $this->password = $userPasswordHasher->hashPassword($this, $new);
     }
 }
