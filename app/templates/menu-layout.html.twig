@@ -14,13 +14,15 @@
 
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Attendance Management System</a>
-        <div class="navbar-nav flex-row">
-            <div class="nav-item text-nowrap text-white-50 m-2">
-                {{ user_email() }}
-            </div>
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="{{ path('app_logout') }}">Sign out</a>
-            </div>
+        <div class="dropdown">
+            <button class="btn btn-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ app.user.userIdentifier }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark w-100">
+                <li><a class="dropdown-item" href="{{ path('app_change_password') }}">Change password</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Sign out</a></li>
+            </ul>
         </div>
     </header>
 

@@ -52,6 +52,7 @@ security:
          - { path: ^/student, roles: ROLE_USER }
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/teacher, roles: ROLE_TEACHER }
+         - { route: app_change_password, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
