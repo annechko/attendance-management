@@ -16,12 +16,12 @@
         <table class="table table-sm table-hover">
             <thead>
             <tr class="table-primary">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Institution</th>
-                <th>Course</th>
-                <th>Email</th>
-                <th>Intake</th>
+                <th>{{ knp_pagination_sortable(students, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(students, 'Name', 'full_name') }}</th>
+                <th>{{ knp_pagination_sortable(students, 'Email', 'email') }}</th>
+                <th>{{ knp_pagination_sortable(students, 'Institution', 'institution') }}</th>
+                <th>{{ knp_pagination_sortable(students, 'Course', 'course') }}</th>
+                <th>{{ knp_pagination_sortable(students, 'Intake', 'intake_name') }}</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -29,10 +29,10 @@
             {% for student in students %}
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
-                    <td>{{ student.name ~ ' ' ~ student.surname }}</td>
+                    <td>{{ student.full_name }}</td>
+                    <td>{{ student.email }}</td>
                     <td>{{ student.institution ? student.institution : '' }}</td>
                     <td>{{ student.course ? student.course : ''}}</td>
-                    <td>{{ student.email }}</td>
                     <td>
                         {% if student.intake_id %}
                             <a class="text-decoration-none" href="{{ path('admin_intake_show', {id: student.intake_id}) }}"
@@ -54,9 +54,8 @@
 
             </tbody>
         </table>
+        <div class="navigation">
+            {{ knp_pagination_render(students) }}
+        </div>
     </div>
-
-
-
-
 {% endblock %}

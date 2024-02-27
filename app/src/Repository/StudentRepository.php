@@ -88,8 +88,7 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
             ->innerJoin('c.institution', 'ins')
             ->select(
                 's.id as id',
-                's.name as name',
-                's.surname as surname',
+                'CONCAT(s.name,\' \',s.surname) as full_name',
                 's.email as email',
                 'i.name as intake_name',
                 'i.id as intake_id',

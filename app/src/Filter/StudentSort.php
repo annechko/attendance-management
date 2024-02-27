@@ -8,6 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class StudentSort extends AbstractSort
 {
-    #[Assert\Choice(['id', 'name', 'institution', 'course', 'email'])]
+    #[Assert\Choice(['id', 'full_name', 'email', 'institution', 'course', 'intake_name'])]
     public $sort = 'id';
 }
