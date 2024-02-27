@@ -18,7 +18,7 @@ class PeriodType extends AbstractType
         $builder
             ->add('intake', EntityType::class, [
                 'class' => Intake::class,
-                'choice_label' => 'name',
+                'choice_label' => 'nameWithCourse',
             ])
             ->add('name')
             ->add('start')
@@ -30,7 +30,7 @@ class PeriodType extends AbstractType
                 if ($period->getIntake() !== null) {
                     $form->add('intake', EntityType::class, [
                         'class' => Intake::class,
-                        'choice_label' => 'name',
+                        'choice_label' => 'nameWithCourse',
                         'disabled' => true, // Set disabled attribute
                         'required' => false, // Make the field not required
                     ]);

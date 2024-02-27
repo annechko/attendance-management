@@ -51,6 +51,11 @@ class Intake
         return $this->name;
     }
 
+    public function getNameWithCourse(): ?string
+    {
+        return $this->name . ' - ' . $this->course->getName();
+    }
+
     public function setName(string $name): static
     {
         $this->name = $name;

@@ -22,7 +22,7 @@ class AttendanceDataForm extends AbstractType
             ->add('intake', EntityType::class, [
                 'placeholder' => '',
                 'class' => Intake::class,
-                'choice_label' => 'name',
+                'choice_label' => 'nameWithCourse',
                 'attr' => [
                     'class' => 'form-select mx-1',
                     'style' => 'min-width: 250px;',
