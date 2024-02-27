@@ -49,15 +49,15 @@ class PeriodController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{intakeId?}', name: 'admin_period_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_period_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request, 
-        ?int $intakeId,
         IntakeRepository $intakeRepository,
         EntityManagerInterface $entityManager,
         ): Response
     {
         $period = new Period();
+        $intakeId = $request->get('intakeId');
         // Preselect intake if intakeId is provided
         if ($intakeId) {
             $intake = $intakeRepository->find($intakeId);
@@ -72,11 +72,15 @@ class PeriodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($period);
             $entityManager->flush();
-            return $this->redirectToRoute(
-                'admin_intake_show',
-                ['id' => $intakeId],
-                Response::HTTP_SEE_OTHER
+            if ($intakeId) {
+                return $this->redirectToRoute(
+                    'admin_intake_show',
+                    ['id' => $intakeId],
+                    Response::HTTP_SEE_OTHER
             );
+            } else {
+                return $this->redirectToRoute('admin_period_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('admin/period/new.html.twig', [
