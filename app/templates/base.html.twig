@@ -13,36 +13,11 @@
 
         {% block stylesheets %}
         {% endblock %}
-        <style>
-			.nav-link.current {
-				color: #000000;
-				background-color: #21252917;
-            }
-			a.sortable:hover {
-				color: #373c45ba!important;
-			}
-
-            .hide {
-                display : none!important;
-            }
-            .custom-btn {
-                width : 6rem;
-            }
-            .w-35 {
-                width : 30%;
-            }
-			.form-select, .form-control {
-				padding: .200rem 2rem .200rem .5rem;
-			}
-			.form-label {
-				margin-bottom: 0.2rem;
-			}
-
-        </style>
         <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.1/dist/feather.min.js"
                 integrity="sha384-En/3vVo7Wc+6Ogkkp7OUi5Oc7Zf4c+N/kRP3z7QVcJssy5Ud5MWcAvwWDAEFMga8"
                 crossorigin="anonymous"></script>
         {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
