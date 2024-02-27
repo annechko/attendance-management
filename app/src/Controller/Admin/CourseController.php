@@ -3,15 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Course;
-use App\Filter\SearchFilter;
 use App\Filter\CourseSort;
+use App\Filter\SearchFilter;
 use App\Filter\SortLoader;
-use App\Form\SearchFilterForm;
 use App\Form\CourseType;
+use App\Form\SearchFilterForm;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,17 +54,24 @@ class CourseController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_course_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
+    ): Response {
         $course = new Course();
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($course);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_course_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $entityManager->flush();
+                return $this->redirectToRoute('admin_course_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $form->addError(new FormError('Internal error.'));
+                $logger->error($exception->getMessage());
+            }
         }
 
         return $this->render('admin/course/new.html.twig', [
@@ -83,15 +92,20 @@ class CourseController extends AbstractController
     public function edit(
         Request $request,
         Course $course,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
     ): Response {
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_course_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $entityManager->flush();
+                return $this->redirectToRoute('admin_course_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $form->addError(new FormError('Internal error.'));
+                $logger->error($exception->getMessage());
+            }
         }
 
         return $this->render('admin/course/edit.html.twig', [
