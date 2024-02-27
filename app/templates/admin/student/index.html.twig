@@ -15,13 +15,13 @@
         <table class="table table-sm table-hover">
             <thead>
             <tr class="table-primary">
-                <th >Id</th>
-                <th >Name</th>
-                <th >Date of Birth</th>
-                <th >Gender</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Institution</th>
+                <th>Course</th>
                 <th>Email</th>
                 <th>Intake</th>
-                <th >Actions</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -29,8 +29,8 @@
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name ~ ' ' ~ student.surname }}</td>
-                    <td>{{ student.dateOfBirth ? student.dateOfBirth|date('Y-m-d') : '' }}</td>
-                    <td>{{ student.gender }}</td>
+                    <td>{{ student.intake ? student.intake.course.institution.name : '' }}</td>
+                    <td>{{ student.intake ? student.intake.course.name : ''}}</td>
                     <td>{{ student.email }}</td>
                     <td>
                         {% if student.intake %}
@@ -47,7 +47,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="7">no records found</td>
                 </tr>
             {% endfor %}
 
