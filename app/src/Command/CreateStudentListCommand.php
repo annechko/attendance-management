@@ -58,6 +58,7 @@ class CreateStudentListCommand extends Command
             $user->setEmail($studentItem[0]);
             $user->setName($studentItem[1]);
             $user->setSurname($studentItem[2]);
+            $user->setGender($studentItem[3]);
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,

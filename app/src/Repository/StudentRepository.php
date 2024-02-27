@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Student;
+use App\Filter\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -21,6 +22,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class StudentRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    private const MAX_PER_PAGE = 20;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Student::class);
@@ -72,5 +75,41 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
             ->indexBy('a', 'a.id')
             ->getQuery()
             ->getResult();
+    }
+
+    public function buildSortedFilteredPaginatedList(
+        \App\Filter\SearchFilter $filter,
+        AbstractSort $sort,
+        \Knp\Component\Pager\PaginatorInterface $paginator
+    ) {
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.intake', 'i')
+            ->innerJoin('i.course', 'c')
+            ->innerJoin('c.institution', 'ins')
+            ->select(
+                's.id as id',
+                's.name as name',
+                's.surname as surname',
+                's.email as email',
+                'i.name as intake_name',
+                'i.id as intake_id',
+                'c.name as course',
+                'ins.name as institution',
+            );
+        if ($filter->search) {
+            $qb->orWhere($qb->expr()->like('LOWER(s.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(s.surname)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(s.email)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(c.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(ins.name)', ':search'));
+            $qb->orWhere($qb->expr()->like('LOWER(i.name)', ':search'));
+            $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+            if (is_numeric($filter->search)) {
+                $qb->orWhere($qb->expr()->eq('s.id', ':search_num'));
+                $qb->setParameter(':search_num', (int) $filter->search);
+            }
+        }
+
+        return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }
 }

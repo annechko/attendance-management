@@ -1,10 +1,11 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Students{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block actions %}
     <div class='hstack gap-2 col-auto'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_student_new') }}">Create New</a>
     </div>
 {% endblock %}
@@ -29,13 +30,13 @@
                 <tr onclick="showData({{ student.id }}, 'student')">
                     <td>{{ student.id }}</td>
                     <td>{{ student.name ~ ' ' ~ student.surname }}</td>
-                    <td>{{ student.intake ? student.intake.course.institution.name : '' }}</td>
-                    <td>{{ student.intake ? student.intake.course.name : ''}}</td>
+                    <td>{{ student.institution ? student.institution : '' }}</td>
+                    <td>{{ student.course ? student.course : ''}}</td>
                     <td>{{ student.email }}</td>
                     <td>
-                        {% if student.intake %}
-                            <a class="text-decoration-none" href="{{ path('admin_intake_show', {id: student.intake.id}) }}"
-                            >{{ student.intake.name }}</a>
+                        {% if student.intake_id %}
+                            <a class="text-decoration-none" href="{{ path('admin_intake_show', {id: student.intake_id}) }}"
+                            >{{ student.intake_name }}</a>
                         {% endif %}
                     </td>
                     <td>

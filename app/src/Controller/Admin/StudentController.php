@@ -3,24 +3,53 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Student;
+use App\Filter\SearchFilter;
+use App\Filter\SortLoader;
+use App\Filter\StudentSort;
+use App\Form\SearchFilterForm;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use App\Security\EmailSender;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/student')]
 class StudentController extends AbstractController
 {
     #[Route('/', name: 'admin_student_index', methods: ['GET'])]
-    public function index(StudentRepository $studentRepository): Response
-    {
+    public function index(
+        StudentRepository $studentRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new StudentSort();
+        $sortLoader->load($sort, $request);
+
+        $errors = $validator->validate($sort);
+
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_student_index');
+        }
+
         return $this->render('admin/student/index.html.twig', [
-            'students' => $studentRepository->findAll(),
+            'search_form' => $form,
+            'students' => $studentRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $sort,
+                $paginator,
+            ),
         ]);
     }
 
