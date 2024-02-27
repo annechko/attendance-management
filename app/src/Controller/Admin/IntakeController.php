@@ -49,16 +49,15 @@ class IntakeController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{courseId?}', name: 'admin_intake_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_intake_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request, 
         EntityManagerInterface $entityManager, 
         CourseRepository $courseRepository,
-        ?int $courseId = null
         ): Response
     {
         $intake = new Intake();
-
+        $courseId = $request->get('courseId');
         // Preselect the course if courseId is provided
         if ($courseId) {
             $course = $courseRepository->find($courseId);
