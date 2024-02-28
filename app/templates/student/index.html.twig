@@ -3,53 +3,40 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block contents %}
-
-    <div class="container">
-        <div>
-            <div>Attendance Rate</div>
-            <div class="progress-stacked">
-                {% if presentPercent %}
-                    <div class="progress" role="progressbar" aria-label="Present percentage"
-                            aria-valuenow="{{ presentPercent }}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{ presentPercent }}%">
-                        <div class="progress-bar bg-success"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title="You have been present in {{ presentPercent }}% of classes."
-                        ></div>
-                    </div>
-                {% endif %}
-                {% if excusedPercent %}
-                    <div class="progress" role="progressbar" aria-label="Excused percentage"
-                            aria-valuenow="{{ excusedPercent }}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{ excusedPercent }}%">
-                        <div class="progress-bar bg-secondary"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title="Your absence have been excused in {{ excusedPercent }}% of classes."
-                        ></div>
-                    </div>
-                {% endif %}
-                {% if absentPercent %}
-                    <div class="progress" role="progressbar" aria-label="Absent percentage"
-                            aria-valuenow="{{ absentPercent }}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{ absentPercent }}%">
-                        <div class="progress-bar bg-danger"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title="You have been absent in {{ absentPercent }}% of classes."
-                        ></div>
-                    </div>
-                {% endif %}
-
-                {% if not excusedPercent and not absentPercent and not presentPercent %}
-                    <div class="progress" role="progressbar" aria-label=" percentage"
-                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                            style="width: 100%">
-                        <div class="progress-bar bg-dark-subtle">Not enough data to display %</div>
-                    </div>
-                {% endif %}
+    <div class='vstack gap-1'>
+        <div class="col card">
+            <div class='p-2'>
+                <table class='table table-sm table-striped m-0'> 
+                    <tr>
+                        <th class='col-2 border-end border-bottom-0'>Student Name</td>
+                        <td class='h4 border-bottom-0'>{{ student.name ~ ' ' ~ student.surname }}</td>
+                    </tr>
+                    <tr>
+                        <th class='border-end border-bottom-0'>Email</td>
+                        <td class='border-bottom-0'>{{ student.email }}</td>
+                    </tr>
+                    <tr>
+                        <th class='border-end border-bottom-0'>Intake</td>
+                        <td class='border-bottom-0'>{{ student.getIntake().name }}</td>
+                    </tr>  
+                    <tr>
+                        <th class='border-end border-bottom-0'>Course</td>
+                        <td class='border-bottom-0'>{{ student.getIntake().getCourse().name }}</td>
+                    </tr>  
+                    <tr>
+                        <th class='border-end border-bottom-0'>Institution</td>
+                        <td class='border-bottom-0'>{{ student.getIntake().getCourse().getInstitution().name }}</td>
+                    </tr>                
+                </table>
+        </div>
+        </div>
+        <div class="container-fluid" >
+            <div class='border row rounded' style="height:380px">
+                {{ render_chart(chart) }}
             </div>
         </div>
     </div>
+
 {% endblock %}
+
+
