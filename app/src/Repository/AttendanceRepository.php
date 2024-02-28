@@ -133,6 +133,18 @@ class AttendanceRepository extends ServiceEntityRepository
         return $statusToCount;
     }
 
+    public function getAttendanceCount(Student $student, Subject $subject): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.subject = :subject')
+            ->setParameter('student', $student)
+            ->setParameter('subject', $subject)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function getAttendanceCountPresent(Student $student, Subject $subject): int
     {
         return $this->createQueryBuilder('a')

@@ -4,23 +4,23 @@
 
 {% block contents %}
 
-    <table class="table">
+    <table class="table table-sm table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
+            <tr class='table-primary'>
                 <th>Date</th>
                 <th>Teacher</th>
+                <th>Code</th>
                 <th>Subject</th>
                 <th>Status</th>
-                <th>actions</th>
+                <th>Comments</th>
             </tr>
         </thead>
         <tbody>
         {% for attendance in attendances %}
             <tr>
-                <td>{{ attendance.id }}</td>
                 <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
-                <td>{{ attendance.teacher.name }}</td>
+                <td>{{ attendance.teacher.name ~' '~ attendance.teacher.surname}}</td>
+                <td>{{ attendance.subject.code }}</td>
                 <td>{{ attendance.subject.name }}</td>
                 <td>
                     {% if attendance.status == 1 %}
@@ -33,9 +33,7 @@
                     {% else %}
                     {% endif %}
                 </td>
-                <td>
-                    <a href="{{ path('student_attendance_show', {'id': attendance.id}) }}">show</a>
-                </td>
+                <td>{{ attendance.getComment() }}</td>
             </tr>
         {% else %}
             <tr>

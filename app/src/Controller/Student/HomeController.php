@@ -21,6 +21,7 @@ class HomeController extends AbstractStudentController
         ): Response
     {
         $student = $this->getCurrentStudent();
+        
         $labelSubjects = [];
         $valuesPresentRate=[];
         $valuesAbsentRate=[];
@@ -28,52 +29,57 @@ class HomeController extends AbstractStudentController
 
         foreach ($student->getIntake()->getPeriods() as $period){
             foreach($period->getPeriodToSubjects() as $periodToSubject){
+
                 array_push($labelSubjects, $periodToSubject->getSubject()->getCode());
                 
                 $presentCount=$attendanceRepository->getAttendanceCountPresent($student,$periodToSubject->getSubject());
                 $absentCount=$attendanceRepository->getAttendanceCountAbsent($student,$periodToSubject->getSubject());
                 $excuseCount=$attendanceRepository->getAttendanceCountExcuse($student,$periodToSubject->getSubject());
                 
-                $totalNumberOfLessons = $periodToSubject->getTotalNumberOfLessons();
+                // $totalNumberOfLessons = $periodToSubject->getTotalNumberOfLessons();
+                $totalNumberOfLessons = $attendanceRepository->getAttendanceCount($student,$periodToSubject->getSubject());
                 
                 $presentRate=$totalNumberOfLessons > 0 ? ($presentCount / $totalNumberOfLessons) * 100 : 0;
                 $absentRate=$totalNumberOfLessons > 0 ? ($absentCount / $totalNumberOfLessons) * 100 : 0;
                 $excuseRate=$totalNumberOfLessons > 0 ? ($excuseCount / $totalNumberOfLessons) * 100 : 0;
 
+                
                 array_push($valuesPresentRate,number_format($presentRate,2,'.',''));
                 array_push($valuesAbsentRate,number_format($absentRate,2,'.',''));
                 array_push($valuesExcuseRate,number_format($excuseRate,2,'.',''));
+
             }
         }
+
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chart->setData([
             'labels'=>$labelSubjects,
             'datasets'=>[
                 [   
-                    'label'=>'Present Rate',
+                    'label'=>'Present Rate %',
                     'data'=>$valuesPresentRate,
-                    'backgroundColor'=>['rgb(3, 144, 77,.5)'],
+                    'backgroundColor'=>['rgb(3, 144, 77,.4)'],
                     'borderColor'=>['#198753'],
                     'borderWidth'=>1,
                 ],
                 [   
-                    'label'=>'Excused Rate',
+                    'label'=>'Excused Rate %',
                     'data'=>$valuesExcuseRate,
-                    'backgroundColor'=>['rgb(108, 117, 125,.5)'],
+                    'backgroundColor'=>['rgb(108, 117, 125,.4)'],
                     'borderColor'=>['#6C757D'],
                     'borderWidth'=>1,
                 ],
                 [   
-                    'label'=>'Absent Rate',
+                    'label'=>'Absent Rate %',
                     'data'=>$valuesAbsentRate,
-                    'backgroundColor'=>['rgb(220, 53, 69,.5)'],
+                    'backgroundColor'=>['rgb(220, 53, 69,.4)'],
                     'borderColor'=>['#DC3545'],
                     'borderWidth'=>1,
                 ],
             ],
         ]);
         $chart->setOptions([
-            'indexAxis'=>'y',
+            'indexAxis'=>'x',
             'maintainAspectRatio'=>false,
             'plugins'=>[
                 'title'=>[
@@ -84,13 +90,13 @@ class HomeController extends AbstractStudentController
                     ]
                 ],
                 'legend'=>[
-                    'position'=>'right',
+                    'position'=>'top',
                     'align'=>'center',
                 ],
             ],
             'responsive'=>true,
             'scales'=>[
-                'x'=>[
+                'y'=>[
                     'stacked'=>true,
                     'max'=>100,
                     'title'=>[
@@ -102,7 +108,7 @@ class HomeController extends AbstractStudentController
                         ]
                     ],
                 ],
-                'y'=>[
+                'x'=>[
                     'stacked'=>true,
                     'title'=>[
                         'display'=>true,
