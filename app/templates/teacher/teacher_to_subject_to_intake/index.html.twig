@@ -12,7 +12,7 @@
 
 {% block contents %}
 
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-striped">
         <thead>
         <tr class="table-primary">
             <th>Id</th>
@@ -38,16 +38,14 @@
                     {% if attendanceData %}
                         {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
                         {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
-
                         {{ form_widget(attendanceData,{ attr:{class:'hide'}}) }}
-                        <button class="btn btn-sm btn-outline-success ">Mark</button>
-
+                        <button class="btn btn-sm btn-primary p-1" style='font-size: 10px;'>Mark Attendance</button>
                         {{ form_end(attendanceData) }}
                     {% endif %}
 
-                    <a href="{{ path('teacher_attendance_percentage', {'intakeId': teacher_to_subject_to_intake.intake.id}) }}">
+                    {# <a href="{{ path('teacher_attendance_percentage', {'intakeId': teacher_to_subject_to_intake.intake.id}) }}">
                         <i data-feather="percent"></i>
-                    </a>
+                    </a> #}
                 </td>
             </tr>
         {% else %}
