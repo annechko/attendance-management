@@ -20,3 +20,6 @@ a.sortable:hover {
 .form-label {
     margin-bottom: 0.2rem;
 }
+.attendance-comment {
+    height: 15px;
+}

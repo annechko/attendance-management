@@ -27,32 +27,40 @@
 			padding: 2px 7px !important;
 		}
 
+		#attendance_comment {
+			width: 200px;
+			min-height: 27px;
+		}
+
 		select#attendance_status {
 			margin: 0;
+			width: 150px;
 			padding: 2px 4px;
 			color: white;
 		}
+
 		select#attendance_status[data-chosen='1'] {
-			background-color: rgba(var(--bs-success-rgb))!important;
+			background-color: rgba(var(--bs-success-rgb)) !important;
 		}
 
 		select#attendance_status[data-chosen='2'] {
-			background-color: rgba(var(--bs-danger-rgb))!important;
+			background-color: rgba(var(--bs-danger-rgb)) !important;
 		}
 
 		select#attendance_status[data-chosen='3'] {
-			background-color: rgba(var(--bs-secondary-rgb))!important;
+			background-color: rgba(var(--bs-secondary-rgb)) !important;
 		}
 
 		select:focus {
 			outline: none !important;
-			box-shadow: none!important;
-			border-color: var(--bs-border-color)!important;
+			box-shadow: none !important;
+			border-color: var(--bs-border-color) !important;
 		}
     </style>
     <script>
       function ready() {
         const statusList = document.querySelectorAll(".js-attendance-status")
+        const commentList = document.querySelectorAll(".js-attendance-comment")
 
 
         const showError = (form) => {
@@ -61,9 +69,17 @@
             icon.classList.remove('hide')
           }
         }
-        const onChange = (event) => {
-          event.target.dataset.chosen = event.target.value;
-          const form = event.target.parentElement
+        const filterOptions = (element) => {
+          const options = element.querySelectorAll("option")
+          for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+            if (option.dataset.role === 'empty-value') {
+              option.classList.add('hide')
+            }
+          }
+        }
+
+        const saveRequest = (form) => {
           if (form.classList.contains('js-attendance-form')) {
             fetch(form.action, {
               method: form.method,
@@ -93,9 +109,33 @@
                 });
           }
         }
+        const onComment = (event) => {
+          const form = event.target.parentElement
+          saveRequest(form)
+        }
+        const onChange = (event) => {
+          filterOptions(event.target)
+          const form = event.target.parentElement
+          event.target.dataset.chosen = event.target.value;
+          if (form.classList.contains('js-attendance-form')) {
+            const selectedValue = event.target.value
+            const comment = form.querySelector('.js-attendance-comment')
+            if (selectedValue === '2' || selectedValue === '3') {
+              comment.classList.remove('hide')
+            } else {
+              if (selectedValue === '1') {//present
+                comment.value = ''
+              }
+              comment.classList.add('hide')
+            }
+          }
+          saveRequest(form)
+        }
         statusList.forEach((status) => {
           status.onchange = onChange;
-          status.dataset.chosen = status.value;
+        });
+        commentList.forEach((comment) => {
+          comment.onblur = onComment;
         });
       }
 
@@ -115,13 +155,14 @@
                 <td>{{ attendance.vars.data.studentName }}</td>
                 <td>
                     {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
-                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'d-flex col-sm-6 js-attendance-form'}}) }}
+                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'d-flex js-attendance-form'}}) }}
 
-                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-50 form-select form-select-sm'}}) }}
-                    <span class="p-1 text-success hide js-success">
+                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status form-select form-select-sm'}}) }}
+                    {{ form_widget(attendance.comment) }}
+                    <span class="pt-1 px-1 text-success hide js-success ">
                         <i data-feather="check"></i>
                     </span>
-                    <span class="p-1 text-danger hide js-error">
+                    <span class="pt-1 px-1 text-danger hide js-error">
                         <i data-feather="alert-circle"></i>
                     </span>
                     {{ form_end(attendance) }}
