@@ -1,59 +1,79 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}
-    My Subjects
+    Teacher Dashboard
 {% endblock %}
 
 {% block actions %}
-    <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search'/>
-    </div>
+
 {% endblock %}
 
 {% block contents %}
+    <div class="vstack gap-3">
+        <div class="col card">
+            <div class='p-2'>
+                <table class='table table-sm table-striped m-0'>
+                    <tr>
+                        <th class='col-2 border-end border-bottom-0'>Teacher Name</th>
+                        <td class='h4 border-bottom-0'>{{ teacher.name ~ ' ' ~ teacher.surname }}</td>
+                    </tr>
+                    <tr>
+                        <th class='border-end border-bottom-0'>Email</th>
+                        <td class='border-bottom-0'>{{ teacher.email }}</td>
+                    </tr>
+                    <tr>
+                        <th class='border-end border-bottom-0'>Subjects Assigned</th>
+                        <td class='border-bottom-0'>{{ teacher_to_subject_to_intakes|length }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="vstack gap-0">
+            <span class="h6">My Classes</span>
+            <table class="table table-sm table-striped">
+                <thead>
+                <tr class="table-primary">
+{#                    <th>Id</th>#}
+                    <th>Subject</th>
+                    <th>Intake</th>
+                    <th>Course</th>
+                    <th>Start</th>
+                    <th>Finish</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for teacher_to_subject_to_intake in teacher_to_subject_to_intakes %}
+                    <tr>
+{#                        <td>{{ teacher_to_subject_to_intake.id }}</td>#}
+                        <td>{{ teacher_to_subject_to_intake.subject.name }}</td>
+                        <td>{{ teacher_to_subject_to_intake.intake.name }}</td>
+                        <td>{{ teacher_to_subject_to_intake.intake.course.name }}</td>
+                        <td>{{ teacher_to_subject_to_intake.start ? teacher_to_subject_to_intake.start|date('Y-m-d') : '' }}</td>
+                        <td>{{ teacher_to_subject_to_intake.finish ? teacher_to_subject_to_intake.finish|date('Y-m-d') : '' }}</td>
+                        <td>
+                            {% set attendanceData = attendanceDataForms[teacher_to_subject_to_intake.id] %}
+                            {% if attendanceData %}
+                                {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
+                                {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
+                                {{ form_widget(attendanceData,{ attr:{class:'hide'}}) }}
+                                <button class="btn btn-sm btn-primary p-1" style='font-size: 10px;'>Mark Attendance</button>
+                                {{ form_end(attendanceData) }}
+                            {% endif %}
 
-    <table class="table table-sm table-striped">
-        <thead>
-        <tr class="table-primary">
-            <th>Id</th>
-            <th>Subject</th>
-            <th>Intake</th>
-            <th>Course</th>
-            <th>Start</th>
-            <th>Finish</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for teacher_to_subject_to_intake in teacher_to_subject_to_intakes %}
-            <tr>
-                <td>{{ teacher_to_subject_to_intake.id }}</td>
-                <td>{{ teacher_to_subject_to_intake.subject.name }}</td>
-                <td>{{ teacher_to_subject_to_intake.intake.name }}</td>
-                <td>{{ teacher_to_subject_to_intake.intake.course.name }}</td>
-                <td>{{ teacher_to_subject_to_intake.start ? teacher_to_subject_to_intake.start|date('Y-m-d') : '' }}</td>
-                <td>{{ teacher_to_subject_to_intake.finish ? teacher_to_subject_to_intake.finish|date('Y-m-d') : '' }}</td>
-                <td>
-                    {% set attendanceData = attendanceDataForms[teacher_to_subject_to_intake.id] %}
-                    {% if attendanceData %}
-                        {% form_theme attendanceData 'bootstrap_3_horizontal_layout.html.twig' %}
-                        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
-                        {{ form_widget(attendanceData,{ attr:{class:'hide'}}) }}
-                        <button class="btn btn-sm btn-primary p-1" style='font-size: 10px;'>Mark Attendance</button>
-                        {{ form_end(attendanceData) }}
-                    {% endif %}
-
-                    {# <a href="{{ path('teacher_attendance_percentage', {'intakeId': teacher_to_subject_to_intake.intake.id}) }}">
-                        <i data-feather="percent"></i>
-                    </a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            {# <a href="{{ path('teacher_attendance_percentage', {'intakeId': teacher_to_subject_to_intake.intake.id}) }}">
+                                <i data-feather="percent"></i>
+                            </a> #}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 {% endblock %}

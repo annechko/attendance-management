@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/teacher/teacher-to-subject-to-intake')]
+#[Route('/teacher')]
 class TeacherToSubjectToIntakeController extends AbstractTeacherController
 {
     #[Route('/', name: 'teacher_to_subject_to_intake_index', methods: ['GET'])]
