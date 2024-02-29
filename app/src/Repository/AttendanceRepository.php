@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Attendance;
+use App\Entity\Student;
 use App\Entity\Subject;
 use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -130,5 +131,59 @@ class AttendanceRepository extends ServiceEntityRepository
             $statusToCount[$item['student']][$item['status']] = $item['count'];
         }
         return $statusToCount;
+    }
+
+    public function getAttendanceCount(Student $student, Subject $subject): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.subject = :subject')
+            ->setParameter('student', $student)
+            ->setParameter('subject', $subject)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getAttendanceCountPresent(Student $student, Subject $subject): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.subject = :subject')
+            ->andWhere('a.status = :statusPresent')
+            ->setParameter('student', $student)
+            ->setParameter('subject', $subject)
+            ->setParameter('statusPresent', Attendance::STATUS_PRESENT)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getAttendanceCountAbsent(Student $student, Subject $subject): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.subject = :subject')
+            ->andWhere('a.status = :statusPresent')
+            ->setParameter('student', $student)
+            ->setParameter('subject', $subject)
+            ->setParameter('statusPresent', Attendance::STATUS_ABSENT)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getAttendanceCountExcuse(Student $student, Subject $subject): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.student = :student')
+            ->andWhere('a.subject = :subject')
+            ->andWhere('a.status = :statusPresent')
+            ->setParameter('student', $student)
+            ->setParameter('subject', $subject)
+            ->setParameter('statusPresent', Attendance::STATUS_EXCUSED)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
