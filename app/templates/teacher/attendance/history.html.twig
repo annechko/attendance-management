@@ -6,13 +6,13 @@
 {% endblock %}
 {% block contents %}
     <style>
-        #search_filter_form_search{
-			width: 100%!important;
-        }
+		#search_filter_form_search {
+			width: 100% !important;
+		}
     </style>
-    <table class="table">
+    <table class="table table-sm table-striped">
         <thead>
-        <tr>
+        <tr class='table-primary'>
             <th>{{ knp_pagination_sortable(attendances, 'Id', 'id') }}</th>
             <th>{{ knp_pagination_sortable(attendances, 'Student Email', 'student_email') }}</th>
             <th>{{ knp_pagination_sortable(attendances, 'Student', 'student_fullname') }}</th>
