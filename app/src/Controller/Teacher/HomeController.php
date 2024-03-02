@@ -35,7 +35,7 @@ class HomeController extends AbstractTeacherController
             $attendanceDataForms[$teacherToSubjectToIntake->getId(
             )] = $attendanceDataForm->createView();
         }
-        return $this->render('teacher/teacher_to_subject_to_intake/index.html.twig', [
+        return $this->render('teacher/index.html.twig', [
             'teacher' => $teacher,
             'teacher_to_subject_to_intakes' => $list,
             'attendanceDataForms' => $attendanceDataForms,
