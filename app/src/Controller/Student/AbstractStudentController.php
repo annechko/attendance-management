@@ -18,4 +18,5 @@ abstract class AbstractStudentController extends AbstractController
             ['email' => $this->getUser()->getUserIdentifier()]
         );
     }
+
 }

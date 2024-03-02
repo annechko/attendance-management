@@ -25,7 +25,7 @@ class AttendanceDataForm extends AbstractType
                 'choice_label' => 'nameWithCourse',
                 'attr' => [
                     'class' => 'form-select mx-1',
-                    'style' => 'min-width: 250px;',
+                    'style' => 'min-width: 300px;font-size: 14px; color: #030188;',
                 ],
                 'query_builder' => function (IntakeRepository $er) use ($options): QueryBuilder {
                     $intakeIds = $options['intakeIds'];
@@ -43,7 +43,7 @@ class AttendanceDataForm extends AbstractType
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'form-select mx-1',
-                    'style' => 'min-width: 250px;',
+                    'style' => 'min-width:300px;font-size: 14px;color: #030188;',
                 ],
                 'query_builder' => function (SubjectRepository $er) use ($options): QueryBuilder {
                     $subjectIds = $options['subjectIds'];
@@ -60,13 +60,7 @@ class AttendanceDataForm extends AbstractType
                 'data' => new \DateTimeImmutable(),
                 'attr' => [
                     'class' => 'mx-1',
-                    'style' => 'min-width: 250px;',
-                ],
-            ])
-            ->add('Filter', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-outline-secondary btn-sm mt-4 mx-2',
-                    'name' => null,
+                    'style' => 'min-width:80px;font-size: 14px;color: #030188;',
                 ],
             ]);
     }

@@ -100,7 +100,10 @@ class Attendance
     {
         return $this->student->getName() . ' ' . $this->student->getSurname();
     }
-
+    public function getStudentEmail(): string
+    {
+        return $this->student->getEmail();
+    }
     public function getTeacherId(): ?int
     {
         return $this->teacher?->getId();
