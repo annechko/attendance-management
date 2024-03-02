@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Entity\Attendance;
 use App\Repository\AttendanceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +14,7 @@ use Symfony\UX\Chartjs\Model\Chart;
 class HomeController extends AbstractStudentController
 {
     #[Route('', name: 'student_home')]
-    public function index2(
+    public function index(
         AttendanceRepository $attendanceRepository,
         ChartBuilderInterface $chartBuilder,
         ): Response
@@ -36,7 +35,6 @@ class HomeController extends AbstractStudentController
                 $absentCount=$attendanceRepository->getAttendanceCountAbsent($student,$periodToSubject->getSubject());
                 $excuseCount=$attendanceRepository->getAttendanceCountExcuse($student,$periodToSubject->getSubject());
                 
-                // $totalNumberOfLessons = $periodToSubject->getTotalNumberOfLessons();
                 $totalNumberOfLessons = $attendanceRepository->getAttendanceCount($student,$periodToSubject->getSubject());
                 
                 $presentRate=$totalNumberOfLessons > 0 ? ($presentCount / $totalNumberOfLessons) * 100 : 0;

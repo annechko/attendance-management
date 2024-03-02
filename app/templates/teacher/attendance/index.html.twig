@@ -1,24 +1,8 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Attendance{% endblock %}
+{% block title %}ATTENDANCE{% endblock %}
 
 {% block actions %}
-    <style>
-		.app-page-header {
-			flex-direction: column !important;
-		}
-
-		.app-actions {
-			justify-content: center !important;
-		}
-    </style>
-    {% if attendanceData %}
-        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
-
-        {{ form_widget(attendanceData) }}
-
-        {{ form_end(attendanceData) }}
-    {% endif %}
 {% endblock %}
 
 {% block contents %}
@@ -53,8 +37,6 @@
     <script>
       function ready() {
         const statusList = document.querySelectorAll(".js-attendance-status")
-
-
         const showError = (form) => {
           const icon = form.querySelector('.js-error')
           if (icon) {
@@ -102,37 +84,59 @@
       document.addEventListener("DOMContentLoaded", ready);
     </script>
 
-    <table class="table">
+<div class='vstack gap-2'>
+    {% if attendanceData %}
+        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
+            <div class='hstack gap-2' >
+                <div class='form-floating col'>
+                  {{ form_widget(attendanceData.intake) }}
+                  {{ form_label(attendanceData.intake) }}
+                </div>
+                <div class='form-floating col'>
+                  {{ form_widget(attendanceData.subject) }}
+                  {{ form_label(attendanceData.subject) }}
+                </div>
+                <div class='form-floating'>
+                  {{ form_widget(attendanceData.date) }}
+                  {{ form_label(attendanceData.date) }}
+                </div>
+                <button class='btn btn-sm'><i class='text-success' style='height: 32px; width: 32px;' data-feather="search"></i></button>
+            </div>
+        {{ form_end(attendanceData) }}
+    {% endif %}
+
+    <table class="table table-sm table-striped">
         <thead>
-        <tr>
-            <th class="w-35">Student</th>
-            <th>Status</th>
+        <tr class='table-primary'>  
+            <th class="w-35">Student Email</th>
+            <th class="w-50">Student Name</th>
+            <th class="25">Attendance</th>
         </tr>
         </thead>
         <tbody>
         {% for attendance in attendances %}
             <tr>
+                <td>{{ attendance.vars.data.studentEmail }}</td>
                 <td>{{ attendance.vars.data.studentName }}</td>
                 <td>
                     {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
-                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'d-flex col-sm-6 js-attendance-form'}}) }}
-
-                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-50 form-select form-select-sm'}}) }}
-                    <span class="p-1 text-success hide js-success">
-                        <i data-feather="check"></i>
-                    </span>
-                    <span class="p-1 text-danger hide js-error">
-                        <i data-feather="alert-circle"></i>
-                    </span>
+                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'hstack gap-2 js-attendance-form'}}) }}
+                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status w-75 form-select form-select-sm'}}) }}
+                      <span class="text-success hide js-success">
+                          <i data-feather="check"></i>
+                      </span>
+                      <span class="text-danger hide js-error">
+                          <i data-feather="alert-circle"></i>
+                      </span>
                     {{ form_end(attendance) }}
-
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+  </div>
 {% endblock %}

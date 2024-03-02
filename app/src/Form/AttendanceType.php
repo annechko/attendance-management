@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Attendance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,13 @@ class AttendanceType extends AbstractType
                 ],
             ])
             ->add('studentName', HiddenType::class, [
+                'disabled' => true,
+                'mapped' => false,
+                'attr' => [
+                    'readonly' => true,
+                ],
+            ])
+            ->add('studentEmail', HiddenType::class, [
                 'disabled' => true,
                 'mapped' => false,
                 'attr' => [
