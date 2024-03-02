@@ -209,7 +209,17 @@ class AttendanceRepository extends ServiceEntityRepository
                 'st.email as student_email',
             )
             ->andWhere('a.teacher = :teacher')
-            ->setParameter(':teacher', $teacher);
+            ->setParameter(':teacher', $teacher);;
+        if ($filter->search) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('LOWER(a.comment)', ':search'),
+                    $qb->expr()->like('LOWER(su.name)', ':search'),
+                    $qb->expr()->like('LOWER(st.email)', ':search'),
+                )
+            );
+            $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+        }
 
         return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }

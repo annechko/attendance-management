@@ -108,6 +108,7 @@ class AttendanceController extends AbstractTeacherController
         $attendances = $attendanceRepository->getAllByTeacher($teacher, $filter, $sort, $paginator);
 
         return $this->render('teacher/attendance/history.html.twig', [
+            'search_form' => $form,
             'attendances' => $attendances,
         ]);
     }

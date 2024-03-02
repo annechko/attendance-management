@@ -1,7 +1,9 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Attendance history{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block contents %}
     <table class="table">
         <thead>
