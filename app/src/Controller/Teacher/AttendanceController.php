@@ -4,19 +4,25 @@ namespace App\Controller\Teacher;
 
 use App\Entity\Attendance;
 use App\Entity\Student;
+use App\Filter\AttendanceSort;
+use App\Filter\SearchFilter;
+use App\Filter\SortLoader;
 use App\Form\AttendanceData;
 use App\Form\AttendanceDataForm;
 use App\Form\AttendanceType;
+use App\Form\SearchFilterForm;
 use App\Repository\AttendanceRepository;
 use App\Repository\StudentRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TeacherToSubjectToIntakeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/teacher/attendance')]
 class AttendanceController extends AbstractTeacherController
@@ -76,6 +82,33 @@ class AttendanceController extends AbstractTeacherController
         return $this->render('teacher/attendance/index.html.twig', [
             'attendances' => $forms,
             'attendanceData' => $attendanceDataForm,
+        ]);
+    }
+
+    #[Route('/history', name: 'teacher_attendance_history', methods: ['GET'])]
+    public function history(
+        AttendanceRepository $attendanceRepository,
+        TeacherToSubjectToIntakeRepository $teacherToSubjectToIntakeRepository,
+        Request $request,
+        PaginatorInterface $paginator,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new AttendanceSort();
+        $sortLoader->load($sort, $request);
+        $errors = $validator->validate($sort);
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('teacher_attendance_history');
+        }
+        $teacher = $this->getCurrentTeacher();
+        $attendances = $attendanceRepository->getAllByTeacher($teacher, $filter, $sort, $paginator);
+
+        return $this->render('teacher/attendance/history.html.twig', [
+            'attendances' => $attendances,
         ]);
     }
 

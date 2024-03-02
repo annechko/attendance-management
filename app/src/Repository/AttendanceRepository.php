@@ -6,8 +6,10 @@ use App\Entity\Attendance;
 use App\Entity\Student;
 use App\Entity\Subject;
 use App\Entity\Teacher;
+use App\Filter\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * @extends ServiceEntityRepository<Attendance>
@@ -19,6 +21,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AttendanceRepository extends ServiceEntityRepository
 {
+    private const MAX_PER_PAGE = 20;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Attendance::class);
@@ -185,5 +189,28 @@ class AttendanceRepository extends ServiceEntityRepository
             ->setParameter('statusPresent', Attendance::STATUS_EXCUSED)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function getAllByTeacher(
+        Teacher $teacher,
+        \App\Filter\SearchFilter $filter,
+        AbstractSort $sort,
+        \Knp\Component\Pager\PaginatorInterface $paginator
+    ): PaginationInterface {
+        $qb = $this->createQueryBuilder('a')
+            ->innerJoin('a.student', 'st')
+            ->innerJoin('a.subject', 'su')
+            ->select(
+                'a.id as id',
+                'a.date as date',
+                'a.status as status',
+                'a.comment as comment',
+                'su.name as subject_name',
+                'st.email as student_email',
+            )
+            ->andWhere('a.teacher = :teacher')
+            ->setParameter(':teacher', $teacher);
+
+        return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
     }
 }
