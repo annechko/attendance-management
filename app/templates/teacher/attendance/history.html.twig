@@ -22,7 +22,17 @@
                 <td>{{ attendance.id }}</td>
                 <td>{{ attendance.student_email }}</td>
                 <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
-                <td>{{ attendance.status }}</td>
+                <td>
+                    {% if attendance.status == 1 %}
+                        <span class="badge text-bg-success">Present</span>
+                    {% elseif  attendance.status == 2 %}
+                        <span class="badge text-bg-danger">Absent</span>
+
+                    {% elseif  attendance.status == 3 %}
+                        <span class="badge text-bg-secondary">Excused</span>
+                    {% else %}
+                    {% endif %}
+                </td>
                 <td>{{ attendance.comment }}</td>
                 <td>
                     <a href="{{ path('teacher_attendance_show', {'id': attendance.id}) }}">show</a>
@@ -36,5 +46,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(attendances) }}
+    </div>
 
 {% endblock %}

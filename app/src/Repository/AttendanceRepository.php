@@ -207,18 +207,36 @@ class AttendanceRepository extends ServiceEntityRepository
                 'a.comment as comment',
                 'su.name as subject_name',
                 'st.email as student_email',
+                'st.name as student_name',
+                'st.surname as student_surname',
             )
             ->andWhere('a.teacher = :teacher')
-            ->setParameter(':teacher', $teacher);;
+            ->setParameter(':teacher', $teacher);
         if ($filter->search) {
+            $filters = [
+                $qb->expr()->like('LOWER(a.comment)', ':search'),
+                $qb->expr()->like('LOWER(su.name)', ':search'),
+                $qb->expr()->like('LOWER(st.name)', ':search'),
+                $qb->expr()->like('LOWER(st.surname)', ':search'),
+                $qb->expr()->like('LOWER(st.email)', ':search'),
+            ];
+            if (strtolower($filter->search) === 'absent') {
+                $filters[] = $qb->expr()->eq('a.status', ':status');
+                $qb->setParameter(':status', Attendance::STATUS_ABSENT);
+            } else if (strtolower($filter->search) === 'present') {
+                $filters[] = $qb->expr()->eq('a.status', ':status');
+                $qb->setParameter(':status', Attendance::STATUS_PRESENT);
+            } else if (strtolower($filter->search) === 'excused') {
+                $filters[] = $qb->expr()->eq('a.status', ':status');
+                $qb->setParameter(':status', Attendance::STATUS_EXCUSED);
+            }
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('LOWER(a.comment)', ':search'),
-                    $qb->expr()->like('LOWER(su.name)', ':search'),
-                    $qb->expr()->like('LOWER(st.email)', ':search'),
+                    ...$filters
                 )
             );
             $qb->setParameter(':search', '%' . mb_strtolower($filter->search) . '%');
+
         }
 
         return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
