@@ -207,8 +207,7 @@ class AttendanceRepository extends ServiceEntityRepository
                 'a.comment as comment',
                 'su.name as subject_name',
                 'st.email as student_email',
-                'st.name as student_name',
-                'st.surname as student_surname',
+                'concat(st.name,\' \',st.surname) as student_fullname',
             )
             ->andWhere('a.teacher = :teacher')
             ->setParameter(':teacher', $teacher);

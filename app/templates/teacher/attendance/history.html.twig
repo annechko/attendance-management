@@ -5,14 +5,20 @@
     {% include 'search.html.twig' %}
 {% endblock %}
 {% block contents %}
+    <style>
+        #search_filter_form_search{
+			width: 100%!important;
+        }
+    </style>
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Student</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Comment</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Id', 'id') }}</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Student Email', 'student_email') }}</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Student', 'student_fullname') }}</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Date', 'date') }}</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Status', 'status') }}</th>
+            <th>{{ knp_pagination_sortable(attendances, 'Comment', 'comment') }}</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -21,6 +27,7 @@
             <tr>
                 <td>{{ attendance.id }}</td>
                 <td>{{ attendance.student_email }}</td>
+                <td>{{ attendance.student_fullname }}</td>
                 <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
                 <td>
                     {% if attendance.status == 1 %}
@@ -41,7 +48,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
