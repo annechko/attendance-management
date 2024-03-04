@@ -6,6 +6,7 @@ RUN apk add --no-cache postgresql-dev fcgi git \
     && apk del git
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
+COPY php/datetime.ini /usr/local/etc/php/conf.d/datetime-php.ini
 
 WORKDIR /app
 
