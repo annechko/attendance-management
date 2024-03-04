@@ -1,0 +1,7 @@
+FROM nginx:1.25.2-alpine3.18
+
+COPY ./.docker/prod/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /app
+
+COPY ./public ./public

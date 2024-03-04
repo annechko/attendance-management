@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+
+  att-prod-php-fpm:
+    container_name: att-prod-php-fpm
+    restart: always
+    image: ${REGISTRY}:att-prod-php-fpm-${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: pgsql://app:${POSTGRES_PASSWORD}@att-prod-db:5432/app
+    depends_on:
+      att-prod-db:
+        condition: service_healthy
+
+  att-prod-db:
+    image: ${REGISTRY}:att-prod-db-${IMAGE_TAG}
+    container_name: att-prod-db
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: "pg_isready --timeout=0 --dbname=app"
+    volumes:
+      - att-prod-db:/var/lib/postgresql/data:rw
+    ports:
+      - "5436:5432"
+
+  att-prod-nginx:
+    container_name: att-prod-nginx
+    image: ${REGISTRY}:att-prod-nginx-${IMAGE_TAG}
+    depends_on:
+      att-prod-php-fpm:
+        condition: service_started
+    ports:
+      - "8889:80"
+
+  att-prod-mailer:
+    container_name: att-prod-mailer
+    image: mailhog/mailhog
+    ports:
+      - "8087:8025"
+
+volumes:
+  att-prod-db:
