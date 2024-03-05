@@ -3,22 +3,49 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Subject;
+use App\Form\SearchFilterForm;
 use App\Form\SubjectType;
 use App\Repository\SubjectRepository;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
+use App\Sort\SubjectSort;
+use App\Sort\TeacherSort;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/subject')]
 class SubjectController extends AbstractController
 {
     #[Route('/', name: 'admin_subject_index', methods: ['GET'])]
-    public function index(SubjectRepository $subjectRepository): Response
-    {
+    public function index(
+        SubjectRepository $subjectRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new SubjectSort();
+        $sortLoader->load($sort, $request);
+        $errors = $validator->validate($sort);
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_subject_index');
+        }
         return $this->render('admin/subject/index.html.twig', [
-            'subjects' => $subjectRepository->findAll(),
+            'search_form' => $form,
+            'subjects' => $subjectRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $sort,
+                $paginator,
+            ),
         ]);
     }
 

@@ -1,10 +1,11 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Subjects{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block actions %}
     <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_subject_new') }}">Create New</a>
     </div>
 {% endblock %}
@@ -14,10 +15,10 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr class="table-primary">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Course</th>
+                <th>{{ knp_pagination_sortable(subjects, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(subjects, 'Name', 'name') }}</th>
+                <th>{{ knp_pagination_sortable(subjects, 'Code', 'code') }}</th>
+                <th>{{ knp_pagination_sortable(subjects, 'Course', 'course') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,7 +28,7 @@
                 <td>{{ subject.id }}</td>
                 <td>{{ subject.name }}</td>
                 <td>{{ subject.code }}</td>
-                <td>{{ subject.course.name }}</td>
+                <td>{{ subject.course }}</td>
                 <td>
                     <a href="{{ path('admin_subject_edit', {'id': subject.id}) }}"><i data-feather="edit"></i></a>
                 </td>
@@ -39,5 +40,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(subjects) }}
+    </div>
 
 {% endblock %}
