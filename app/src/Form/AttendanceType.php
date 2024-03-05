@@ -39,7 +39,8 @@ class AttendanceType extends AbstractType
         $commentConfig = [
             'label' => false,
             'attr' => [
-                'class' => ' js-attendance-comment attendance-comment form-control form-control-sm',
+                'class' => 'js-attendance-comment attendance-comment form-control form-control-sm col',
+                'placeholder'=>'Enter feedback here',
             ],
         ];
         if ($entityId !== null) {
@@ -51,7 +52,7 @@ class AttendanceType extends AbstractType
         }
         $builder
             ->add('status', ChoiceType::class, $statusConfig)
-            ->add('comment', TextareaType::class, $commentConfig)
+            ->add('comment', TextAreaType::class, $commentConfig)
             ->add('studentName', HiddenType::class, [
                 'disabled' => true,
                 'mapped' => false,

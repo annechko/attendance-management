@@ -3,32 +3,56 @@
 {% block title %}Attendance{% endblock %}
 
 {% block contents %}
-    <h1>Attendance</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class='bg-light col-2'>Id</th>
                 <td>{{ attendance.id }}</td>
             </tr>
             <tr>
-                <th>Date</th>
+                <th class='bg-light'>Date</th>
                 <td>{{ attendance.date ? attendance.date|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Status</th>
-                <td>{{ attendance.status }}</td>
+                <th class='bg-light'>Student</th>
+                <td class='h4'>{{ attendance.student.name ~ ' ' ~ attendance.student.surname }}</td>
             </tr>
             <tr>
-                <th>Comment</th>
+                <th class='bg-light'>Teacher</th>
+                <td>{{ attendance.teacher.name ~ ' ' ~ attendance.teacher.surname }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Subject</th>
+                <td>{{ attendance.subject.code ~ ' ' ~ attendance.subject.name }}</td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Status</th>
+                <td>
+                    {% if attendance.status == 1 %}
+                        <span class="badge text-bg-success">Present</span>
+                    {% elseif  attendance.status == 2 %}
+                        <span class="badge text-bg-danger">Absent</span>
+
+                    {% elseif  attendance.status == 3 %}
+                        <span class="badge text-bg-secondary">Excused</span>
+                    {% else %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th class='bg-light'>Comment</th>
                 <td>{{ attendance.comment }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('teacher_attendance_index') }}">back to list</a>
+{% endblock %}
 
-    <a href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">edit</a>
-
+{% block actions %}
+    <a class="btn custom-btn btn-sm btn-outline-dark" 
+        href="{{ path('teacher_attendance_index') }}">Back</a>
+    <a class="btn custom-btn btn-sm btn-outline-dark"
+        href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">Edit</a>
     {{ include('teacher/attendance/_delete_form.html.twig') }}
 {% endblock %}

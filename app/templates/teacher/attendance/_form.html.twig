@@ -1,4 +1,17 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="vstack gap-4">
+        <div class="vstack gap-2 w-50">
+            <div>
+                <label class='h6 ps-1'>Status</label>
+                {{ form_widget(form.status) }}
+            </div>
+            {{ form_widget(form.comment) }}
+        </div>
+        <div class="hstack gap-1">
+        <button class="btn btn-sm btn-outline-success custom-btn">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-sm custom-btn btn-outline-dark"
+            href="javascript:window.history.back()">Cancel
+        </a>
+        </div>
+    </div>
 {{ form_end(form) }}
