@@ -5,8 +5,12 @@ namespace App\Command;
 use App\Entity\Course;
 use App\Entity\Institution;
 use App\Entity\Intake;
+use App\Entity\Period;
+use App\Entity\PeriodToSubject;
 use App\Entity\Student;
 use App\Entity\Subject;
+use App\Entity\Teacher;
+use App\Entity\TeacherToSubjectToIntake;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -72,17 +76,19 @@ class CreateDemoDataCommand extends Command
 
         //courses aut
         $subjects_mse = [
-            ['Professional Software Engineering', 'MSE800'],
-            ['Research Methods', 'MSE801'],
-            ['Quantum Computing', 'MSE802'],
-            ['Data Analytics', 'MSE803'],
-            ['Blockchain and decentralised digital identity', 'MSE804'],
-            ['Cloud Security', 'MSE805'],
-            ['Intelligent Transportation Systems', 'MSE806'],
-            ['Industry-based capstone research project', 'MSE907'],
+            ['Professional Software Engineering', 'MSE800', 0, 1, 30],
+            ['Research Methods', 'MSE801', 0, 2, 15],
+            ['Quantum Computing', 'MSE802', 0, 0, 15],
+            ['Data Analytics', 'MSE803', 1, 0, 15],
+            ['Blockchain and decentralised digital identity', 'MSE804', 1, 1, 15],
+            ['Cloud Security', 'MSE805', 1, 2, 15],
+            ['Intelligent Transportation Systems', 'MSE806', 1, 0, 15],
+            ['Industry-based capstone research project', 'MSE907', 2, 1, 60],
         ];
+        $subjects = [];
         foreach ($subjects_mse as $subjectData) {
             $subject_mse1 = new Subject();
+            $subjects[] = $subject_mse1;
             $subject_mse1->setName($subjectData[0]);
             $subject_mse1->setCode($subjectData[1]);
             $subject_mse1->setCourse($course_y_mse);
@@ -105,8 +111,10 @@ class CreateDemoDataCommand extends Command
                 \DateTimeImmutable::createFromFormat('Y-m-d', '2024-07-08'),
             ],
         ];
+        $intakes = [];
         foreach ($intakes_mse_yoobee as $intakeData) {
             $intake = new Intake();
+            $intakes[] = $intake;
             $intake->setName($intakeData[0]);
             $intake->setStart($intakeData[1]);
             $intake->setFinish($intakeData[2]);
@@ -117,39 +125,60 @@ class CreateDemoDataCommand extends Command
         //Intakes aut
 
         //Periods yoobee
+        $periods_mse_yoobee = [
+            [
+                'Trimester 1',
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2023-11-13'),
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2024-03-15'),
+                $intakes[0],
+            ],
+            [
+                'Trimester 2',
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2024-03-15'),
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2024-09-12'),
+                $intakes[0],
+            ],
+            [
+                'Trimester 3',
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2024-09-12'),
+                \DateTimeImmutable::createFromFormat('Y-m-d', '2024-11-08'),
+                $intakes[0],
+            ],
+        ];
+        $periods = [];
+        foreach ($periods_mse_yoobee as $periodData) {
+            $period = new Period();
+            $periods[] = $period;
+            $period->setName($periodData[0]);
+            $period->setStart($periodData[1]);
+            $period->setFinish($periodData[2]);
+            $period->setIntake($periodData[3]);
+            $this->entityManager->persist($period);
+        }
         //Periods aut
 
+        //period to subject
+        foreach ($subjects_mse as $index => $subjectData) {
+            $entity = new PeriodToSubject();
+            $entity->setSubject($subjects[$index]);
+            $entity->setPeriod($periods[$subjectData[2]]);
+            $entity->setTotalNumberOfLessons($subjectData[4]);
+            $this->entityManager->persist($entity);
+        }
+
         //Students yoobee
-        //Students aut
-
-        //Teachers yoobee
-        //Teachers aut
-
-        $repository = $this->entityManager->getRepository(Student::class);
-        $intake = $this->entityManager->getRepository(Intake::class)->createQueryBuilder('c')
-            ->orderBy('c.id')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-
         $studentsData = file_get_contents('/app/src/Command/students');
         $studentsData = explode("\n", $studentsData);
 
         foreach ($studentsData as $studentItem) {
             $studentItem = explode(',', $studentItem);
-            if ($repository->count(['email' => $studentItem[0]]) > 0) {
-                $io->write(
-                    "User \"$studentItem[0]\" already exists in your database, skipping.\n"
-                );
 
-                continue;
-            }
             $user = new Student();
-            $user->setIntake($intake);
-            $user->setEmail($studentItem[0]);
+            $user->setIntake($intakes[0]);
             $user->setName($studentItem[1]);
             $user->setSurname($studentItem[2]);
             $user->setGender($studentItem[3]);
+            $user->setEmail($studentItem[0]);
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,
@@ -159,6 +188,57 @@ class CreateDemoDataCommand extends Command
 
             $this->entityManager->persist($user);
         }
+        //Students aut
+
+        //Teachers yoobee
+        $teachers_yoobee = [
+            [
+                'Oscar',
+                'Harrell',
+                'oscar.harrell@example.com',
+            ],
+            [
+                'Karen',
+                'Flynn',
+                'karen.flynn@example.com',
+            ],
+            [
+                'Donovan',
+                'Morton',
+                'donovan.morton@example.com',
+            ],
+
+        ];
+        $teachers = [];
+
+        foreach ($teachers_yoobee as $entityData) {
+            $entity = new Teacher();
+            $teachers[] = $entity;
+            $entity->setName($entityData[0]);
+            $entity->setSurname($entityData[1]);
+            $entity->setEmail($entityData[2]);
+            $entity->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $entity,
+                    'teacher'
+                )
+            );
+            $this->entityManager->persist($entity);
+        }
+        //Teachers aut
+
+
+        //teacher subject intake
+        foreach ($subjects_mse as $index => $subjectData) {
+            $entity = new TeacherToSubjectToIntake();
+            $entity->setSubject($subjects[$index]);
+            $entity->setIntake($intakes[0]);
+            $entity->setTeacher($teachers[$subjectData[3]]);
+            $entity->setStart($intakes[0]->getStart());
+            $entity->setFinish($intakes[0]->getFinish());
+            $this->entityManager->persist($entity);
+        }
+
 
         $this->entityManager->flush();
 
