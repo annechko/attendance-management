@@ -1,0 +1,35 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+/bin/.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+/tests/
+/codeception.yml
+/phpstan.neon
+/phpunit.xml.dist
+.DS_Store
+.eslintrc.js
+.gitignore
+.php-cs-fixer.dist.php

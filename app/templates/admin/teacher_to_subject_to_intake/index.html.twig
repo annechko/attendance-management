@@ -37,7 +37,7 @@
         </thead>
         <tbody>
         {% for teacher_to_subject_to_intake in teacher_to_subject_to_intakes %}
-            <tr onclick="showData({{ teacher_to_subject_to_intake.id }}, 'teachertosubject' )">
+            <tr onclick="showData({{ teacher_to_subject_to_intake.id }}, 'teachertosubject' )" class="app-pointer">
                 <td>{{ teacher_to_subject_to_intake.id }}</td>
                 <td>{{ teacher_to_subject_to_intake.subject.code }}</td>  
                 <td>{{ teacher_to_subject_to_intake.subject.name }}</td>  

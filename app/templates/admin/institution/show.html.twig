@@ -44,7 +44,7 @@
             {% for course in institution.getCourses() %}
             <tr>
                 <td><a class="text-decoration-none" href="{{ path('admin_course_show', {id: course.id}) }}">{{ course.name }}</a></td>
-                <td>{{ course.duration ? course.duration.format('%y year(s) %m month(s)') : '' }}</td>
+                <td>{{ course.duration|duration }}</td>
                 <td>{{ course.getSubjects().count([]) }}</td>
                 <td>{{ course.getIntakes().count([]) }}</td>
             </tr>

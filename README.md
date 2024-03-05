@@ -7,6 +7,27 @@ To start this website on your local machine:
 5. website - http://localhost:8888
 1. all sent mails - http://localhost:8087/
 
+### Production
+
+Before running PROD you have to create a file with name `.env` in source root folder.<br>
+The content of .env should be as in this example:
+```shell
+APP_SECRET=RANDOM_UNIQUE_STRING___CHANGE_PLEASE_hgsfd56&^*&(ADS*
+POSTGRES_PASSWORD=RANDOM_UNIQUE_STRING___CHANGE_PLEASE_hgsfd56&^*&(ADS*
+```
+<br>
+After creating `.env` file, you can run the app in Production environment with:
+
+```shell
+make prod-init
+```
+
+This version of the app will **NOT** be updated when you edit any files locally.<br>
+If you want to edit and run it in PROD mode again, run `make prod-init` again.
+
+
+To start the app in DEV mode - run `make prod-init`, it will stop PROD version and start DEV app.
+
 ### Test users for development
 
 You can log in with different roles:

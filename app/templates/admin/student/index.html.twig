@@ -27,7 +27,7 @@
             </thead>
             <tbody>
             {% for student in students %}
-                <tr onclick="showData({{ student.id }}, 'student')">
+                <tr onclick="showData({{ student.id }}, 'student')" class="app-pointer">
                     <td>{{ student.id }}</td>
                     <td>{{ student.full_name }}</td>
                     <td>{{ student.email }}</td>
