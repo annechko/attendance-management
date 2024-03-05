@@ -34,7 +34,7 @@
         </thead>
         <tbody>
         {% for period_to_subject in period_to_subjects %}
-            <tr onclick="showData({{ period_to_subject.id }}, 'period_to_subject')" class="app-pointer">
+            <tr ondblclick="showData({{ period_to_subject.id }}, 'period_to_subject')" class="app-pointer">
                 <td>{{ period_to_subject.id }}</td>
                 <td>{{ period_to_subject.totalNumberOfLessons }}</td>
                 <td>{{ period_to_subject.subject.name }}</td>

@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         {% for course in courses %}
-            <tr onclick="showData({{ course.id }}, 'course')" class="app-pointer">
+            <tr ondblclick="showData({{ course.id }}, 'course')" class="app-pointer">
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
                 <td>{{ course.duration|duration }}</td>

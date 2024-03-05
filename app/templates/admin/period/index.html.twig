@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         {% for period in periods %}
-            <tr onclick="showData({{ period.id }}, 'period')" class="app-pointer">
+            <tr ondblclick="showData({{ period.id }}, 'period')" class="app-pointer">
                 <td>{{ period.id }}</td>
                 <td>{{ period.name }}</td>
                 <td>{{ period.start ? period.start|date('Y-m-d') : '' }}</td>

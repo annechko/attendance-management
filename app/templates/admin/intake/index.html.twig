@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         {% for intake in intakes %}
-            <tr onclick="showData({{ intake.id }}, 'intake')"  class="app-pointer">
+            <tr ondblclick="showData({{ intake.id }}, 'intake')"  class="app-pointer">
                 <td>{{ intake.id }}</td>
                 <td>{{ intake.name }}</td>
                 <td>{{ intake.start ? intake.start|date('Y-m-d') : '' }}</td>

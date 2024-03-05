@@ -26,3 +26,16 @@ a.sortable:hover {
 .app-pointer {
     cursor: pointer;
 }
+th {
+    text-wrap: nowrap;
+}
+.pagination {
+    --bs-pagination-active-bg: #cfe2ff!important;
+    --bs-pagination-color: black;
+    --bs-pagination-active-color: black;
+    --bs-pagination-active-border-color: #212529;
+}
+.page-link:focus,.page-link:active {
+    outline: none;
+    box-shadow: none;
+}

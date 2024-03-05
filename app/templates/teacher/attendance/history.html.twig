@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         {% for attendance in attendances %}
-            <tr onclick="showData({{ attendance.id }},'teacherattendancehistory')">
+            <tr ondblclick="showData({{ attendance.id }},'teacherattendancehistory')">
                 <td>{{ attendance.id }}</td>
                 <td>{{ attendance.student_email }}</td>
                 <td>{{ attendance.student_fullname }}</td>
