@@ -41,14 +41,6 @@ services:
     ports:
       - "8889:80"
 
-  att-node:
-    container_name: att-node
-    image: node:21.6.0-alpine3.18
-    volumes:
-      - ./app:/app
-      - node-cache:/usr/local/share/.cache
-    working_dir: /app
-
   att-mailer:
     container_name: att-mailer
     image: mailhog/mailhog
@@ -57,4 +49,3 @@ services:
 
 volumes:
   att-db:
-  node-cache:
