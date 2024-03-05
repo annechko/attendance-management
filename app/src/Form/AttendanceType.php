@@ -52,7 +52,7 @@ class AttendanceType extends AbstractType
         }
         $builder
             ->add('status', ChoiceType::class, $statusConfig)
-            ->add('comment', TextAreaType::class, $commentConfig)
+            ->add('comment', TextareaType::class, $commentConfig)
             ->add('studentName', HiddenType::class, [
                 'disabled' => true,
                 'mapped' => false,
