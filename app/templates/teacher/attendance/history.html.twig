@@ -1,6 +1,6 @@
 {% extends 'menu-layout.html.twig' %}
 
-{% block title %}Attendance history{% endblock %}
+{% block title %}Attendance History{% endblock %}
 {% block search %}
     {% include 'search.html.twig' %}
 {% endblock %}
@@ -10,7 +10,7 @@
 			width: 100% !important;
 		}
     </style>
-    <table class="table table-sm table-striped">
+    <table class="table table-sm table-hover">
         <thead>
         <tr class='table-primary'>
             <th>{{ knp_pagination_sortable(attendances, 'Id', 'id') }}</th>
@@ -19,12 +19,12 @@
             <th>{{ knp_pagination_sortable(attendances, 'Date', 'date') }}</th>
             <th>{{ knp_pagination_sortable(attendances, 'Status', 'status') }}</th>
             <th>{{ knp_pagination_sortable(attendances, 'Comment', 'comment') }}</th>
-            <th>actions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for attendance in attendances %}
-            <tr>
+            <tr onclick="showData({{ attendance.id }},'teacherattendancehistory')">
                 <td>{{ attendance.id }}</td>
                 <td>{{ attendance.student_email }}</td>
                 <td>{{ attendance.student_fullname }}</td>
@@ -42,13 +42,16 @@
                 </td>
                 <td>{{ attendance.comment }}</td>
                 <td>
-                    <a href="{{ path('teacher_attendance_show', {'id': attendance.id}) }}">show</a>
-                    <a href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">edit</a>
+                    {# <a href="{{ path('teacher_attendance_show', {'id': attendance.id}) }}">show</a>
+                    <a href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">edit</a> #}
+                    <a href="{{ path('teacher_attendance_edit', {'id': attendance.id}) }}">
+                        <i data-feather="edit"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">No Records Found</td>
             </tr>
         {% endfor %}
         </tbody>
