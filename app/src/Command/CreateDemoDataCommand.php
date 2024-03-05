@@ -41,7 +41,15 @@ class CreateDemoDataCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        if ($this->entityManager->getRepository(Institution::class)->findOneBy(
+            ['name' => 'Yoobee College of Creative Innovation']
+        )) {
+            $io->success(
+                'Already has data, skipping.'
+            );
 
+            return Command::SUCCESS;
+        }
         // yoobee
         // aut
         $yoobee = new Institution();

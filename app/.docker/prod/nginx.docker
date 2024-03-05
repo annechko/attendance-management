@@ -1,3 +1,38 @@
+FROM php:8.2.15-fpm-alpine3.19 AS builder
+
+RUN apk add --no-cache postgresql-dev fcgi git \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql intl \
+    && apk del git
+
+RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+
+COPY ./.docker/prod/php/default.ini /usr/local/etc/php/conf.d/default.ini
+
+WORKDIR /app
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1cf9cac9f0bed289429548be2858dbdfde448da6/web/installer -O - -q | php -- --quiet
+
+RUN mv composer.phar /usr/local/bin/composer
+
+COPY ./composer.json ./composer.lock ./symfony.lock ./
+
+RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader
+
+COPY ./ ./
+
+ENV APP_ENV prod
+
+RUN php bin/console assets:install
+
+RUN php bin/console cache:warmup \
+    && chown -R www-data:www-data ./var \
+    && chmod 770 ./var
+RUN php bin/console asset-map:compile
+
+######################
+
 FROM nginx:1.25.2-alpine3.18
 
 COPY ./.docker/prod/nginx/default.conf /etc/nginx/conf.d/default.conf
@@ -5,3 +40,4 @@ COPY ./.docker/prod/nginx/default.conf /etc/nginx/conf.d/default.conf
 WORKDIR /app
 
 COPY ./public ./public
+COPY --from=builder /app/public ./public
