@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Course;
-use App\Filter\SearchFilter;
-use App\Filter\CourseSort;
+use App\Sort\SearchFilter;
+use App\Sort\CourseSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;

@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Institution;
-use App\Filter\InstitutionSort;
-use App\Filter\SearchFilter;
-use App\Filter\SortLoader;
+use App\Sort\InstitutionSort;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
 use App\Form\InstitutionType;
 use App\Form\SearchFilterForm;
 use App\Repository\InstitutionRepository;

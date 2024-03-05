@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Period;
-use App\Filter\PeriodSort;
-use App\Filter\SearchFilter;
-use App\Filter\SortLoader;
+use App\Sort\PeriodSort;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
 use App\Form\PeriodType;
 use App\Form\SearchFilterForm;
 use App\Repository\PeriodRepository;

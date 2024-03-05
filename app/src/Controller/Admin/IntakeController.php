@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Intake;
-use App\Filter\IntakeSort;
-use App\Filter\SearchFilter;
-use App\Filter\SortLoader;
+use App\Sort\IntakeSort;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
 use App\Form\IntakeType;
 use App\Form\SearchFilterForm;
 use App\Repository\IntakeRepository;

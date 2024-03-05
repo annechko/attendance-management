@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th class='bg-light'>Duration</th>
-                <td> {{ course.duration ? course.duration.format('%y years %m months %d days') : '' }}</td>
+                <td> {{ course.duration|duration }}</td>
             </tr>
             <tr>
                 <th class='bg-light'>Subjects</th>

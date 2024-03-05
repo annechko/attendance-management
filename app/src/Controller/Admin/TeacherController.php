@@ -3,24 +3,50 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Teacher;
+use App\Form\SearchFilterForm;
 use App\Form\TeacherType;
 use App\Repository\TeacherRepository;
 use App\Security\EmailSender;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
+use App\Sort\TeacherSort;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/teacher')]
 class TeacherController extends AbstractController
 {
     #[Route('/', name: 'admin_teacher_index', methods: ['GET'])]
-    public function index(TeacherRepository $teacherRepository): Response
-    {
+    public function index(
+        TeacherRepository $teacherRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        ValidatorInterface $validator,
+        SortLoader $sortLoader,
+    ): Response {
+        $filter = new SearchFilter();
+        $form = $this->createForm(SearchFilterForm::class, $filter);
+        $form->handleRequest($request);
+
+        $sort = new TeacherSort();
+        $sortLoader->load($sort, $request);
+        $errors = $validator->validate($sort);
+        if (count($errors) > 0) {
+            return $this->redirectToRoute('admin_teacher_index');
+        }
         return $this->render('admin/teacher/index.html.twig', [
-            'teachers' => $teacherRepository->findAllWithSort('id'),
+            'search_form' => $form,
+            'teachers' => $teacherRepository->buildSortedFilteredPaginatedList(
+                $filter,
+                $sort,
+                $paginator,
+            ),
         ]);
     }
 

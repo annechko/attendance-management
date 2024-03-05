@@ -4,9 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Period;
 use App\Entity\PeriodToSubject;
-use App\Filter\AbstractSort;
+use App\Sort\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * @extends ServiceEntityRepository<Period>
@@ -38,10 +39,10 @@ class PeriodRepository extends ServiceEntityRepository
     }
 
     public function buildSortedFilteredPaginatedList(
-        \App\Filter\SearchFilter $filter,
+        \App\Sort\SearchFilter $filter,
         AbstractSort $sort,
         \Knp\Component\Pager\PaginatorInterface $paginator
-    ) {
+    ): PaginationInterface {
         $qb = $this->createQueryBuilder('e')
             ->innerJoin('e.intake', 'i')
             ->innerJoin('i.course', 'c')

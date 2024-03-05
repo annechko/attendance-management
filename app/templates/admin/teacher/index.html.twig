@@ -1,10 +1,11 @@
 {% extends 'menu-layout.html.twig' %}
 
 {% block title %}Teachers{% endblock %}
-
+{% block search %}
+    {% include 'search.html.twig' %}
+{% endblock %}
 {% block actions %}
     <div class='hstack gap-2'>
-        <input type='text' class='input-group-sm' placeholder='Search' />
         <a class="btn custom-btn btn-sm btn-outline-dark" href="{{ path('admin_teacher_new') }}">Create New</a>
     </div>
 {% endblock %}
@@ -12,11 +13,11 @@
 {% block contents %}
     <table class="table table-sm table-hover">
         <thead>
-            <tr class="table-primary"> 
-                <th>Id</th>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Subjects</th>
+            <tr class="table-primary">
+                <th>{{ knp_pagination_sortable(teachers, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(teachers, 'Email', 'email') }}</th>
+                <th>{{ knp_pagination_sortable(teachers, 'Name', 'full_name') }}</th>
+                <th>{{ knp_pagination_sortable(teachers, 'Subjects', 'subjectsCount') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,11 +26,11 @@
             <tr ondblclick="showData({{ teacher.id }}, 'teacher' )" class="app-pointer">
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.email }}</td>
-                <td>{{ teacher.name ~ ' ' ~ teacher.surname  }}</td>         
+                <td>{{ teacher.full_name  }}</td>
                 <td>
                     <a  class="icon-link" href="{{ path('admin_teacher_to_subject_to_intake_index', {'teacherId': teacher.id}) }}">
                         <i data-feather="file-plus"></i>
-                        <span class="badge badge-pill text-bg-primary ">{{ teacher.getTeacherToSubjectToIntake().count([]) > 0 ? teacher.getTeacherToSubjectToIntake().count([]) : '' }}</span>
+                        <span class="badge badge-pill text-bg-primary ">{{ teacher.subjectsCount > 0 ? teacher.subjectsCount : '' }}</span>
                     </a>                
                 <td>
                     <a href="{{ path('admin_teacher_edit', {'id': teacher.id}) }}">
@@ -44,6 +45,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(teachers) }}
+    </div>
 
 
 {% endblock %}

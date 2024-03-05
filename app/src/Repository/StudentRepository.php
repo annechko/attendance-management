@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Student;
-use App\Filter\AbstractSort;
+use App\Sort\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -81,10 +82,10 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
     }
 
     public function buildSortedFilteredPaginatedList(
-        \App\Filter\SearchFilter $filter,
+        \App\Sort\SearchFilter $filter,
         AbstractSort $sort,
         \Knp\Component\Pager\PaginatorInterface $paginator
-    ) {
+    ): PaginationInterface {
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.intake', 'i')
             ->innerJoin('i.course', 'c')

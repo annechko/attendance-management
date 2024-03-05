@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Student;
-use App\Filter\SearchFilter;
-use App\Filter\SortLoader;
-use App\Filter\StudentSort;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
+use App\Sort\StudentSort;
 use App\Form\SearchFilterForm;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;

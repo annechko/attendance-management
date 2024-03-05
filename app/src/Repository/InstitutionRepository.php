@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Institution;
-use App\Filter\InstitutionSort;
-use App\Filter\SearchFilter;
+use App\Sort\InstitutionSort;
+use App\Sort\SearchFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Filter\SearchFilter;
+use App\Sort\SearchFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;

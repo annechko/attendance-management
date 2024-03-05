@@ -6,7 +6,7 @@ use App\Entity\Attendance;
 use App\Entity\Student;
 use App\Entity\Subject;
 use App\Entity\Teacher;
-use App\Filter\AbstractSort;
+use App\Sort\AbstractSort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -193,7 +193,7 @@ class AttendanceRepository extends ServiceEntityRepository
 
     public function getAllByTeacher(
         Teacher $teacher,
-        \App\Filter\SearchFilter $filter,
+        \App\Sort\SearchFilter $filter,
         AbstractSort $sort,
         \Knp\Component\Pager\PaginatorInterface $paginator
     ): PaginationInterface {

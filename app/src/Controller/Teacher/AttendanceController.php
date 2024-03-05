@@ -4,9 +4,9 @@ namespace App\Controller\Teacher;
 
 use App\Entity\Attendance;
 use App\Entity\Student;
-use App\Filter\AttendanceSort;
-use App\Filter\SearchFilter;
-use App\Filter\SortLoader;
+use App\Sort\AttendanceSort;
+use App\Sort\SearchFilter;
+use App\Sort\SortLoader;
 use App\Form\AttendanceData;
 use App\Form\AttendanceDataForm;
 use App\Form\AttendanceType;
