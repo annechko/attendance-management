@@ -3,11 +3,9 @@
 {% block title %}Edit Attendance{% endblock %}
 
 {% block contents %}
-    <h1>Edit Attendance</h1>
-
     {{ include('teacher/attendance/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
 
-    <a href="{{ path('teacher_attendance_index') }}">back to list</a>
-
+{% block actions %}
     {{ include('teacher/attendance/_delete_form.html.twig') }}
 {% endblock %}

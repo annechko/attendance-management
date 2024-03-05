@@ -151,8 +151,9 @@
         <thead>
         <tr class='table-primary'>
             <th class="w-25">Student Email</th>
-            <th class="w-25">Student Name</th>
-            <th class="">Attendance</th>
+            <th class="w-35">Student Name</th>
+            <th class="col">Attendance</th>
+            <th class="col">Comments</th>
         </tr>
         </thead>
         <tbody>
@@ -160,24 +161,25 @@
             <tr>
                 <td>{{ attendance.vars.data.studentEmail }}</td>
                 <td>{{ attendance.vars.data.studentName }}</td>
-                <td>
+                <td colspan=2>
                     {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
-                    {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'hstack gap-2 js-attendance-form'}}) }}
-                    {{ form_widget(attendance.status,{attr:{class:'js-attendance-status form-select form-select-sm'}}) }}
-                    {{ form_widget(attendance.comment) }}
-
-                      <span class="text-success hide js-success">
-                          <i data-feather="check"></i>
-                      </span>
-                      <span class="text-danger hide js-error">
-                          <i data-feather="alert-circle"></i>
-                      </span>
+                      {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'hstack gap-2 js-attendance-form'}}) }}
+                        {{ form_widget(attendance.status,{attr:{class:'js-attendance-status form-select form-select-sm col-1'}}) }}
+                        {{ form_widget(attendance.comment)}}
+                        <div style='width:15px'>
+                          <span class="text-success hide js-success">
+                              <i data-feather="check"></i>
+                          </span>
+                          <span class="text-danger hide js-error">
+                              <i data-feather="alert-circle"></i>
+                          </span>
+                      </div>
                     {{ form_end(attendance) }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No Records Found</td>
             </tr>
         {% endfor %}
         </tbody>

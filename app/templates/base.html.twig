@@ -51,6 +51,9 @@
                 case "teachertosubject" :
                     url = "{{ path('admin_teacher_to_subject_to_intake_show', {'id': 'ID'}) }}".replace('ID', ID);
                     break;
+                case "teacherattendancehistory" :
+                    url = "{{ path('teacher_attendance_show', {'id': 'ID'}) }}".replace('ID',ID);
+                    break;
             }
             // Redirect the user to the edit page
             window.location.href = url;
