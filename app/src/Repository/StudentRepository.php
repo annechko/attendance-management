@@ -54,6 +54,9 @@ class StudentRepository extends ServiceEntityRepository implements PasswordUpgra
      */
     public function findByIdList(array $ids): array
     {
+        if (count($ids) === 0) {
+            return [];
+        }
         $b = $this->createQueryBuilder('a');
         return $b
             ->andWhere($b->expr()->in('a.id', $ids))

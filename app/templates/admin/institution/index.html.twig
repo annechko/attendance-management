@@ -25,7 +25,7 @@
         </thead>
         <tbody>
         {% for institution in institutions %}
-            <tr onclick="showData({{ institution.id }}, 'institution')">
+            <tr onclick="showData({{ institution.id }}, 'institution')" class="app-pointer">
                 <td>{{ institution.id }}</td>
                 <td>{{ institution.name }}</td>
                 <td>{{ institution.location }}</td>

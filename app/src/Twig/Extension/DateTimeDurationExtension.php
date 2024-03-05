@@ -19,14 +19,17 @@ class DateTimeDurationExtension extends AbstractExtension
     public function duration(?\DateInterval $interval): string
     {
         $result = "";
+        if ($interval === null) {
+            return $result;
+        }
         if ($interval->y > 0) {
-            $result .= $interval->format('%yy');
+            $result .= $interval->format('%y year(s)');
         }
         if ($interval->m > 0) {
-            $result .= $interval->format(' %mm');
+            $result .= $interval->format(' %m month(s)');
         }
         if ($interval->d > 0) {
-            $result .= $interval->format(' %dd');
+            $result .= $interval->format(' %d day(s)');
         }
         return $result;
     }

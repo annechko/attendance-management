@@ -33,13 +33,13 @@ prod-docker-down:
 prod-build: prod-build-php prod-build-nginx prod-build-db
 
 prod-build-php:
-	docker --log-level=debug build --file=app/.docker/prod/php-fpm.docker --tag ${REGISTRY}:att-prod-php-fpm-${IMAGE_TAG} app
+	docker --log-level=debug build --file=app/.docker/prod/php-fpm.docker --tag hub.docker.com:att-prod-php-fpm-0 app
 
 prod-build-nginx:
-	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag ${REGISTRY}:att-prod-nginx-${IMAGE_TAG} app
+	docker --log-level=debug build --file=app/.docker/prod/nginx.docker --tag hub.docker.com:att-prod-nginx-0 app
 
 prod-build-db:
-	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag ${REGISTRY}:att-prod-db-${IMAGE_TAG} app
+	docker --log-level=debug build --file=app/.docker/prod/db.docker --tag hub.docker.com:att-prod-db-0 app
 
 prod-init: docker-down prod-docker-down prod-build prod-docker-up prod-app-init
 
@@ -53,8 +53,7 @@ prod-app-migrations:
 
 prod-app-data:
 	docker exec -it att-prod-php-fpm php bin/console app:create-admin
-	docker exec -it att-prod-php-fpm php bin/console app:create-teacher
-	docker exec -it att-prod-php-fpm php bin/console app:create-student
+	docker exec -it att-prod-php-fpm php bin/console app:create-demo
 
 
 

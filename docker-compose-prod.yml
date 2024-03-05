@@ -5,7 +5,7 @@ services:
   att-prod-php-fpm:
     container_name: att-prod-php-fpm
     restart: always
-    image: ${REGISTRY}:att-prod-php-fpm-${IMAGE_TAG}
+    image: hub.docker.com:att-prod-php-fpm-0
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -16,7 +16,7 @@ services:
         condition: service_healthy
 
   att-prod-db:
-    image: ${REGISTRY}:att-prod-db-${IMAGE_TAG}
+    image: hub.docker.com:att-prod-db-0
     container_name: att-prod-db
     environment:
       - POSTGRES_DB=app
@@ -31,7 +31,7 @@ services:
 
   att-prod-nginx:
     container_name: att-prod-nginx
-    image: ${REGISTRY}:att-prod-nginx-${IMAGE_TAG}
+    image: hub.docker.com:att-prod-nginx-0
     depends_on:
       att-prod-php-fpm:
         condition: service_started

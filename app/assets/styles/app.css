@@ -23,3 +23,6 @@ a.sortable:hover {
 .attendance-comment {
     height: 15px;
 }
+.app-pointer {
+    cursor: pointer;
+}

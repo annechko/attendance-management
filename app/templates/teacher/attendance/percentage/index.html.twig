@@ -26,6 +26,13 @@
                 <td>
                     <div class="container">
                         <div>
+                            <div style="
+                                display: inline;
+                                float: left;
+                                margin-right: 5px;
+                                margin-top: -2px;
+                                {{ presentPercent>=90?';color:green':';color:red' }}
+                            ">{{ presentPercent }}%</div>
                             <div class="progress-stacked">
                                 {% if presentPercent %}
                                     <div class="progress" role="progressbar" aria-label="Present percentage"
@@ -34,7 +41,7 @@
                                         <div class="progress-bar bg-success"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
-                                                data-bs-title="Have been present in {{ presentPercent }}% of classes."
+                                                data-bs-title="Has been present in {{ presentPercent }}% of classes."
                                         ></div>
                                     </div>
                                 {% endif %}
@@ -45,7 +52,7 @@
                                         <div class="progress-bar bg-secondary"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
-                                                data-bs-title="Absence have been excused in {{ excusedPercent }}% of classes."
+                                                data-bs-title="Absence has been excused in {{ excusedPercent }}% of classes."
                                         ></div>
                                     </div>
                                 {% endif %}
@@ -56,7 +63,7 @@
                                         <div class="progress-bar bg-danger"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
-                                                data-bs-title="Have been absent in {{ absentPercent }}% of classes."
+                                                data-bs-title="Has been absent in {{ absentPercent }}% of classes."
                                         ></div>
                                     </div>
                                 {% endif %}
