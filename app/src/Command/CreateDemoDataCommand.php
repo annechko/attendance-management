@@ -41,15 +41,17 @@ class CreateDemoDataCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        //if ($this->entityManager->getRepository(Institution::class)->findOneBy(
-        //    ['name' => 'Yoobee College of Creative Innovation']
-        //)) {
-        //    $io->success(
-        //        'Already has data, skipping.'
-        //    );
-        //
-        //    return Command::SUCCESS;
-        //}
+        $this->entityManager->getConnection()->executeStatement("
+TRUNCATE table teacher_to_subject_to_intake;
+TRUNCATE table period_to_subject CASCADE ;
+TRUNCATE table period CASCADE ;
+TRUNCATE table intake CASCADE ;
+TRUNCATE table course CASCADE ;
+TRUNCATE table institution CASCADE ;
+TRUNCATE table student CASCADE ;
+TRUNCATE table attendance CASCADE ;
+TRUNCATE table subject CASCADE ;
+TRUNCATE table teacher CASCADE ;");
 
         //Teachers
         $teachers_data = [
