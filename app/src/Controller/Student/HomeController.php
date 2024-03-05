@@ -26,7 +26,7 @@ class HomeController extends AbstractStudentController
         $valuesAbsentRate=[];
         $valuesExcuseRate=[];
 
-        foreach ($student->getIntake()->getPeriods() as $period){
+        foreach ($student->getIntake()?->getPeriods() ?? [] as $period){
             foreach($period->getPeriodToSubjects() as $periodToSubject){
 
                 array_push($labelSubjects, $periodToSubject->getSubject()->getCode());
