@@ -47,6 +47,11 @@ class InstitutionRepository extends ServiceEntityRepository
             }
         }
 
-        return $paginator->paginate($qb, $sort->page, $size);
+        return $paginator->paginate(
+            $qb,
+            $sort->page,
+            $size,
+            ['defaultSortFieldName' => 'id', 'defaultSortDirection' => 'asc']
+        );
     }
 }

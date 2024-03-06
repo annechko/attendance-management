@@ -1,5 +1,61 @@
+<style>
+	#search_filter_form_search {
+		padding-left: 30px !important;
+		outline: none;
+		box-shadow: none;
+		border: var(--bs-border-width) solid var(--bs-border-color);
+	}
+
+	.app-search-cancel {
+		display: inline-block;
+		position: absolute;
+		right: 125px;
+		appearance: none;
+		background: transparent;
+		border: none;
+	}
+
+	.app-search-run {
+		display: inline-block;
+		position: absolute;
+		appearance: none;
+		background: transparent;
+		border: none;
+	}
+</style>
+<script>
+  document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        const cancelSearch = document.querySelector(".js-search-cancel")
+        const search = document.querySelector("#search_filter_form_search")
+
+        const onChange = function () {
+          if (search.value) {
+            cancelSearch.classList.remove('hide')
+          } else {
+            cancelSearch.classList.add('hide')
+          }
+        }
+        search.oninput = onChange
+        cancelSearch.onclick = (event) => {
+          event.preventDefault()
+          search.value = ''
+        }
+        onChange();
+      }
+  );
+
+</script>
 {{ form_start(search_form, {
-    attr: {class: 'me-1 w-50', type:"search", autocomplete:"off", spellcheck:"false"}}
+    attr: {class: 'me-1 w-100 align-items-center d-flex align-items-center', type:"search", autocomplete:"off", spellcheck:"false"}}
 ) }}
-    {{ form_widget(search_form.search) }}
+<button class="app-search-run">
+    <i data-feather="search"></i>
+</button>
+{{ form_widget(search_form.search) }}
+
+<button class="js-search-cancel hide app-search-cancel">
+    <i data-feather="x"></i>
+</button>
 {{ form_end(search_form) }}

@@ -42,147 +42,151 @@
 		}
     </style>
     <script>
-      function ready() {
-        const statusList = document.querySelectorAll(".js-attendance-status")
-        const commentList = document.querySelectorAll(".js-attendance-comment")
+      document.addEventListener(
+          "DOMContentLoaded",
+          () => {
+            const statusList = document.querySelectorAll(".js-attendance-status")
+            const commentList = document.querySelectorAll(".js-attendance-comment")
 
 
-        const showError = (form) => {
-          const icon = form.querySelector('.js-error')
-          if (icon) {
-            icon.classList.remove('hide')
-          }
-        }
-        const filterOptions = (element) => {
-          const options = element.querySelectorAll("option")
-          for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            if (option.dataset.role === 'empty-value') {
-              option.classList.add('hide')
-            }
-          }
-        }
-
-        const saveRequest = (form) => {
-          if (form.classList.contains('js-attendance-form')) {
-            fetch(form.action, {
-              method: form.method,
-              body: new FormData(form)
-            })
-                .then((value) => {
-                  if (value.ok === true) {
-                    const successIcon = form.querySelector('.js-success')
-                    if (successIcon) {
-                      successIcon.classList.remove('hide')
-
-                      function hideSuccess() {
-                        successIcon.classList.add('hide')
-                      }
-
-                      setTimeout(hideSuccess, 800);
-                    }
-
-                  } else {
-                    showError(form)
-                    console.error(value);
-                  }
-                })
-                .catch((error) => {
-                  showError(form)
-                  console.error(error);
-                });
-          }
-        }
-        const onComment = (event) => {
-          const form = event.target.parentElement
-          saveRequest(form)
-        }
-        const onChange = (event) => {
-          filterOptions(event.target)
-          const form = event.target.parentElement
-          event.target.dataset.chosen = event.target.value;
-          if (form.classList.contains('js-attendance-form')) {
-            const selectedValue = event.target.value
-            const comment = form.querySelector('.js-attendance-comment')
-            if (selectedValue === '2' || selectedValue === '3') {
-              comment.classList.remove('hide')
-            } else {
-              if (selectedValue === '1') {//present
-                comment.value = ''
+            const showError = (form) => {
+              const icon = form.querySelector('.js-error')
+              if (icon) {
+                icon.classList.remove('hide')
               }
-              comment.classList.add('hide')
             }
-          }
-          saveRequest(form)
-        }
-        statusList.forEach((status) => {
-          status.onchange = onChange;
-        });
-        commentList.forEach((comment) => {
-          comment.onblur = onComment;
-        });
-      }
+            const filterOptions = (element) => {
+              const options = element.querySelectorAll("option")
+              for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                if (option.dataset.role === 'empty-value') {
+                  option.classList.add('hide')
+                }
+              }
+            }
 
-      document.addEventListener("DOMContentLoaded", ready);
+            const saveRequest = (form) => {
+              if (form.classList.contains('js-attendance-form')) {
+                fetch(form.action, {
+                  method: form.method,
+                  body: new FormData(form)
+                })
+                    .then((value) => {
+                      if (value.ok === true) {
+                        const successIcon = form.querySelector('.js-success')
+                        if (successIcon) {
+                          successIcon.classList.remove('hide')
+
+                          function hideSuccess() {
+                            successIcon.classList.add('hide')
+                          }
+
+                          setTimeout(hideSuccess, 800);
+                        }
+
+                      } else {
+                        showError(form)
+                        console.error(value);
+                      }
+                    })
+                    .catch((error) => {
+                      showError(form)
+                      console.error(error);
+                    });
+              }
+            }
+            const onComment = (event) => {
+              const form = event.target.parentElement
+              saveRequest(form)
+            }
+            const onChange = (event) => {
+              filterOptions(event.target)
+              const form = event.target.parentElement
+              event.target.dataset.chosen = event.target.value;
+              if (form.classList.contains('js-attendance-form')) {
+                const selectedValue = event.target.value
+                const comment = form.querySelector('.js-attendance-comment')
+                if (selectedValue === '2' || selectedValue === '3') {
+                  comment.classList.remove('hide')
+                } else {
+                  if (selectedValue === '1') {//present
+                    comment.value = ''
+                  }
+                  comment.classList.add('hide')
+                }
+              }
+              saveRequest(form)
+            }
+            statusList.forEach((status) => {
+              status.onchange = onChange;
+            });
+            commentList.forEach((comment) => {
+              comment.onblur = onComment;
+            });
+          }
+      );
     </script>
 
-<div class='vstack gap-2'>
-    {% if attendanceData %}
-        {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
-            <div class='hstack gap-2' >
+    <div class='vstack gap-2'>
+        {% if attendanceData %}
+            {{ form_start(attendanceData,{action: path('teacher_attendance_index'), attr:{class:''}}) }}
+            <div class='hstack gap-2'>
                 <div class='form-floating col'>
-                  {{ form_widget(attendanceData.intake) }}
-                  {{ form_label(attendanceData.intake) }}
+                    {{ form_widget(attendanceData.intake) }}
+                    {{ form_label(attendanceData.intake) }}
                 </div>
                 <div class='form-floating col'>
-                  {{ form_widget(attendanceData.subject) }}
-                  {{ form_label(attendanceData.subject) }}
+                    {{ form_widget(attendanceData.subject) }}
+                    {{ form_label(attendanceData.subject) }}
                 </div>
                 <div class='form-floating'>
-                  {{ form_widget(attendanceData.date) }}
-                  {{ form_label(attendanceData.date) }}
+                    {{ form_widget(attendanceData.date) }}
+                    {{ form_label(attendanceData.date) }}
                 </div>
-                <button class='btn btn-sm'><i class='text-success' style='height: 32px; width: 32px;' data-feather="search"></i></button>
+                <button class='btn btn-sm'>
+                    <i class='text-success' style='height: 32px; width: 32px;'
+                            data-feather="search"></i>
+                </button>
             </div>
-        {{ form_end(attendanceData) }}
-    {% endif %}
+            {{ form_end(attendanceData) }}
+        {% endif %}
 
-    <table class="table table-sm table-striped">
-        <thead>
-        <tr class='table-primary'>
-            <th class="w-25">Student Email</th>
-            <th class="w-35">Student Name</th>
-            <th class="col">Attendance</th>
-            <th class="col">Comments</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for attendance in attendances %}
-            <tr>
-                <td>{{ attendance.vars.data.studentEmail }}</td>
-                <td>{{ attendance.vars.data.studentName }}</td>
-                <td colspan=2>
-                    {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
-                      {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'hstack gap-2 js-attendance-form'}}) }}
+        <table class="table table-sm table-striped">
+            <thead>
+            <tr class='table-primary'>
+                <th class="w-25">Student Email</th>
+                <th class="w-35">Student Name</th>
+                <th class="col">Attendance</th>
+                <th class="col">Comments</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for attendance in attendances %}
+                <tr>
+                    <td>{{ attendance.vars.data.studentEmail }}</td>
+                    <td>{{ attendance.vars.data.studentName }}</td>
+                    <td colspan=2>
+                        {% form_theme attendance 'bootstrap_3_horizontal_layout.html.twig' %}
+                        {{ form_start(attendance,{action: path('teacher_attendance_add'), attr:{class:'hstack gap-2 js-attendance-form'}}) }}
                         {{ form_widget(attendance.status,{attr:{class:'js-attendance-status form-select form-select-sm col-1'}}) }}
-                        {{ form_widget(attendance.comment)}}
+                        {{ form_widget(attendance.comment) }}
                         <div style='width:15px'>
-                          <span class="text-success hide js-success">
-                              <i data-feather="check"></i>
-                          </span>
-                          <span class="text-danger hide js-error">
-                              <i data-feather="alert-circle"></i>
-                          </span>
-                      </div>
-                    {{ form_end(attendance) }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">No Records Found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-  </div>
+                            <span class="text-success hide js-success">
+                                <i data-feather="check"></i>
+                            </span>
+                            <span class="text-danger hide js-error">
+                                <i data-feather="alert-circle"></i>
+                            </span>
+                        </div>
+                        {{ form_end(attendance) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No Records Found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

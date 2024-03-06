@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Course;
-use App\Sort\SearchFilter;
 use App\Sort\CourseSort;
+use App\Sort\SearchFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -50,6 +50,11 @@ class CourseRepository extends ServiceEntityRepository
             }
         }
 
-        return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
+        return $paginator->paginate(
+            $qb,
+            $sort->page,
+            self::MAX_PER_PAGE,
+            ['defaultSortFieldName' => 'id', 'defaultSortDirection' => 'asc']
+        );
     }
 }

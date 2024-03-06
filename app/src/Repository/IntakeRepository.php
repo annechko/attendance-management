@@ -54,6 +54,11 @@ class IntakeRepository extends ServiceEntityRepository
             }
         }
 
-        return $paginator->paginate($qb, $sort->page, self::MAX_PER_PAGE);
+        return $paginator->paginate(
+            $qb,
+            $sort->page,
+            self::MAX_PER_PAGE,
+            ['defaultSortFieldName' => 'id', 'defaultSortDirection' => 'asc']
+        );
     }
 }
