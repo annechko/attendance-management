@@ -42,16 +42,27 @@ class CreateDemoDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $this->entityManager->getConnection()->executeStatement("
-TRUNCATE table teacher_to_subject_to_intake;
-TRUNCATE table period_to_subject CASCADE ;
-TRUNCATE table period CASCADE ;
-TRUNCATE table intake CASCADE ;
-TRUNCATE table course CASCADE ;
-TRUNCATE table institution CASCADE ;
-TRUNCATE table student CASCADE ;
-TRUNCATE table attendance CASCADE ;
-TRUNCATE table subject CASCADE ;
-TRUNCATE table teacher CASCADE ;");
+delete from teacher_to_subject_to_intake CASCADE;
+delete from period_to_subject CASCADE ;
+delete from period CASCADE ;
+delete from student CASCADE ;
+delete from attendance CASCADE ;
+delete from subject CASCADE ;
+delete from intake CASCADE ;
+delete from course CASCADE ;
+delete from institution CASCADE ;
+delete from teacher CASCADE ;
+
+ALTER SEQUENCE teacher_to_subject_to_intake_id_seq RESTART;
+ALTER SEQUENCE period_to_subject_id_seq RESTART;
+ALTER SEQUENCE period_id_seq RESTART;
+ALTER SEQUENCE student_id_seq RESTART;
+ALTER SEQUENCE attendance_id_seq RESTART;
+ALTER SEQUENCE subject_id_seq RESTART;
+ALTER SEQUENCE intake_id_seq RESTART;
+ALTER SEQUENCE course_id_seq RESTART;
+ALTER SEQUENCE institution_id_seq RESTART;
+ALTER SEQUENCE teacher_id_seq RESTART;");
 
         //Teachers
         $teachers_data = [
