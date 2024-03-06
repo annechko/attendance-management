@@ -141,7 +141,7 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface, Pass
 
     public function getFirstTimePassword(): string
     {
-        return md5($this->email);
+        return substr(md5($this->email), 0, 15);
     }
 
     public function getGender(): ?string

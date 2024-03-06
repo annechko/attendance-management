@@ -135,7 +135,7 @@ class Teacher implements UserInterface, PasswordAuthenticatedUserInterface, Pass
 
     public function getFirstTimePassword(): string
     {
-        return md5($this->getEmail());
+        return substr(md5($this->email), 0, 15);
     }
 
     public function getFullNameWithEmail(): string
