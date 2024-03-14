@@ -11,6 +11,7 @@ services:
       APP_DEBUG: 0
       APP_SECRET: ${APP_SECRET}
       DATABASE_URL: pgsql://app:${POSTGRES_PASSWORD}@att-prod-db:5432/app
+      MAILER_DSN: smtp://att-prod-mailer:1025
     depends_on:
       att-prod-db:
         condition: service_healthy

@@ -39,7 +39,7 @@ services:
       att-php-fpm:
         condition: service_started
     ports:
-      - "8889:80"
+      - "8888:80"
 
   att-mailer:
     container_name: att-mailer
